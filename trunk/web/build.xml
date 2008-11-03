@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+<!-- Author: M. Isuru Tharanga Chrishantha Perera. -->
+<project name="QuizFun" default="build.war" basedir=".">
+	<description>QuizFun Build File</description>
+
+	<property name="src.dir" location="src" />
+	<property name="build.dir" location="build" />
+	<property name="build.classes.dir" location="${build.dir}/classes" />
+
+	<property name="dist.dir" location="dist" />
+	<property name="lib.dir" location="lib" />
+
+	<property name="web.content.dir" location="WebContent" />
+	<property name="web.inf.dir" location="${web.content.dir}/WEB-INF" />
+	<property name="classes.dir" location="${web.inf.dir}/classes" />
+	<property name="app.lib.dir" location="${web.inf.dir}/lib" />
+
+	<property name="compile.debug" value="true" />
+
+	<target name="init">
+		<sequential>
+			<mkdir dir="${build.dir}" />
+			<mkdir dir="${build.classes.dir}" />
+			<mkdir dir="${dist.dir}" />
+		</sequential>
+	</target>
+
+	<target name="clean" description="clean the directory">
+		<sequential>
+			<delete includeemptydirs="true" quiet="true">
+				<fileset dir="${build.dir}" />
+				<fileset dir="${dist.dir}" />
+				<fileset dir="${classes.dir}" />
+			</delete>
+		</sequential>
+	</target>
+
+	<path id="compile.run.classpath">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+		<fileset dir="${app.lib.dir}" includes="*.jar" />
+	</path>
+
+	<target name="compile" description="compile the source" depends="init">
+		<sequential>
+			<javac destdir="${build.classes.dir}" srcdir="${src.dir}" source="6" target="6" debug="${compile.debug}" failonerror="true" classpathref="compile.run.classpath">
+				<include name="**/*.java" />
+			</javac>
+
+			<copy todir="${build.classes.dir}" preservelastmodified="true">
+				<fileset dir="${src.dir}" excludes="**/*.java" />
+			</copy>
+		</sequential>
+	</target>
+
+	<target name="build.war" description="build war" depends="compile">
+		<sequential>
+			<copy todir="${classes.dir}" preservelastmodified="true">
+				<fileset dir="${build.classes.dir}" />
+			</copy>
+			<war basedir="${web.content.dir}" destfile="${dist.dir}/${ant.project.name}.war" duplicate="fail" webxml="${web.inf.dir}/web.xml" excludes="WEB-INF/web.xml">
+			</war>
+			<!-- Delete classes directory -->
+			<delete includeemptydirs="true" quiet="true">
+				<fileset dir="${classes.dir}" />
+			</delete>
+		</sequential>
+	</target>
+</project>

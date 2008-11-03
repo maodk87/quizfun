@@ -1,0 +1,70 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+<f:loadBundle basename="quizfun.view.resources.resources" var="res" />
+
+<ice:outputDeclaration doctypeRoot="HTML"
+          doctypePublic="-//W3C//DTD XHTML 1.0 Transitional//EN"
+          doctypeSystem="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+
+<head>
+
+<!-- page title param passed in by param -->
+<title>#{res['common.application.title']} - #{pageTitle}</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en" />
+<meta http-equiv="imagetoolbar" content="no" />
+<meta http-equiv="Accept-Encoding" content="gzip" />
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<ice:outputStyle href="/xmlhttp/css/rime/rime.css" />
+<ice:outputStyle href="/css/default/default.css" />
+
+</head>
+
+<body class="mainBody">
+	<div class="wrapper">
+		<div class="headerContainer">
+	        <ui:insert name="header">
+	        	<!-- Main Header Page -->
+	            <ui:include src="/WEB-INF/include/content/header.jspx" />
+	        </ui:insert>
+        </div>
+		
+		<!-- Main Content Section -->
+		<div id="mainContent">
+			<ice:messages id="msgsGlobal" layout="table" globalOnly="true" />
+			<ui:insert name="content">Default Content</ui:insert>
+		</div>
+		
+		<div class="push"></div>
+	</div>
+		
+	
+	<div class="footerContainer">
+         <ui:insert name="footer">
+         	<!-- Main Footer Page -->
+            <ui:include src="/WEB-INF/include/content/footer.jspx"/>
+         </ui:insert>
+	</div>
+</body>
+
+</html>

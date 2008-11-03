@@ -1,0 +1,171 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: M. Isuru Tharanga Chrishantha Perera -->
+
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:jc="http://jsfcustom.com/tag" xmlns:it="http://www.informatics.lk/infotrack">
+
+	<ice:form id="frmCourse">
+		<ice:panelCollapsible id="pncCourse" expanded="true">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['course.search.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ui:decorate template="/WEB-INF/include/course/inc-course.jspx">
+
+				<ui:param name="required" value="#{false}" />
+				<ui:param name="editMode" value="#{false}" />
+				<ui:param name="managedBean" value="#{searchCourse}" />
+				<ui:define name="commandsPanel">
+					<ice:panelGroup>
+						<ice:commandButton value="#{res['common.label.search']}" actionListener="#{searchCourse.searchActionListener}"/>
+						<ice:commandButton value="#{res['common.label.clear']}" actionListener="#{searchCourse.clearActionListener}" immediate="true" />
+					</ice:panelGroup>
+				</ui:define>
+
+			</ui:decorate>
+		</ice:panelCollapsible>
+	</ice:form>
+	
+	<ice:form>
+		<ice:panelCollapsible id="pncCourses" expanded="true" rendered="#{!empty(searchCourse.courses)}">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['common.search.results.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+			
+			<ice:panelGrid id="pngFilter" width="100%" columns="2" columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+				<ice:outputLabel id="lblFilter" value="#{res['common.search.results.filter.label']}" for="txtFilter" styleClass="lblCommon">
+				</ice:outputLabel>
+				<ice:panelGroup>
+					<ice:inputText id="txtFilter" value="#{searchCourse.filterText}" binding="#{searchCourse.filterInputText}"
+						maxlength="#{res['course.name.maxlength']}" partialSubmit="true">
+					</ice:inputText>
+					<ice:message for="txtFilter" />
+				</ice:panelGroup>
+				<f:verbatim></f:verbatim>
+				<ice:panelGroup>
+					<ice:commandButton value="#{res['common.label.filter']}" actionListener="#{searchCourse.filterActionListener}"/>
+					<ice:commandButton value="#{res['common.label.clear']}" actionListener="#{searchCourse.filterClearActionListener}" immediate="true" />
+				</ice:panelGroup>
+			</ice:panelGrid>
+		
+			<ice:panelGroup styleClass="dataPaginator" style="margin-top: 15px;" rendered="#{!empty(searchCourse.filterList)}">
+				<ice:dataPaginator id="pgn1" for="tblCourse" rowsCountVar="rowsCount" displayedRowsCountVar="displayedRowsCountVar"
+					firstRowIndexVar="firstRowIndex" lastRowIndexVar="lastRowIndex" pageCountVar="pageCount" pageIndexVar="pageIndex"
+					paginatorMaxPages="5" paginator="true" fastStep="3">
+
+					<ice:outputFormat value="#{res['course.dataScrolling.outputFormat.text']}" styleClass="dataPaginatorMsg">
+						<f:param value="#{rowsCount}" />
+						<f:param value="#{displayedRowsCountVar}" />
+						<f:param value="#{firstRowIndex}" />
+						<f:param value="#{lastRowIndex}" />
+						<f:param value="#{pageIndex}" />
+						<f:param value="#{pageCount}" />
+					</ice:outputFormat>
+
+				</ice:dataPaginator>
+			</ice:panelGroup>
+
+			<ice:dataTable id="tblCourse" width="100%" rows="10" var="course" value="#{searchCourse.filterList}" binding="#{searchCourse.dataTable}" rendered="#{!empty(searchCourse.filterList)}">
+							
+				<ice:column id="code" style="width: 20%">
+					<f:facet name="header">
+						<ice:outputText	value="#{res['course.table.column.code.header']}"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{course.code}"></ice:outputText>
+				</ice:column>
+				
+				<ice:column id="name" style="width: 60%">
+					<f:facet name="header">
+						<ice:outputText	value="#{res['course.table.column.name.header']}"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{course.name}"></ice:outputText>
+				</ice:column>
+				
+				<ice:column id="action" style="width: 20%">
+					<ice:panelGroup style="text-align: center;">
+						<ice:commandLink value="#{res['common.label.edit']}" action="#{searchCourse.editAction}" styleClass="editRecord"></ice:commandLink>
+						<ice:commandLink value="#{res['common.label.remove']}" actionListener="#{searchCourse.removeConfirmActionListener}" styleClass="removeRecord"></ice:commandLink>
+					</ice:panelGroup>
+				</ice:column>
+						
+			</ice:dataTable>
+
+			<ice:panelGroup styleClass="dataPaginator" rendered="#{!empty(searchCourse.filterList)}">
+				<ice:dataPaginator id="pgn2" for="tblCourse" fastStep="3" pageCountVar="pageCount" pageIndexVar="pageIndex"
+					paginator="true" paginatorMaxPages="5">
+
+					<f:facet name="first">
+						<ice:graphicImage id="imgpgn2_1" url="#{res['common.style.image.folder']}arrow-first.gif" style="border:none;"
+							title="#{res['common.dataScrolling.firstpage']}" />
+					</f:facet>
+
+					<f:facet name="last">
+						<ice:graphicImage id="imgpgn2_2" url="#{res['common.style.image.folder']}arrow-last.gif" style="border:none;"
+							title="#{res['common.dataScrolling.lastpage']}" />
+					</f:facet>
+					<f:facet name="previous">
+						<ice:graphicImage id="imgpgn2_3" url="#{res['common.style.image.folder']}arrow-previous.gif" style="border:none;"
+							title="#{res['common.dataScrolling.previouspage']}" />
+					</f:facet>
+					<f:facet name="next">
+						<ice:graphicImage id="imgpgn2_4" url="#{res['common.style.image.folder']}arrow-next.gif" style="border:none;"
+							title="#{res['common.dataScrolling.nextpage']}" />
+					</f:facet>
+					<f:facet name="fastforward">
+						<ice:graphicImage id="imgpgn3_5" url="#{res['common.style.image.folder']}arrow-ff.gif" style="border:none;"
+							title="#{res['common.dataScrolling.fastforward']}" />
+					</f:facet>
+					<f:facet name="fastrewind">
+						<ice:graphicImage id="imgpgn2_6" url="#{res['common.style.image.folder']}arrow-fr.gif" style="border:none;"
+							title="#{res['common.dataScrolling.fastbackward']}" />
+					</f:facet>
+				</ice:dataPaginator>
+			</ice:panelGroup>
+		</ice:panelCollapsible>
+	</ice:form>
+
+	<ice:form>
+		<ice:panelPopup draggable="false" autoCentre="true" modal="true" visible="#{searchCourse.removeConfirmVisible}"
+			rendered="true" styleClass="pnlPopup" style="width: 350px; height: auto; overflow: visible;">
+			<f:facet name="header">
+				<ice:outputText value="#{res['common.remove.panel.title']}" styleClass="popupHeaderText" />
+			</f:facet>
+			<f:facet name="body">
+				<ice:panelGroup styleClass="popupBody">
+					<ice:outputFormat value="#{res['course.remove.confirm.text']}" style="display: block; padding: 5px 10px 15px 10px;">
+						<f:param value="#{searchCourse.removingCourse.code}" />
+					</ice:outputFormat>
+					<ice:panelGroup style="text-align: center;">
+						<ice:commandButton id="btnYes" actionListener="#{searchCourse.removeActionListener}"
+							value="#{res['common.label.yes']}" style="padding: 2px 5px 2px 5px;" />
+						<ice:commandButton id="btnNo" immediate="true" actionListener="#{searchCourse.closeRemoveActionListener}"
+							value="#{res['common.label.no']}" style="padding: 2px 5px 2px 5px;" />
+					</ice:panelGroup>
+				</ice:panelGroup>
+			</f:facet>
+		</ice:panelPopup>
+	</ice:form>
+
+</jsp:root>
