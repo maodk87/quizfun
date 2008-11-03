@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE faces-config PUBLIC
+    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config>
+	<application>
+		<view-handler>com.icesoft.faces.facelets.D2DFaceletViewHandler</view-handler>
+		<variable-resolver>org.springframework.web.jsf.DelegatingVariableResolver</variable-resolver>
+		<message-bundle>quizfun.view.resources.messages</message-bundle>
+	</application>
+	<!-- Manage Beans - Start -->
+	<managed-bean>
+		<managed-bean-name>serviceLocator</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ServiceLocatorManagedBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+		<managed-property>
+			<property-name>courseService</property-name>
+			<value>#{courseService}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>renderMgr</managed-bean-name>
+		<managed-bean-class>com.icesoft.faces.async.render.RenderManager</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create course</description>
+		<managed-bean-name>createCourse</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateCourseManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search course</description>
+		<managed-bean-name>searchCourse</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchCourseManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search course</description>
+		<managed-bean-name>modifyCourse</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ModifyCourseManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<!-- Manage Beans - End -->
+
+	<!-- Navigation Rules - Start -->
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/index.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createCourse</from-outcome>
+			<to-view-id>/pages/course/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchCourse</from-outcome>
+			<to-view-id>/pages/course/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modifyCourse</from-outcome>
+			<to-view-id>/pages/course/modify.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+</faces-config>
