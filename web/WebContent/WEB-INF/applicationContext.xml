@@ -47,6 +47,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="mappingResources">
 			<list>
 				<value>quizfun/model/entity/Course.hbm.xml</value>
+				<value>quizfun/model/entity/Module.hbm.xml</value>
+				<value>quizfun/model/entity/Question.hbm.xml</value>
+				<value>quizfun/model/entity/Answer.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
