@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<generator class="assigned"></generator>
 		</id>
 		<version column="VERSION" name="version" type="long" />
-		<property name="name" type="string">
+		<property name="name" type="string" not-null="true">
 			<column name="NAME" length="255" />
 		</property>
 	</class>

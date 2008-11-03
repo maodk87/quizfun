@@ -22,31 +22,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-	<class name="quizfun.model.entity.Question" table="QUESTION">
+	<class name="quizfun.model.entity.Answer" table="ANSWER">
 		<id name="id" type="long">
 			<column name="ID" />
 			<generator class="native"></generator>
 		</id>
 		<version column="VERSION" name="version" type="long" />
-		<property name="question" type="string" not-null="true">
-			<column name="QUESTION" length="255" />
+		<property name="answer" type="string" not-null="true">
+			<column name="ANSWER" length="255" />
 		</property>
-		<property name="type" type="int" not-null="true">
-			<column name="TYPE" />
+		<property name="correct" type="boolean" not-null="true">
+			<column name="CORRECT" />
 		</property>
-		<property name="level" type="int" not-null="true">
-			<column name="LEVEL" />
-		</property>
-		<property name="hint" type="string">
-			<column name="HINT" length="255" />
-		</property>
-		<property name="reference" type="string">
-			<column name="REFERENCE" length="255" />
-		</property>
-		<many-to-one name="module" column="MODULE" not-null="true"></many-to-one>
-		<set name="answers" inverse="true">
-            <key column="QUESTION"/>
-            <one-to-many class="quizfun.model.entity.Answer"/>
-        </set>
+		<many-to-one name="question" column="QUESTION" not-null="true"></many-to-one>
 	</class>
 </hibernate-mapping>
