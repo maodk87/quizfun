@@ -16,7 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div xmlns="http://www.w3.org/1999/xhtml">
-	<div class="footerLeft">&#169; Copyright 2008, 3SFE515 Software Engineering Group Project</div>
-	<div class="footerRight">Informatics Institute of Technology</div>
+<div id="footer" xmlns="http://www.w3.org/1999/xhtml">
+	<p id="copyright">&#169; 2008, Informatics Institute of Technology</p>	
 </div>

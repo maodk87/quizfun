@@ -19,8 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<div class="main-header">
-	<span style="font-size: 16pt; font-weight: bold; border-bottem: 1px dotted;"><ui:insert name="pageName" /></span>
+<div class="mainheader">
+	<h2><span><ui:insert name="pageName" /></span></h2>
 </div>
 
 <div>
