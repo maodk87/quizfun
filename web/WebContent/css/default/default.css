@@ -17,32 +17,8 @@
  */
 
 
-
-/*Overridden Style Class Properties for Default HTML*/
-
 html {
 	overflow-y: scroll; /*Eliminate “Jumps” in Horizontal Centering By Forcing a Scroll Bar*/
-}
-
-body {
-	color: #000000;
-	font-family: Tahoma,Sans-Serif;
-}
-
-h3 {
-	margin: 2px;
-}
-
-html, body, div, table, img, fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-.mainBody {
-    /*background-image: url( './css-images/page_bg.jpg' );*/
-    background-repeat: repeat-x;
-    background-position: right top;
 }
 
 div.clearer {
@@ -53,83 +29,6 @@ div.clearer {
 	padding: 0;
 	visibility: hidden;
 }
-
-/*To align footer to bottom of the page - Start*/
-/* http://ryanfait.com/sticky-footer/ */
-html, body {
-	height: 100%;
-}
-.wrapper {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	margin: 0 auto -40px; /* the bottom margin is the negative value of the footer's height */
-}
-.footerContainer, .push {
-	height: 40px; /* .push must be the same height as .footerContainer */
-}
-/*To align footer to bottom of the page - End*/
-
-#mainContent {
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.pnlGrdMenu{
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.pnlGrdMenuBar{
-	width: 95%;
-}
-
-.pnlGrdTemplateConnection{
-	width: 5%;
-}
-
-.headerContainer {
-	height: 100px;
-}
-
-/* Footer - Start */
-.footerContainer {
-	/*color: #000066;*/
-    min-width: 730px;
-    /*background-color: transparent;*/
-    /*background-image: url( './css-images/bgslice_footer.jpg' );*/
-    /*background-repeat: repeat-x;
-    background-position: bottom left; /*position: relative;*/
-	background-image: url('./css-images/button_bg.png');
-	background-repeat: repeat-x;
-    font-size: 8pt;
-    background-color: #9FBDEB;
-    color: #000000;
-}
-.footerContainer .footerLeft {
-    padding-left: 15px;
-    padding-top: 15px;
-    float: left;
-    display: inline;
-}
-.footerContainer a, .footerContainer a:hover,
-    .footerContainer a:visited {
-    color: #A52A2A;
-    font-weight: bold;
-    text-decoration: none;
-}
-.footerContainer a:hover {
-	color: #C71585;
-    text-decoration: underline;
-}
-.footerContainer .footerRight {
-    padding-right: 15px;
-    padding-top: 15px;
-    float: right;
-    display: inline;
-    overflow: auto; /* To fix a bug in IE7 [http://brunildo.org/test/ie7_ithscroll.html] */
-}
-/* Footer - End */
 
 /*Overridden Style Class Properties for Rime*/
 .iceCmdBtn, .iceCmdBtn-dis {
@@ -299,19 +198,7 @@ html, body {
 }
 /*Styles for labels - End */
 
-/* Menu Drop Down - Start*/
-.menuDropDownLabel, .menuDropDownItemLabel  {
-	background-image: url( './css-images/menu_icons/downarrow.gif' );
-    background-repeat: no-repeat;
-    background-position: bottom right;
-   
-}
 
-span.menuDropDownLabel, span.menuDropDownItemLabel {
-     padding-right: 12px;
-}
-
-/* Menu Drop Down - End*/
 
 /* Data Paginator Styles - Start */
 .dataPaginatorMsg {
