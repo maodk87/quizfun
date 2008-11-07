@@ -96,5 +96,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<to-view-id>/pages/course/modify.iface</to-view-id>
 			<redirect />
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>createQuestion</from-outcome>
+			<to-view-id>/pages/question/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+<!-- 		<navigation-case>
+			<from-outcome>searchQuestion</from-outcome>
+			<to-view-id>/pages/quesiton/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modifyQuestion</from-outcome>
+			<to-view-id>/pages/question/modify.iface</to-view-id>
+			<redirect />
+		</navigation-case>	 -->
 	</navigation-rule>
 </faces-config>

@@ -1,0 +1,211 @@
+<!-- Author: Hiranya Mdunkotuwa -->
+<ice:panelGrid xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlConf1" width="100%"
+	columns="2"
+	columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField"
+	xmlns:jc="http://jsfcustom.com/tag">
+
+	<!-- Question -->
+	<ice:outputLabel id="lblQues" value="#{res['question.question.label']}"
+		for="txtaQues" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputTextArea id="txtaQues"
+			value="#{managedBean.question.question}" required="#{required}"
+			binding="#{managedBean.quesInputTextArea}"
+			maxlength="#{res['question.question.maxlength']}"
+			partialSubmit="true">
+		</ice:inputTextArea>
+		<ice:message for="txtaQues" />
+	</ice:panelGroup>
+
+	<!-- Question Type-->
+	<ice:outputLabel id="lblType" value="#{res['question.type.label']}"
+		for="txtaQues" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:selectOneMenu id="slctomType"
+			value="#{managedBean.question.type}" required="#{required}"
+			binding="#{managedBean.typeSelectOneMenu}" partialSubmit="true">
+			<!-- <f:selectItems id="slctMuLevel"
+								value="#{staticList.convertedUserProfileUserTitleUnitElementsWOEmpty}" /> -->
+		</ice:selectOneMenu>
+		<ice:message for="txtaQues" />
+	</ice:panelGroup>
+
+	<!-- Question Level-->
+	<ice:outputLabel id="lblLevel" value="#{res['question.level.label']}"
+		for="txtaQues" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:selectOneMenu id="slctomLevel"
+			value="#{managedBean.question.level}" required="#{required}"
+			binding="#{managedBean.levelSelectOneMenu}" partialSubmit="true">
+			<!-- <f:selectItems id="slctMuLevel"
+								value="#{staticList.convertedUserProfileUserTitleUnitElementsWOEmpty}" /> -->
+		</ice:selectOneMenu>
+		<ice:message for="txtaQues" />
+	</ice:panelGroup>
+
+	<!-- Hint -->
+	<ice:outputLabel id="lblHint" value="#{res['question.hint.label']}"
+		for="txtaHint" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputTextArea id="txtaHint"
+			value="#{managedBean.question.hint}" required="#{required}"
+			binding="#{managedBean.hintInputTextArea}"
+			maxlength="#{res['question.hint.maxlength']}"
+			partialSubmit="true">
+		</ice:inputTextArea>
+		<ice:message for="txtaHint" />
+	</ice:panelGroup>
+
+	<!-- References -->
+	<ice:outputLabel id="lblRef" value="#{res['question.reference.label']}"
+		for="txtaRef" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputTextArea id="txtaRef"
+			value="#{managedBean.question.reference}" required="#{required}"
+			binding="#{managedBean.refInputTextArea}"
+			maxlength="#{res['question.reference.maxlength']}"
+			partialSubmit="true">
+		</ice:inputTextArea>
+		<ice:message for="txtaRef" />
+	</ice:panelGroup>
+
+	<!-- Module Code -->
+	<ice:outputLabel id="lblModuleCode"
+		styleClass="#{required ? 'lblRequired' : 'lblCommon'}"
+		value="#{res['question.modulecode.label']}" for="stxtModuleCode" />
+
+
+	<ice:panelGroup>
+		<ice:selectInputText id="stxtModuleCode"
+			rows="#{res['question.modulecode.auto.norows']}"
+			binding="#{managedBean.moduleCodeSelectInputText}"
+			value="#{managedBean.question.module.code}">
+			<!--	<f:selectItems id="itsTemporaryRoleCode"
+				value="#{autoComplete.autoTemporaryRoleCodes}" />  -->
+			<jc:convertInput allowInBetweenSpace="false" validateSpecial="true" />
+		</ice:selectInputText>
+		<ice:message for="stxtModuleCode" />
+
+	</ice:panelGroup>
+
+	<!-- Module Name -->
+	<ice:outputLabel id="lblModuleName" styleClass="lblRequired"
+		value="#{res['question.modulename.label']}"
+		for="stxtModuleName" />
+
+
+
+	<ice:panelGroup>
+		<ice:selectInputText id="stxtModuleName"
+			rows="#{res['question.modulename.auto.norows']}"
+			binding="#{managedBean.moduleNameSelectInputText}" listVar="obj"
+			width="#{len['common.selectinputtext.width']}"
+			value="#{managedBean.question.module.name}">
+			<f:facet name="selectInputText">
+				<ice:panelGrid id="pnlModuleName" columns="2" width="400"
+					columnClasses="pnlGrdAutoCompleteCode, pnlGrdAutoCompleteNames">
+					<ice:outputText id="otxtModuleNameCode" value="#{obj.code}" />
+					<ice:outputText id="otxtModuleNameName" value="#{obj.name}" />
+				</ice:panelGrid>
+			</f:facet>
+		</ice:selectInputText>
+		<ice:message for="stxtModuleName" />
+
+	</ice:panelGroup>
+
+
+	<ice:outputLabel id="lblAnswr"
+		value="#{res['question.answer.label']}" for="txtaAnswr"
+		styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:panelGrid id="pnlConf2" width="100%" columns="2"
+			columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+			<ice:panelGroup>
+				<ice:inputTextArea id="txtaAnswr" required="#{required}"
+					binding="#{managedBean.answrInputTextArea}"
+					maxlength="#{res['question.answer.maxlength']}"
+					partialSubmit="true">
+				</ice:inputTextArea>
+				<ice:message for="txtaAnswr" />
+			</ice:panelGroup>
+			<!-- Command buttons -->
+			<ice:panelGroup id="pnlAnswrButton">
+				<ice:commandButton id="btnAddAnswr"
+					action="#{managedBean.addAnswers}"
+					value="#{res['common.label.add']}"
+					rendered="#{!(managedBean.editMode)}"
+					disabled="#{managedBean.viewMode}" />
+				<!-- <ice:commandButton id="btnUpdateAnswer"
+			value="#{res['command.common.label.update']}"
+			rendered="#{(delegateAccessRightsBean.editMode &amp;&amp; !delegateAccessRightsBean.viewMode)}"
+			action="#{delegateAccessRightsBean.updateDelegateAccessRights}" />
+		 -->
+			</ice:panelGroup>
+		</ice:panelGrid>
+	</ice:panelGroup>
+	<ui:insert name="commandsPanel" />
+</ice:panelGrid>
+<ice:panelGrid xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlConf3" width="100%"
+	columns="1"
+	columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField"
+	xmlns:jc="http://jsfcustom.com/tag">
+
+	<ice:panelGroup id="pngData" binding="#{managedBean.tblPanelGroup}">
+		<ice:dataTable id="dtbProfitCenters"
+			value="#{managedBean.question.answers}" var="unit" width="100%"
+			binding="#{managedBean.tblAnswers}"
+			columnClasses="tmplApplicationCol3TableColumn1,tmplApplicationCol3TableColumn2,tmplApplicationCol3TableColumn3Right">
+
+			<f:facet name="header">
+				<ice:columnGroup>
+					<ice:headerRow>
+						<ice:column>#{res['question.answer.label.answer']}</ice:column>
+						<ice:column>#{res['question.answer.label.correct']}</ice:column>
+						<ice:column>#{res['question.answer.label.action']}</ice:column>
+					</ice:headerRow>
+				</ice:columnGroup>
+			</f:facet>
+
+			<ice:column id="colCode">
+
+				<ice:panelGroup contextValue="text">
+					<ice:outputText value="#{unit.answer}" />
+				</ice:panelGroup>
+			</ice:column>
+
+			<ice:column id="colCorrect">
+				<ice:panelGroup contextValue="text">
+					<ice:selectBooleanCheckbox id="chkCorrect" value="#{unit.correct}"
+						binding="#{managedBean.correctSelectBooleanCheckbox>}"> 
+					</ice:selectBooleanCheckbox>
+				</ice:panelGroup>
+			</ice:column>
+
+			<ice:column id="colShare" styleClass="tmplShareRightColumn">
+				<ice:panelGroup menuPopup="mnpAction" contextValue="text">
+					<ice:outputLink id="oplEdit">
+						<ice:outputText value="#{res['common.action.edit.link']}" />
+					</ice:outputLink>
+					<ice:outputLink id="oplRemove">
+						<ice:outputText value="#{res['common.action.remove.link']}" />
+					</ice:outputLink>
+
+				</ice:panelGroup>
+			</ice:column>
+
+		</ice:dataTable>
+
+	</ice:panelGroup>
+</ice:panelGrid>
