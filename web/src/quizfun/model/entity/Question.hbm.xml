@@ -43,8 +43,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="reference" type="string">
 			<column name="REFERENCE" length="255" />
 		</property>
-		<many-to-one name="module" column="MODULE" not-null="true"></many-to-one>
-		<set name="answers" inverse="true">
+		<many-to-one name="module" column="MODULE" not-null="true" fetch="select"></many-to-one>
+		<set name="answers" inverse="true" cascade="persist,merge,delete,save-update,evict,replicate,refresh" >
             <key column="QUESTION"/>
             <one-to-many class="quizfun.model.entity.Answer"/>
         </set>
