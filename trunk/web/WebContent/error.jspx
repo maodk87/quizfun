@@ -16,4 +16,31 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<div style="color: red;">Error</div>
+<ui:composition template="/WEB-INF/include/template/page-template.jspx"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:param name="pageTitle" value="#{res['error.page.title']}" />
+    <ui:param name="contentHeader" value="#{res['error.content.header']}"/>
+
+    <ui:define name="content">
+
+        <ui:decorate template="/WEB-INF/include/template/content-template.jspx" >
+
+            <!-- header content here  -->
+            <ui:define name="pageName">
+                #{contentHeader}
+            </ui:define>
+
+            <!-- insert content here -->
+            <ui:define name="pageContent">
+            	<ui:include src="/WEB-INF/include/inc-error.jspx" />
+            </ui:define>
+
+        </ui:decorate>
+
+    </ui:define>
+    
+</ui:composition>
