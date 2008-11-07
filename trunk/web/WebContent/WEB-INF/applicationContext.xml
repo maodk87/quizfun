@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<!-- <property name="url" value="jdbc:mysql://127.0.0.1:3306/quizfun" /> -->
 		<property name="url" value="jdbc:mysql://localhost:3306/quizfun" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
@@ -66,11 +65,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<bean id="courseDao" class="quizfun.model.dao.HibernateCourseDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="moduleDao" class="quizfun.model.dao.HibernateModuleDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<!-- DAOs - End -->
 
 	<!-- Services - Start -->
 	<bean id="courseService" class="quizfun.model.service.CourseServiceImpl">
 		<property name="courseDao" ref="courseDao" />
+	</bean>
+	<bean id="moduleService" class="quizfun.model.service.ModuleServiceImpl">
+		<property name="moduleDao" ref="moduleDao" />
 	</bean>
 	<!-- Services - End -->
 </beans>

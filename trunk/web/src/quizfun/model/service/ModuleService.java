@@ -18,11 +18,20 @@
 
 package quizfun.model.service;
 
+import java.util.List;
+
+import quizfun.model.dto.ModuleSCDO;
 import quizfun.model.entity.Module;
 import quizfun.model.exception.DuplicateModuleException;
 
 public interface ModuleService {
 
-	Module saveModule(Module module) throws DuplicateModuleException;
+	void saveModule(Module module) throws DuplicateModuleException;
+	
+	List<Module> findModule(ModuleSCDO moduleSCDO);
+
+	Module updateModule(Module module);
+
+	void deleteModule(Module module);
 
 }
