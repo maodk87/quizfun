@@ -1,35 +1,86 @@
-/*
- * QuizFun - A quiz game
- * Copyright (C) 2008
- * 
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or (at
- * your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <http://www.gnu.org/licenses/>.
- */
-
 package quizfun.model.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import quizfun.model.dto.QuestionSCDO;
+import quizfun.model.entity.Course;
 import quizfun.model.entity.Question;
+import quizfun.model.exception.DuplicateCourseException;
 import quizfun.model.exception.DuplicateQuestionException;
 
 public class HibernateQuestionDao extends HibernateDaoSupport implements QuestionDao {
 
 	@Override
-	public Question saveQuestion(Question question) throws DuplicateQuestionException {
+	public void saveQuestion(Question question) throws DuplicateQuestionException {
 		if (logger.isDebugEnabled()) {
 			logger.info("Saving Question: " + question);
 		}
-		return question;
+		Session session = getSession(false);
+		try {
+			Question existingCourse = (Question) session.get(Question.class, question.getId());
+			if (existingCourse != null) {
+				throw new DuplicateQuestionException(question.toString());
+			}
+			session.save(question);
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+	}
+
+	@Override
+	public List<Question> findQuestion(QuestionSCDO questionSCDO) {/*
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("Finding Question(s): {}", questionSCDO);
+		}
+		List<Question> list = null;
+		Session session = getSession(false);
+		try {
+			String id = questionSCDO.getId();
+			String question = questionSCDO.getQuestion();
+			String moduleCode = questionSCDO.getModuleCode();
+			String level = questionSCDO.getLevel();
+
+			Criteria criteria = session.createCriteria(Question.class);
+			if (id != null && !id.isEmpty()) {
+				if (!id.contains("%")) {
+					id = "%" + id + "%";
+				}
+				criteria.add(Restrictions.like("id", id));
+			}
+			if (question != null && !question.isEmpty()) {
+				if (!question.contains("%")) {
+					question = "%" + question + "%";
+				}
+				criteria.add(Restrictions.like("question", question));
+			}
+			if (moduleCode != null && !moduleCode.isEmpty()) {
+				if (!moduleCode.contains("%")) {
+					moduleCode = "%" + moduleCode + "%";
+				}
+				criteria.add(Restrictions.like("module", moduleCode));
+			}
+			if (level != null && !level.isEmpty()) {
+				if (!level.contains("%")) {
+					level = "%" + level + "%";
+				}
+				criteria.add(Restrictions.like("level", level));
+			}			
+
+			criteria.addOrder(Order.asc("id"));
+			list = criteria.list();
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+		return list;
+	*/
+		return null;
 	}
 }
