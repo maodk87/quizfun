@@ -50,7 +50,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					<ice:menuItem id="mitModule" value="#{res['menu.module.label']}" action="module" immediate="true" />
 					<ice:menuItem id="mitQuestion" value="#{res['menu.question.label']}" action="question" immediate="true" />
 				</ice:menuItem>
-	
+				
+				<ice:menuItem id="mitModule" value="#{res['menu.module.label']}" action="module" immediate="true"  />
+				<ice:menuItem id="mitQuestion" value="#{res['menu.question.label']}" action="question" immediate="true"  />
+					<ice:menuItem id="mitCreateQuestion" value="#{res['menu.create.label']}" action="createQuestion" immediate="true" />
+				</ice:menuItem>
+			</ice:menuItem>
+
+
 				<!-- About -->
 				<ice:menuItem id="mitAbout" value="#{res['menu.about.label']}" action="test" immediate="true" />
 			</ice:menuBar>
