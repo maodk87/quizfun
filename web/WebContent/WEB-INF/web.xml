@@ -84,6 +84,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</welcome-file-list>
 	<error-page>
 		<error-code>500</error-code>
-		<location>/error.jspx</location>
+		<location>/error.iface</location>
 	</error-page>
 </web-app>
