@@ -36,10 +36,6 @@ html body {
 	background-color: #F2F5FE; /* To fix an issue. ICEfaces render an IFrame after body. Therefore, Safari and Google Chrome do not display the background color */
 }
 
-iframe {
-	display: none; /* To fix an issue. ICEfaces render an IFrame after body. Therefore, IE 7 does not apply top margin to main div */
-}
-
 a {
 	color: #192666;
 }
@@ -208,7 +204,8 @@ code,kbd,samp {
 /* -----------------...........--------------------------------------------------------------------------------------- */
 #main {
 	width: 770px;
-	margin: 50px auto 0 auto;
+	margin: 0 auto 0 auto;
+	padding: 50px 0 0 0;
 	_text-align: left;
 }
 
