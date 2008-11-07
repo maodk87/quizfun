@@ -1,0 +1,29 @@
+<!-- Author: Hiranya Mudunkotuwa -->
+
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:jc="http://jsfcustom.com/tag" xmlns:it="http://www.informatics.lk/infotrack">
+
+	<ice:form id="frmQuestion">
+		<ice:panelCollapsible id="pncQuestion" expanded="true" toggleOnClick="false">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['question.create.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ui:decorate template="/WEB-INF/include/question/inc-question.jspx">
+
+				<ui:param name="required" value="#{true}" />
+				<ui:param name="managedBean" value="#{createQuestion}" />
+				<ui:define name="commandsPanel">
+					<ice:panelGroup>
+						<ice:commandButton value="#{res['common.label.save']}" actionListener="#{createQuestion.saveActionListener}"/>
+						<ice:commandButton value="#{res['common.label.clear']}" actionListener="#{createQuestion.clearActionListener}" immediate="true" />
+					</ice:panelGroup>
+				</ui:define>
+
+			</ui:decorate>
+		</ice:panelCollapsible>
+	</ice:form>
+</jsp:root>
