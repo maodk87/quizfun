@@ -1,0 +1,41 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Nevindaree Premarathne -->
+<ice:panelGrid xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlConf1" width="100%"
+	columns="2" columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+	<ice:outputLabel id="lblCode" value="#{res['module.code.label']}" for="txtCode" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputText id="txtCode" value="#{managedBean.module.code}" required="#{required}" binding="#{managedBean.codeInputText}" readonly="#{editMode}"
+			maxlength="#{res['module.code.maxlength']}" partialSubmit="true">
+		</ice:inputText>
+		<ice:message for="txtCode" />
+	</ice:panelGroup>
+	<ice:outputLabel id="lblName" value="#{res['module.name.label']}" for="txtName" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputText id="txtName" value="#{managedBean.module.name}" required="#{required}" binding="#{managedBean.nameInputText}"
+			maxlength="#{res['module.name.maxlength']}" partialSubmit="true">
+		</ice:inputText>
+		<ice:message for="txtName" />
+	</ice:panelGroup>
+	<f:verbatim></f:verbatim>
+	<ui:insert name="commandsPanel" />
+</ice:panelGrid>

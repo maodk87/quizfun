@@ -18,19 +18,29 @@
 
 package quizfun.model.dao;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import quizfun.model.dto.ModuleSCDO;
 import quizfun.model.entity.Module;
 import quizfun.model.exception.DuplicateModuleException;
 
 public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao {
 
+	final Logger logger = LoggerFactory.getLogger(HibernateCourseDao.class);
+	
 	@Override
-	public Module saveModule(Module module) throws DuplicateModuleException {
+	public void saveModule(Module module) throws DuplicateModuleException {
 		if (logger.isDebugEnabled()) {
-			logger.info("Saving Module: " + module);
+			logger.info("Saving Module: {}", module);
 		}
 		Session session = getSession(false);
 		try {
@@ -38,9 +48,71 @@ public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao
 			if (existingModule != null) {
 				throw new DuplicateModuleException(module.toString());
 			}
-			return (Module) session.save(module);
+			session.save(module);
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
 		}
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Module> findModule(ModuleSCDO moduleSCDO) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Finding Module(s): {}", moduleSCDO);
+		}
+		List<Module> list = null;
+		Session session = getSession(false);
+		try {
+			String code = moduleSCDO.getCode();
+			String name = moduleSCDO.getName();
+
+			Criteria criteria = session.createCriteria(Module.class);
+			if (code != null && !code.equals("")) {
+				if (!code.contains("%")) {
+					code = "%" + code + "%";
+				}
+				criteria.add(Restrictions.like("code", code));
+			}
+			if (name != null && !name.equals("")) {
+				if (!name.contains("%")) {
+					name = "%" + name + "%";
+				}
+				criteria.add(Restrictions.like("name", name));
+			}
+
+			criteria.addOrder(Order.asc("code"));
+			list = criteria.list();
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+		return list;
+	}
+
+	@Override
+	public Module updateModule(Module module) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Updating Module: {}", module);
+		}
+		Session session = getSession(false);
+		try {
+			return (Module) session.merge(module);
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+	}
+
+	@Override
+	public void deleteModule(Module module) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Deleting Module: {}", module);
+		}
+		Session session = getSession(false);
+		try {
+			session.delete(module);
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+	}
+
 }

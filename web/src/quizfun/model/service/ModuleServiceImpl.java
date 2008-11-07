@@ -18,10 +18,13 @@
 
 package quizfun.model.service;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import quizfun.model.dao.ModuleDao;
+import quizfun.model.dto.ModuleSCDO;
 import quizfun.model.entity.Module;
 import quizfun.model.exception.DuplicateModuleException;
 
@@ -36,8 +39,25 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = { DuplicateModuleException.class })
-	public Module saveModule(Module module) throws DuplicateModuleException {
-		return moduleDao.saveModule(module);
+	public void saveModule(Module module) throws DuplicateModuleException {
+		moduleDao.saveModule(module);
+	}
+	
+	@Override
+	public List<Module> findModule(ModuleSCDO moduleSCDO) {
+		return moduleDao.findModule(moduleSCDO);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public Module updateModule(Module module) {
+		return moduleDao.updateModule(module);
+	}
+
+	@Override
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+	public void deleteModule(Module module) {
+		moduleDao.deleteModule(module);
 	}
 
 }

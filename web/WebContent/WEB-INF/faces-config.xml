@@ -36,6 +36,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<property-name>courseService</property-name>
 			<value>#{courseService}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>moduleService</property-name>
+			<value>#{moduleService}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>renderMgr</managed-bean-name>
@@ -63,7 +67,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
-		<description>Managed bean for search course</description>
+		<description>Managed bean for modify course</description>
 		<managed-bean-name>modifyCourse</managed-bean-name>
 		<managed-bean-class>quizfun.view.bean.ModifyCourseManagedBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
@@ -72,6 +76,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<value>#{serviceLocator}</value>
 		</managed-property>
 	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create module</description>
+		<managed-bean-name>createModule</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateModuleManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search module</description>
+		<managed-bean-name>searchModule</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchModuleManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for modify module</description>
+		<managed-bean-name>modifyModule</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ModifyModuleManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+
 	<!-- Manage Beans - End -->
 
 	<!-- Navigation Rules - Start -->
@@ -94,6 +129,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<navigation-case>
 			<from-outcome>modifyCourse</from-outcome>
 			<to-view-id>/pages/course/modify.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createModule</from-outcome>
+			<to-view-id>/pages/module/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchModule</from-outcome>
+			<to-view-id>/pages/module/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modifyModule</from-outcome>
+			<to-view-id>/pages/module/modify.iface</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>

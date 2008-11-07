@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ice="http://www.icesoft.com/icefaces/component"
-	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:jc="http://jsfcustom.com/tag" xmlns:it="http://www.informatics.lk/infotrack">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<ice:form id="frmCourse">
 		<ice:panelCollapsible id="pncCourse" expanded="true" toggleOnClick="false">
