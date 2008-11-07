@@ -287,7 +287,6 @@ code,kbd,samp {
 	clear: both;
 	width: 770px;
 	height: 60px;
-	margin-bottom: 50px;
 	background: url("./css-images/footer.jpg") 0 0 no-repeat;
 	color: #6685CC;
 }
