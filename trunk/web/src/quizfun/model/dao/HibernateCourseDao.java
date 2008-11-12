@@ -23,6 +23,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -71,16 +72,10 @@ public class HibernateCourseDao extends HibernateDaoSupport implements CourseDao
 
 			Criteria criteria = session.createCriteria(Course.class);
 			if (code != null && !code.isEmpty()) {
-				if (!code.contains("%")) {
-					code = "%" + code + "%";
-				}
-				criteria.add(Restrictions.like("code", code));
+				criteria.add(Restrictions.like("code", code, MatchMode.ANYWHERE));
 			}
 			if (name != null && !name.isEmpty()) {
-				if (!name.contains("%")) {
-					name = "%" + name + "%";
-				}
-				criteria.add(Restrictions.like("name", name));
+				criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE));
 			}
 
 			criteria.addOrder(Order.asc("code"));
@@ -115,5 +110,23 @@ public class HibernateCourseDao extends HibernateDaoSupport implements CourseDao
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Course> findAll() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Finding all Course(s)");
+		}
+		List<Course> list = null;
+		Session session = getSession(false);
+		try {
+			Criteria criteria = session.createCriteria(Course.class);
+			criteria.addOrder(Order.asc("code"));
+			list = criteria.list();
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+		return list;
 	}
 }

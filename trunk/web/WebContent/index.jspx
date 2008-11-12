@@ -22,8 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
              xmlns:f="http://java.sun.com/jsf/core">
 
 
-    <ui:param name="pageTitle" value="HOME" />
-    <ui:param name="contentHeader" value="Welcome to QuizFun!"/>
+    <ui:param name="pageTitle" value="#{res['home.page.title']}" />
+    <ui:param name="contentHeader" value="#{res['home.content.header']}"/>
 
     <ui:define name="content">
 

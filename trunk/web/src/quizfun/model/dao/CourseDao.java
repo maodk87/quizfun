@@ -37,4 +37,6 @@ public interface CourseDao {
 
 	void deleteCourse(Course course);
 
+	List<Course> findAll();
+
 }

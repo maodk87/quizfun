@@ -38,6 +38,10 @@ public class JSFUtils {
 		ResourceBundle bundle = getBundle();
 		return bundle.getString(key);
 	}
+	
+	public static String getStringFromBundle(String key, Object[] args) {
+		return MessageFormat.format(getStringFromBundle(key), args);
+	}
 
 	public static FacesMessage getMessageFromBundle(String key, FacesMessage.Severity severity) {
 		return getMessageFromBundle(key, severity, null);

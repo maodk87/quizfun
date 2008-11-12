@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="name" type="string" not-null="true">
 			<column name="NAME" length="255" />
 		</property>
-		<many-to-one name="course" column="COURSE" not-null="true"></many-to-one>
+		<many-to-one name="course" column="COURSE" not-null="true" lazy="false" fetch="join">
+		</many-to-one>
 	</class>
 </hibernate-mapping>

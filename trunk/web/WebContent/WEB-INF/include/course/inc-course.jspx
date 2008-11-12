@@ -18,7 +18,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- Author: M. Isuru Tharanga Chrishantha Perera -->
 <ice:panelGrid xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlConf1" width="100%"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlCourse" width="100%"
 	columns="2" columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
 	<ice:outputLabel id="lblCode" value="#{res['course.code.label']}" for="txtCode" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
 	</ice:outputLabel>

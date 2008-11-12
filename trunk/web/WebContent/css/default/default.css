@@ -65,6 +65,14 @@ div.clearer {
 	color: blue;
 }
 
+.iceInpTxt, .iceInpSecrt, .iceInpTxtArea, .iceSelInpTxtTxt {
+    margin: 2px;
+    padding: 3px;
+    font: 11px tahoma;
+    background: #FFF;
+    border: 1px solid #d9d9d9;
+    width: 150px;
+}
 
 /* Error Styles - Start */
 #msgsGlobal {
@@ -167,6 +175,7 @@ div.clearer {
 
 /*Popup Common - End*/
 
+/* Panel Grid Styles - Start */
 .pnlGrdTwoColumnFormLabel{
 	text-align: right;
 	width: 40%;
@@ -177,6 +186,29 @@ div.clearer {
 	margin-left: 10px;
 	width: 60%;
 }
+
+.pnlGrdFourColumnFormLabel{
+	text-align: right;
+	width: 20%;
+}
+
+.pnlGrdFourColumnFormField {
+	text-align: left;
+	margin-left: 10px;
+	width: 30%;
+}
+
+.pnlGrdSelectInputCode {
+	width: 25%;
+	text-align: left;
+}
+
+.pnlGrdSelectInputName {
+	width: 75%;
+	text-align: left;
+}
+
+/* Panel Grid Styles - End */
 
 /* Row Selection Styles - Start */
 .selectColumn {

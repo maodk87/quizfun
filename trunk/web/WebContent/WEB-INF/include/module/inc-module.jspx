@@ -36,6 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</ice:inputText>
 		<ice:message for="txtName" />
 	</ice:panelGroup>
+	<ui:insert name="course" />
 	<f:verbatim></f:verbatim>
 	<ui:insert name="commandsPanel" />
 </ice:panelGrid>

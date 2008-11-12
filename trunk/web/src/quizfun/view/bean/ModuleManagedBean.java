@@ -18,17 +18,34 @@
 
 package quizfun.view.bean;
 
-import javax.faces.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import quizfun.model.entity.Course;
 import quizfun.model.entity.Module;
 import quizfun.view.servicelocator.ServiceLocator;
+import quizfun.view.util.JSFUtils;
+import ca.odell.glazedlists.FilterList;
+import ca.odell.glazedlists.GlazedLists;
+import ca.odell.glazedlists.TextFilterator;
+import ca.odell.glazedlists.matchers.TextMatcherEditor;
 
 import com.icesoft.faces.component.ext.HtmlInputText;
+import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
 /**
  * @author Nevindaree Premarathne
  */
 public abstract class ModuleManagedBean {
+	
+	final Logger logger = LoggerFactory.getLogger(ModuleManagedBean.class);
 
 	protected ServiceLocator serviceLocator;
 
@@ -36,6 +53,20 @@ public abstract class ModuleManagedBean {
 
 	protected HtmlInputText codeInputText;
 	protected HtmlInputText nameInputText;
+	
+	protected Course course;
+	
+	protected List<SelectItem> courseSelectItemList;
+	
+	protected SelectInputText courseSelectInputText;
+	
+	protected String courseCode;
+	
+	protected TextMatcherEditor<SelectItem> courseMatcherEditor;
+	
+	protected String selectedCourse;
+	
+	protected HtmlInputText selectedCourseInputText;
 
 	public void setServiceLocator(ServiceLocator serviceLocator) {
 		this.serviceLocator = serviceLocator;
@@ -77,4 +108,105 @@ public abstract class ModuleManagedBean {
 		nameInputText.resetValue();
 		codeInputText.requestFocus();
 	}
+
+	public SelectInputText getCourseSelectInputText() {
+		return courseSelectInputText;
+	}
+
+	public void setCourseSelectInputText(SelectInputText courseSelectInputText) {
+		this.courseSelectInputText = courseSelectInputText;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public List<SelectItem> getCourseSelectItemList() {
+		return courseSelectItemList;
+	}
+
+	public String getCourseCode() {
+		return courseCode;
+	}
+
+	public void setCourseCode(String courseCode) {
+		this.courseCode = courseCode;
+	}
+
+	public String getSelectedCourse() {
+		return selectedCourse;
+	}
+
+	public void setSelectedCourse(String selectedCourse) {
+		this.selectedCourse = selectedCourse;
+	}
+
+	public HtmlInputText getSelectedCourseInputText() {
+		return selectedCourseInputText;
+	}
+
+	public void setSelectedCourseInputText(HtmlInputText selectedCourseInputText) {
+		this.selectedCourseInputText = selectedCourseInputText;
+	}
+
+	protected void initializeCourseSelectInput() {
+		TextFilterator<SelectItem> selectItemFilterator = new TextFilterator<SelectItem>() {
+			@Override
+			public void getFilterStrings(List<String> baseList,
+					SelectItem element) {
+				baseList.add(element.getLabel());
+			}
+		};
+		
+		List<Course> list = serviceLocator.getCourseService().findAll();
+		
+		if (list != null && !list.isEmpty()) {
+			courseSelectItemList = new ArrayList<SelectItem>(list.size());
+			
+			for (Course course : list) {
+				courseSelectItemList.add(new SelectItem(course, course.getCode()));
+			}
+			
+			courseMatcherEditor = new TextMatcherEditor<SelectItem>(selectItemFilterator);
+			courseSelectItemList = new FilterList<SelectItem>(GlazedLists.eventList(courseSelectItemList), courseMatcherEditor);
+		}
+	}
+	
+	public void courseValueChangeListener(ValueChangeEvent event) {
+		SelectInputText selectInputText = (SelectInputText) event.getComponent();
+		String value = (String) event.getNewValue();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("Course value change listener. Value: " + value);
+		}
+
+		courseMatcherEditor.setMode(TextMatcherEditor.STARTS_WITH);
+		courseMatcherEditor.setFilterText((value == null) ? new String[] {} : new String[] { value });
+
+		SelectItem selectedItem = selectInputText.getSelectedItem();
+		if (selectedItem != null) {
+			Course course = (Course) selectedItem.getValue();
+			this.course = course;			
+			selectedCourse = JSFUtils.getStringFromBundle("module.selectedcourse.display.pattern", new Object[] {
+					course.getCode(), course.getName() });
+		} else {
+			course = null;
+			selectedCourse = null;
+		}
+		selectedCourseInputText.resetValue();
+	}
+	
+	public void clearCourseActionListener(ActionEvent event) {
+		course = null;
+		courseCode = null;
+		selectedCourse = null;
+		
+		courseSelectInputText.resetValue();
+		selectedCourseInputText.resetValue();
+		
+		courseMatcherEditor.setFilterText(new String[] {});
+		
+		courseSelectInputText.requestFocus();
+	}
+	
 }

@@ -29,10 +29,12 @@ import java.io.Serializable;
  */
 public class ModuleSCDO implements Serializable {
 
-	private static final long serialVersionUID = 6688080875482958354L;
+	private static final long serialVersionUID = -8455060934805960528L;
 
 	private String code;
 	private String name;
+	
+	private CourseSCDO courseSCDO;
 
 	public String getCode() {
 		return code;
@@ -50,6 +52,14 @@ public class ModuleSCDO implements Serializable {
 		this.name = name;
 	}
 
+	public CourseSCDO getCourseSCDO() {
+		return courseSCDO;
+	}
+
+	public void setCourseSCDO(CourseSCDO courseSCDO) {
+		this.courseSCDO = courseSCDO;
+	}
+
 	@Override
 	public String toString() {
 		final String separator = ", ";
@@ -58,6 +68,7 @@ public class ModuleSCDO implements Serializable {
 		builder.append("ModuleSCDO {");
 		builder.append("code = ").append('\"').append(getCode()).append('\"');
 		builder.append(separator).append("name = ").append('\"').append(getName()).append('\"');
+		builder.append(separator).append("courseSCDO = ").append(getCourseSCDO());
 		builder.append("}");
 		return builder.toString();
 	}

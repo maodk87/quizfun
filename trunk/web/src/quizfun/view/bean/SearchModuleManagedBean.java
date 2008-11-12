@@ -25,7 +25,9 @@ import javax.faces.event.ActionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import quizfun.model.dto.CourseSCDO;
 import quizfun.model.dto.ModuleSCDO;
+import quizfun.model.entity.Course;
 import quizfun.model.entity.Module;
 import quizfun.view.util.JSFUtils;
 import ca.odell.glazedlists.FilterList;
@@ -60,10 +62,14 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 	private boolean removeConfirmVisible;
 
 	private Module removingModule;
+	
+	private HtmlInputText courseCodeInputText;
+	private HtmlInputText courseNameInputText;
 
 	@javax.annotation.PostConstruct
 	public void init() {
 		module = new Module();
+		course = new Course();
 
 		moduleFilterator = new TextFilterator<Module>() {
 
@@ -71,6 +77,8 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 			public void getFilterStrings(List<String> baseList, Module module) {
 				baseList.add(module.getCode());
 				baseList.add(module.getName());
+				baseList.add(module.getCourse().getCode());
+				baseList.add(module.getCourse().getName());
 			}
 
 		};
@@ -116,9 +124,30 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 		return removingModule;
 	}
 
+	public HtmlInputText getCourseCodeInputText() {
+		return courseCodeInputText;
+	}
+
+	public void setCourseCodeInputText(HtmlInputText courseCodeInputText) {
+		this.courseCodeInputText = courseCodeInputText;
+	}
+
+	public HtmlInputText getCourseNameInputText() {
+		return courseNameInputText;
+	}
+
+	public void setCourseNameInputText(HtmlInputText courseNameInputText) {
+		this.courseNameInputText = courseNameInputText;
+	}
+
 	public void searchActionListener(ActionEvent event) {
+		ModuleSCDO moduleSCDO = new ModuleSCDO();
+		CourseSCDO courseSCDO = new CourseSCDO();
+
 		try {
-			ModuleSCDO moduleSCDO = new ModuleSCDO();
+			courseSCDO.setCode(course.getCode());
+			courseSCDO.setName(course.getName());
+			moduleSCDO.setCourseSCDO(courseSCDO);
 			moduleSCDO.setCode(module.getCode());
 			moduleSCDO.setName(module.getName());
 			modules = serviceLocator.getModuleService().findModule(moduleSCDO);
@@ -131,7 +160,7 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 				filterInputText.requestFocus();
 			}
 		} catch (Throwable e) {
-			logger.error("Exception when finding module: " + module, e);
+			logger.error("Exception when finding module: " + moduleSCDO, e);
 			JSFUtils.addApplicationErrorMessage();
 			return;
 		}
@@ -202,5 +231,15 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 
 	public void closeRemoveActionListener(ActionEvent event) {
 		removeConfirmVisible = false;
+	}
+	
+	public void clearActionListener(ActionEvent event) {
+		super.clearActionListener(event);
+		
+		course.setCode(null);
+		course.setName(null);
+		
+		courseCodeInputText.resetValue();
+		courseNameInputText.resetValue();
 	}
 }
