@@ -22,6 +22,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
+	<ice:form id="frmCourse">
+		<ice:panelCollapsible id="pncCourse" expanded="true">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['module.course.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ui:decorate template="/WEB-INF/include/module/inc-course.jspx">
+				<ui:param name="managedBean" value="#{modifyModule}" />
+			</ui:decorate>
+		</ice:panelCollapsible>
+	</ice:form>
+
 	<ice:form id="frmModule">
 		<ice:panelCollapsible id="pncModule" expanded="true" toggleOnClick="false">
 			<f:facet name="header">
@@ -38,7 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<ui:define name="commandsPanel">
 					<ice:panelGroup>
 						<ice:commandButton value="#{res['common.label.save']}" actionListener="#{modifyModule.saveActionListener}"/>
-						<ice:commandButton value="#{res['common.label.clear']}"  actionListener="#{modifyModule.clearActionListener}" immediate="true" />
+						<ice:commandButton value="#{res['common.label.reset']}"  actionListener="#{modifyModule.resetActionListener}" immediate="true" />
 					</ice:panelGroup>
 				</ui:define>
 

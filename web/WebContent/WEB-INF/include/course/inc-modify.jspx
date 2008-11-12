@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<ui:define name="commandsPanel">
 					<ice:panelGroup>
 						<ice:commandButton value="#{res['common.label.save']}" actionListener="#{modifyCourse.saveActionListener}"/>
-						<ice:commandButton value="#{res['common.label.clear']}"  actionListener="#{modifyCourse.clearActionListener}" immediate="true" />
+						<ice:commandButton value="#{res['common.label.reset']}"  actionListener="#{modifyCourse.resetActionListener}" immediate="true" />
 					</ice:panelGroup>
 				</ui:define>
 

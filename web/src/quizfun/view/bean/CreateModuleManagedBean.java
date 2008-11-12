@@ -38,10 +38,18 @@ public class CreateModuleManagedBean extends ModuleManagedBean {
 	@javax.annotation.PostConstruct
 	public void init() {
 		module = new Module();
+		initializeCourseSelectInput();
 	}
 
 	public void saveActionListener(ActionEvent event) {
+		if (course == null) {
+			JSFUtils.addFacesErrorMessage("module.course.required.message");
+			courseSelectInputText.requestFocus();
+			return;
+		}
+		
 		try {
+			module.setCourse(course);
 			serviceLocator.getModuleService().saveModule(module);
 			clearValues();
 			JSFUtils.addFacesInfoMessage("module.save.successful");

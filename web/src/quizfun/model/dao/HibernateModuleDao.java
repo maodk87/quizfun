@@ -23,12 +23,14 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import quizfun.model.dto.CourseSCDO;
 import quizfun.model.dto.ModuleSCDO;
 import quizfun.model.entity.Module;
 import quizfun.model.exception.DuplicateModuleException;
@@ -66,19 +68,29 @@ public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao
 		try {
 			String code = moduleSCDO.getCode();
 			String name = moduleSCDO.getName();
+			
+			CourseSCDO courseSCDO = moduleSCDO.getCourseSCDO();
+			
+			String courseCode = courseSCDO.getCode();
+			String courseName = courseSCDO.getName();
 
 			Criteria criteria = session.createCriteria(Module.class);
 			if (code != null && !code.equals("")) {
-				if (!code.contains("%")) {
-					code = "%" + code + "%";
-				}
-				criteria.add(Restrictions.like("code", code));
+				criteria.add(Restrictions.like("code", code, MatchMode.ANYWHERE));
 			}
 			if (name != null && !name.equals("")) {
-				if (!name.contains("%")) {
-					name = "%" + name + "%";
-				}
-				criteria.add(Restrictions.like("name", name));
+				criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE));
+			}
+			
+			if ((courseCode != null && !courseCode.isEmpty()) || (courseName != null && !courseName.isEmpty())) {
+				criteria = criteria.createCriteria("course");
+			}
+	
+			if (courseCode != null && !courseCode.isEmpty()) {
+				criteria.add(Restrictions.like("code", courseCode, MatchMode.ANYWHERE));
+			}
+			if (courseName != null && !courseName.isEmpty()) {
+				criteria.add(Restrictions.like("name", courseName, MatchMode.ANYWHERE));
 			}
 
 			criteria.addOrder(Order.asc("code"));

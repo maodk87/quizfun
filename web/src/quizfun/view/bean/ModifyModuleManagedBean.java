@@ -39,15 +39,32 @@ public class ModifyModuleManagedBean extends ModuleManagedBean {
 	public void init() {
 		modifyingModule = (Module) JSFUtils.removeFromSessionMap("module");
 		if (logger.isDebugEnabled()) {
-			logger.debug("Object retrieved from request: {}", modifyingModule);
+			logger.debug("Object retrieved from session: {}", modifyingModule);
 		}
 		module = new Module();
+		resetValues();
+		initializeCourseSelectInput();
+	}
+	
+	private void resetValues() {
 		module.setCode(modifyingModule.getCode());
 		module.setName(modifyingModule.getName());
+		course = modifyingModule.getCourse();
+		selectedCourse = JSFUtils.getStringFromBundle("module.selectedcourse.display.pattern", new Object[] { course.getCode(),
+				course.getName() });
 	}
 
 	public void saveActionListener(ActionEvent event) {
+		if (course == null) {
+			JSFUtils.addFacesErrorMessage("module.course.required.message");
+			courseSelectInputText.requestFocus();
+			return;
+		}
+		
 		try {
+			if (!modifyingModule.getCourse().equals(course)) {
+				modifyingModule.setCourse(course);
+			}
 			modifyingModule.setCode(module.getCode());
 			modifyingModule.setName(module.getName());
 			modifyingModule = serviceLocator.getModuleService().updateModule(modifyingModule);
@@ -63,12 +80,13 @@ public class ModifyModuleManagedBean extends ModuleManagedBean {
 		}
 	}
 	
-	public void clearActionListener(ActionEvent event) {
-		module.setCode(modifyingModule.getCode());
-		module.setName(modifyingModule.getName());
+	public void resetActionListener(ActionEvent event) {
+		resetValues();
 
 		codeInputText.resetValue();
 		nameInputText.resetValue();
 		codeInputText.requestFocus();
+		
+		selectedCourseInputText.resetValue();
 	}
 }

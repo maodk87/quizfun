@@ -36,4 +36,6 @@ public interface CourseService {
 	Course updateCourse(Course course);
 
 	void deleteCourse(Course course);
+
+	List<Course> findAll();
 }

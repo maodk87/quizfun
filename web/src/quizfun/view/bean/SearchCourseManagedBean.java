@@ -117,8 +117,9 @@ public class SearchCourseManagedBean extends CourseManagedBean {
 	}
 
 	public void searchActionListener(ActionEvent event) {
+		CourseSCDO courseSCDO = new CourseSCDO();
+
 		try {
-			CourseSCDO courseSCDO = new CourseSCDO();
 			courseSCDO.setCode(course.getCode());
 			courseSCDO.setName(course.getName());
 			courses = serviceLocator.getCourseService().findCourse(courseSCDO);
@@ -131,7 +132,7 @@ public class SearchCourseManagedBean extends CourseManagedBean {
 				filterInputText.requestFocus();
 			}
 		} catch (Throwable e) {
-			logger.error("Exception when finding course: " + course, e);
+			logger.error("Exception when finding course: " + courseSCDO, e);
 			JSFUtils.addApplicationErrorMessage();
 			return;
 		}

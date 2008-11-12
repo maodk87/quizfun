@@ -35,6 +35,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<ui:param name="required" value="#{false}" />
 				<ui:param name="editMode" value="#{false}" />
 				<ui:param name="managedBean" value="#{searchModule}" />
+				<ui:define name="course">
+					<ice:outputLabel id="lblCCode" value="#{res['module.course.code.label']}" for="txtCCode" styleClass="lblCommon">
+					</ice:outputLabel>
+					<ice:panelGroup>
+						<ice:inputText id="txtCCode" value="#{searchModule.course.code}" binding="#{searchModule.courseCodeInputText}"
+							maxlength="#{res['course.code.maxlength']}" partialSubmit="true">
+						</ice:inputText>
+						<ice:message for="txtCCode" />
+					</ice:panelGroup>
+					<ice:outputLabel id="lblCName" value="#{res['module.course.name.label']}" for="txtCName" styleClass="lblCommon">
+					</ice:outputLabel>
+					<ice:panelGroup>
+						<ice:inputText id="txtCName" value="#{searchModule.course.name}" binding="#{searchModule.courseNameInputText}"
+							maxlength="#{res['course.name.maxlength']}" partialSubmit="true">
+						</ice:inputText>
+						<ice:message for="txtCName" />
+					</ice:panelGroup>
+				</ui:define>
 				<ui:define name="commandsPanel">
 					<ice:panelGroup>
 						<ice:commandButton value="#{res['common.label.search']}" actionListener="#{searchModule.searchActionListener}"/>
@@ -89,18 +107,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 			<ice:dataTable id="tblModule" width="100%" rows="10" var="module" value="#{searchModule.filterList}" binding="#{searchModule.dataTable}" rendered="#{!empty(searchModule.filterList)}">
 							
-				<ice:column id="code" style="width: 20%">
+				<ice:column id="code" style="width: 10%">
 					<f:facet name="header">
 						<ice:outputText	value="#{res['module.table.column.code.header']}"></ice:outputText>
 					</f:facet>
 					<ice:outputText value="#{module.code}"></ice:outputText>
 				</ice:column>
 				
-				<ice:column id="name" style="width: 60%">
+				<ice:column id="name" style="width: 30%">
 					<f:facet name="header">
 						<ice:outputText	value="#{res['module.table.column.name.header']}"></ice:outputText>
 					</f:facet>
 					<ice:outputText value="#{module.name}"></ice:outputText>
+				</ice:column>
+				
+				<ice:column id="code" style="width: 10%">
+					<f:facet name="header">
+						<ice:outputText	value="#{res['module.table.column.coursecode.header']}"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{module.course.code}"></ice:outputText>
+				</ice:column>
+				
+				<ice:column id="name" style="width: 30%">
+					<f:facet name="header">
+						<ice:outputText	value="#{res['module.table.column.coursename.header']}"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{module.course.name}"></ice:outputText>
 				</ice:column>
 				
 				<ice:column id="action" style="width: 20%">

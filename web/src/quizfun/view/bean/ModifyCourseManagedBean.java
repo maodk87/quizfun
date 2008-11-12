@@ -39,7 +39,7 @@ public class ModifyCourseManagedBean extends CourseManagedBean {
 	public void init() {
 		modifyingCourse = (Course) JSFUtils.removeFromSessionMap("course");
 		if (logger.isDebugEnabled()) {
-			logger.debug("Object retrieved from request: {}", modifyingCourse);
+			logger.debug("Object retrieved from session: {}", modifyingCourse);
 		}
 		course = new Course();
 		course.setCode(modifyingCourse.getCode());
@@ -63,7 +63,7 @@ public class ModifyCourseManagedBean extends CourseManagedBean {
 		}
 	}
 	
-	public void clearActionListener(ActionEvent event) {
+	public void resetActionListener(ActionEvent event) {
 		course.setCode(modifyingCourse.getCode());
 		course.setName(modifyingCourse.getName());
 

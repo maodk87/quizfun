@@ -63,4 +63,8 @@ public class CourseServiceImpl implements CourseService {
 		courseDao.deleteCourse(course);
 	}
 
+	@Override
+	public List<Course> findAll() {
+		return courseDao.findAll();
+	}
 }
