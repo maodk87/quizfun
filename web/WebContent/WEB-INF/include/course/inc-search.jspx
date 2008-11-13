@@ -59,7 +59,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				</ice:outputLabel>
 				<ice:panelGroup>
 					<ice:inputText id="txtFilter" value="#{searchCourse.filterText}" binding="#{searchCourse.filterInputText}"
-						maxlength="#{res['course.name.maxlength']}" partialSubmit="true">
+						maxlength="#{res['course.name.maxlength']}" partialSubmit="true" autocomplete="off">
 					</ice:inputText>
 					<ice:message for="txtFilter" />
 				</ice:panelGroup>

@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					</ice:outputLabel>
 					<ice:panelGroup>
 						<ice:inputText id="txtCCode" value="#{searchModule.course.code}" binding="#{searchModule.courseCodeInputText}"
-							maxlength="#{res['course.code.maxlength']}" partialSubmit="true">
+							maxlength="#{res['course.code.maxlength']}" partialSubmit="true" autocomplete="off">
 						</ice:inputText>
 						<ice:message for="txtCCode" />
 					</ice:panelGroup>
@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					</ice:outputLabel>
 					<ice:panelGroup>
 						<ice:inputText id="txtCName" value="#{searchModule.course.name}" binding="#{searchModule.courseNameInputText}"
-							maxlength="#{res['course.name.maxlength']}" partialSubmit="true">
+							maxlength="#{res['course.name.maxlength']}" partialSubmit="true" autocomplete="off">
 						</ice:inputText>
 						<ice:message for="txtCName" />
 					</ice:panelGroup>
@@ -77,7 +77,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				</ice:outputLabel>
 				<ice:panelGroup>
 					<ice:inputText id="txtFilter" value="#{searchModule.filterText}" binding="#{searchModule.filterInputText}"
-						maxlength="#{res['module.name.maxlength']}" partialSubmit="true">
+						maxlength="#{res['module.name.maxlength']}" partialSubmit="true" autocomplete="off">
 					</ice:inputText>
 					<ice:message for="txtFilter" />
 				</ice:panelGroup>

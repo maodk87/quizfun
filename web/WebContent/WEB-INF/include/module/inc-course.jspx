@@ -40,7 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</ice:outputLabel>
 	<ice:panelGroup>
 		<ice:inputText id="txtSelected" value="#{managedBean.selectedCourse}" binding="#{managedBean.selectedCourseInputText}" maxlength="#{res['module.course.maxlength']}"
-			 onkeydown="javascript:return false;">
+			 onkeydown="javascript:return false;" autocomplete="off">
 		</ice:inputText>
 		<ice:message for="txtSelected" />
 	</ice:panelGroup>

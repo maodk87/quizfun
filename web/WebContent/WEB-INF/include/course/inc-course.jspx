@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</ice:outputLabel>
 	<ice:panelGroup>
 		<ice:inputText id="txtCode" value="#{managedBean.course.code}" required="#{required}" binding="#{managedBean.codeInputText}" readonly="#{editMode}"
-			maxlength="#{res['course.code.maxlength']}" partialSubmit="true">
+			maxlength="#{res['course.code.maxlength']}" partialSubmit="true" autocomplete="off">
 		</ice:inputText>
 		<ice:message for="txtCode" />
 	</ice:panelGroup>
@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</ice:outputLabel>
 	<ice:panelGroup>
 		<ice:inputText id="txtName" value="#{managedBean.course.name}" required="#{required}" binding="#{managedBean.nameInputText}"
-			maxlength="#{res['course.name.maxlength']}" partialSubmit="true">
+			maxlength="#{res['course.name.maxlength']}" partialSubmit="true" autocomplete="off">
 		</ice:inputText>
 		<ice:message for="txtName" />
 	</ice:panelGroup>
