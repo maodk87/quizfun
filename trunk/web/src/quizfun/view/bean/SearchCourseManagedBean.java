@@ -24,6 +24,7 @@ import javax.faces.event.ActionEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import quizfun.model.dto.CourseSCDO;
 import quizfun.model.entity.Course;
@@ -192,6 +193,10 @@ public class SearchCourseManagedBean extends CourseManagedBean {
 			filterList = new FilterList<Course>(GlazedLists.eventList(courses), courseMatcherEditor);
 			filterList();
 			JSFUtils.addFacesInfoMessage("course.remove.successful");
+		} catch (DataIntegrityViolationException e) {
+			logger.error("Exception when deleting course: " + removingCourse, e);
+			JSFUtils.addFacesErrorMessage("course.remove.integrityviolation.error", new Object[] {removingCourse.getCode()});
+			return;
 		} catch (Throwable e) {
 			logger.error("Exception when deleting course: " + removingCourse, e);
 			JSFUtils.addApplicationErrorMessage();

@@ -74,6 +74,10 @@ div.clearer {
     width: 150px;
 }
 
+.iceSelInpTxtTxt {
+	background: #FFFFFF url('./css-images/arrow_118.gif') no-repeat scroll center right;
+}
+
 /* Error Styles - Start */
 #msgsGlobal {
 	background-color: #E6F3FB; /*#FFFFCE*/
@@ -218,13 +222,23 @@ div.clearer {
 
 /*Styles for labels - Start */
 .lblRequired{
-    background-image: url( './css-images/required.gif' );
+    background-image: url( './css-images/arrow_20.gif' );
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding-left: 10px;
+	font-weight: bold;
+	color: black;
+}
+
+.lblAutocomplete {
+    background-image: url( './css-images/arrow_70.gif' );
     background-repeat: no-repeat;
     background-position: center left;
     padding-left: 16px;
 	font-weight: bold;
 	color: black;
 }
+
 .lblCommon{
 	font-weight: normal;
 }
