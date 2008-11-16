@@ -24,6 +24,7 @@ import javax.faces.event.ActionEvent;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import quizfun.model.dto.CourseSCDO;
 import quizfun.model.dto.ModuleSCDO;
@@ -220,6 +221,10 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 			filterList = new FilterList<Module>(GlazedLists.eventList(modules), moduleMatcherEditor);
 			filterList();
 			JSFUtils.addFacesInfoMessage("module.remove.successful");
+		} catch (DataIntegrityViolationException e) {
+			logger.error("Exception when deleting module: " + removingModule, e);
+			JSFUtils.addFacesErrorMessage("module.remove.integrityviolation.error", new Object[] {removingModule.getCode()});
+			return;
 		} catch (Throwable e) {
 			logger.error("Exception when deleting module: " + removingModule, e);
 			JSFUtils.addApplicationErrorMessage();
