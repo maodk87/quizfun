@@ -121,14 +121,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					<ice:outputText value="#{module.name}"></ice:outputText>
 				</ice:column>
 				
-				<ice:column id="code" style="width: 10%">
+				<ice:column id="coursecode" style="width: 10%">
 					<f:facet name="header">
 						<ice:outputText	value="#{res['module.table.column.coursecode.header']}"></ice:outputText>
 					</f:facet>
 					<ice:outputText value="#{module.course.code}"></ice:outputText>
 				</ice:column>
 				
-				<ice:column id="name" style="width: 30%">
+				<ice:column id="coursename" style="width: 30%">
 					<f:facet name="header">
 						<ice:outputText	value="#{res['module.table.column.coursename.header']}"></ice:outputText>
 					</f:facet>
@@ -166,7 +166,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							title="#{res['common.dataScrolling.nextpage']}" />
 					</f:facet>
 					<f:facet name="fastforward">
-						<ice:graphicImage id="imgpgn3_5" url="#{res['common.style.image.folder']}arrow-ff.gif" style="border:none;"
+						<ice:graphicImage id="imgpgn2_5" url="#{res['common.style.image.folder']}arrow-ff.gif" style="border:none;"
 							title="#{res['common.dataScrolling.fastforward']}" />
 					</f:facet>
 					<f:facet name="fastrewind">

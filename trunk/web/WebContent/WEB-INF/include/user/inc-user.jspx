@@ -1,0 +1,64 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: M. Isuru Tharanga Chrishantha Perera -->
+<ice:panelGrid xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlUser" width="100%"
+	columns="2" columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+	<ice:outputLabel id="lblName" value="#{res['user.name.label']}" for="txtName" styleClass="lblRequired">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputText id="txtName" value="#{managedBean.user.username}" required="true" binding="#{managedBean.userNameInputText}" readonly="#{editMode}"
+			maxlength="#{res['user.name.maxlength']}" partialSubmit="true" autocomplete="off" valueChangeListener="#{managedBean.openIDChangeListener}">
+		</ice:inputText>
+		<ice:message for="txtName" />
+	</ice:panelGroup>
+	<ice:outputLabel id="lblPass" value="#{res['user.password.label']}" for="txtPass" styleClass="#{passwordrequired ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputSecret id="txtPass" value="#{managedBean.user.password}" required="#{passwordrequired}" binding="#{managedBean.passwordInputSecret}"
+			maxlength="#{res['user.password.maxlength']}" partialSubmit="true" autocomplete="off" redisplay="true">
+		</ice:inputSecret>
+		<ice:message for="txtPass" />
+	</ice:panelGroup>
+	<ice:outputLabel id="lblCPass" value="#{res['user.confirmpassword.label']}" for="txtCPass" styleClass="#{passwordrequired ? 'lblRequired' : 'lblCommon'}">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputSecret id="txtCPass" value="#{managedBean.confirmPassword}" required="#{passwordrequired}" binding="#{managedBean.confirmPasswordInputSecret}"
+			maxlength="#{res['user.password.maxlength']}" partialSubmit="true" autocomplete="off" redisplay="true">
+		</ice:inputSecret>
+		<ice:message for="txtCPass" />
+	</ice:panelGroup>
+	<ice:outputLabel id="lblEnabled" value="#{res['user.enabled.label']}" for="chkEnabled" styleClass="lblRequired">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:selectBooleanCheckbox id="chkEnabled" value="#{managedBean.user.enabled}" required="true"  binding="#{managedBean.enabledSelectBooleanCheckbox}" 
+			partialSubmit="true">
+		</ice:selectBooleanCheckbox>
+		<ice:message for="chkEnabled" />
+	</ice:panelGroup>
+	<ice:outputLabel id="lblRoles" value="#{res['user.roles.label']}" for="mmnuRoles" styleClass="lblRequired" />
+	<ice:panelGroup>
+		<ice:selectManyMenu id="mmnuRoles" style="height: 50px;" value="#{managedBean.selectedRoles}" required="true" binding="#{managedBean.roleSelectManyMenu}" partialSubmit="true">
+			<f:selectItems value="#{managedBean.roleList}" />
+		</ice:selectManyMenu>
+		<ice:message for="mmnuRoles" />
+	</ice:panelGroup>
+	<f:verbatim></f:verbatim>
+	<ui:insert name="commandsPanel" />
+</ice:panelGrid>

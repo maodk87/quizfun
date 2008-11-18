@@ -40,6 +40,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<property-name>moduleService</property-name>
 			<value>#{moduleService}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>userService</property-name>
+			<value>#{userService}</value>
+		</managed-property>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>renderMgr</managed-bean-name>
@@ -106,7 +110,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<value>#{serviceLocator}</value>
 		</managed-property>
 	</managed-bean>
-
+	<managed-bean>
+		<description>Managed bean for create user</description>
+		<managed-bean-name>createUser</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateUserManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search user</description>
+		<managed-bean-name>searchUser</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchUserManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for modify user</description>
+		<managed-bean-name>modifyUser</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ModifyUserManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
 	<!-- Manage Beans - End -->
 
 	<!-- Navigation Rules - Start -->
@@ -144,6 +177,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<navigation-case>
 			<from-outcome>modifyModule</from-outcome>
 			<to-view-id>/pages/module/modify.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createUser</from-outcome>
+			<to-view-id>/pages/user/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchUser</from-outcome>
+			<to-view-id>/pages/user/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modifyUser</from-outcome>
+			<to-view-id>/pages/user/modify.iface</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>

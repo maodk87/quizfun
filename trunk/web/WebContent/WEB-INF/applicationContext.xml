@@ -50,6 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<value>quizfun/model/entity/Module.hbm.xml</value>
 				<value>quizfun/model/entity/Question.hbm.xml</value>
 				<value>quizfun/model/entity/Answer.hbm.xml</value>
+				<value>quizfun/model/entity/User.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -68,6 +69,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<bean id="moduleDao" class="quizfun.model.dao.HibernateModuleDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="userDao" class="quizfun.model.dao.HibernateUserDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<!-- DAOs - End -->
 
 	<!-- Services - Start -->
@@ -76,6 +80,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</bean>
 	<bean id="moduleService" class="quizfun.model.service.ModuleServiceImpl">
 		<property name="moduleDao" ref="moduleDao" />
+	</bean>
+	<bean id="userService" class="quizfun.model.service.UserServiceImpl">
+		<property name="userDao" ref="userDao" />
 	</bean>
 	<!-- Services - End -->
 </beans>

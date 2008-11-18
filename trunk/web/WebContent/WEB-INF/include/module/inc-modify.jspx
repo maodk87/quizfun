@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				</ice:panelGroup>
 			</f:facet>
 
-			<ui:decorate template="/WEB-INF/include/module/inc-course.jspx">
+			<ui:decorate template="/WEB-INF/include/course/inc-selectcourse.jspx">
 				<ui:param name="managedBean" value="#{modifyModule}" />
 			</ui:decorate>
 		</ice:panelCollapsible>

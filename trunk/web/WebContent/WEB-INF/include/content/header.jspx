@@ -55,6 +55,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 						<ice:menuItem id="mitCreateQuestion" value="#{res['menu.create.label']}" action="createQuestion" immediate="true" />
 					</ice:menuItem>
 				</ice:menuItem>
+				
+				<!-- Administration -->
+				<ice:menuItem id="mitAdmin" value="#{res['menu.administration.label']}">
+					<ice:menuItem id="mitUser" value="#{res['menu.user.label']}" action="searchUser" immediate="true">
+						<ice:menuItem id="mitSearchUser" value="#{res['menu.search.label']}" action="searchUser" immediate="true" />
+						<ice:menuItem id="mitCreateUser" value="#{res['menu.create.label']}" action="createUser" immediate="true" />
+					</ice:menuItem>
+				</ice:menuItem>
 
 				<!-- About -->
 				<ice:menuItem id="mitAbout" value="#{res['menu.about.label']}" action="test" immediate="true" />

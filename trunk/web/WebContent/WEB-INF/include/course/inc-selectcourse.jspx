@@ -20,13 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <ice:panelGrid xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlCourse" width="100%"
 	columns="4" columnClasses="pnlGrdFourColumnFormLabel,pnlGrdFourColumnFormField">
-	<ice:outputLabel id="lblCourse" value="#{res['module.course.label']}" styleClass="lblAutocomplete" for="stxtCourse">
+	<ice:outputLabel id="lblCourse" value="#{res['selectcourse.course.label']}" styleClass="lblAutocomplete" for="stxtCourse">
 	</ice:outputLabel>
 	<ice:panelGroup>
 		<ice:selectInputText id="stxtCourse" rows="20" value="#{managedBean.courseCode}"
 			valueChangeListener="#{managedBean.courseValueChangeListener}" binding="#{managedBean.courseSelectInputText}" listVar="course"
 			listValue="#{managedBean.courseSelectItemList}" required="false" partialSubmit="true"
-			maxlength="#{res['module.course.maxlength']}" title="#{res['common.autocomplete.title']}">
+			maxlength="#{res['selectcourse.course.maxlength']}" title="#{res['common.autocomplete.title']}">
 			<f:facet name="selectInputText">
 				<ice:panelGrid id="pnlSelCourse" columns="2" columnClasses="pnlGrdSelectInputCode,pnlGrdSelectInputName">
 					<ice:outputText value="#{course.code}" />
@@ -36,10 +36,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</ice:selectInputText>
 		<ice:message for="stxtCourse" />
 	</ice:panelGroup>
-	<ice:outputLabel id="lblSelected" value="#{res['module.selectedcourse.label']}" for="txtSelected" styleClass="lblRequired">
+	<ice:outputLabel id="lblSelected" value="#{res['selectcourse.selectedcourse.label']}" for="txtSelected" styleClass="lblRequired">
 	</ice:outputLabel>
 	<ice:panelGroup>
-		<ice:inputText id="txtSelected" value="#{managedBean.selectedCourse}" binding="#{managedBean.selectedCourseInputText}" maxlength="#{res['module.course.maxlength']}"
+		<ice:inputText id="txtSelected" value="#{managedBean.selectedCourse}" binding="#{managedBean.selectedCourseInputText}" maxlength="#{res['selectcourse.course.maxlength']}"
 			 onkeydown="javascript:return false;" autocomplete="off">
 		</ice:inputText>
 		<ice:message for="txtSelected" />

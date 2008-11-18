@@ -134,7 +134,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 							title="#{res['common.dataScrolling.nextpage']}" />
 					</f:facet>
 					<f:facet name="fastforward">
-						<ice:graphicImage id="imgpgn3_5" url="#{res['common.style.image.folder']}arrow-ff.gif" style="border:none;"
+						<ice:graphicImage id="imgpgn2_5" url="#{res['common.style.image.folder']}arrow-ff.gif" style="border:none;"
 							title="#{res['common.dataScrolling.fastforward']}" />
 					</f:facet>
 					<f:facet name="fastrewind">

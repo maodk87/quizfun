@@ -50,13 +50,13 @@ public class ModifyModuleManagedBean extends ModuleManagedBean {
 		module.setCode(modifyingModule.getCode());
 		module.setName(modifyingModule.getName());
 		course = modifyingModule.getCourse();
-		selectedCourse = JSFUtils.getStringFromBundle("module.selectedcourse.display.pattern", new Object[] { course.getCode(),
+		selectedCourse = JSFUtils.getStringFromBundle("selectcourse.selectedcourse.display.pattern", new Object[] { course.getCode(),
 				course.getName() });
 	}
 
 	public void saveActionListener(ActionEvent event) {
 		if (course == null) {
-			JSFUtils.addFacesErrorMessage("module.course.required.message");
+			JSFUtils.addFacesErrorMessage("selectcourse.course.required.message");
 			courseSelectInputText.requestFocus();
 			return;
 		}

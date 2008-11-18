@@ -16,8 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<!-- Author: Nevindaree Premarathne -->
-
+<!-- Author: M. Isuru Tharanga Chrishantha Perera -->
 <jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
@@ -26,33 +25,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<ice:panelCollapsible id="pncCourse" expanded="true">
 			<f:facet name="header">
 				<ice:panelGroup>
-					<ice:outputText value="#{res['module.course.panel.title']}" />
+					<ice:outputText value="#{res['user.course.panel.title']}" />
 				</ice:panelGroup>
 			</f:facet>
 
 			<ui:decorate template="/WEB-INF/include/course/inc-selectcourse.jspx">
-				<ui:param name="managedBean" value="#{createModule}" />
+				<ui:param name="managedBean" value="#{modifyUser}" />
 			</ui:decorate>
 		</ice:panelCollapsible>
 	</ice:form>
 
-	<ice:form id="frmModule">
-		<ice:panelCollapsible id="pncModule" expanded="true" toggleOnClick="false">
+	<ice:form id="frmUser">
+		<ice:panelCollapsible id="pncUser" expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:panelGroup>
-					<ice:outputText value="#{res['module.create.panel.title']}" />
+					<ice:outputText value="#{res['user.modify.panel.title']}" />
 				</ice:panelGroup>
 			</f:facet>
-
-			<ui:decorate template="/WEB-INF/include/module/inc-module.jspx">
+			<ice:outputText value="#{res['user.modify.password.info']}" styleClass="iceMsgInfo" style="padding: 2px 2px 2px 22px;" />
+			<ui:decorate template="/WEB-INF/include/user/inc-user.jspx">
 
 				<ui:param name="required" value="#{true}" />
-				<ui:param name="editMode" value="#{false}" />
-				<ui:param name="managedBean" value="#{createModule}" />
+				<ui:param name="passwordrequired" value="#{false}" />
+				<ui:param name="editMode" value="#{true}" />
+				<ui:param name="managedBean" value="#{modifyUser}" />
 				<ui:define name="commandsPanel">
 					<ice:panelGroup>
-						<ice:commandButton value="#{res['common.label.save']}" actionListener="#{createModule.saveActionListener}"/>
-						<ice:commandButton value="#{res['common.label.clear']}"  actionListener="#{createModule.clearActionListener}" immediate="true" />
+						<ice:commandButton value="#{res['common.label.save']}" actionListener="#{modifyUser.saveActionListener}"/>
+						<ice:commandButton value="#{res['common.label.reset']}"  actionListener="#{modifyUser.resetActionListener}" immediate="true" />
 					</ice:panelGroup>
 				</ui:define>
 
