@@ -16,24 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package quizfun.view.servicelocator;
-
-import quizfun.model.service.CourseService;
-import quizfun.model.service.ModuleService;
-import quizfun.model.service.QuestionService;
-import quizfun.model.service.UserService;
+package quizfun.model.exception;
 
 /**
  * @author M. Isuru Tharanga Chrishantha Perera
  */
-public interface ServiceLocator {
+public class DuplicateUserException extends Exception {
 
-	CourseService getCourseService();
+	private static final long serialVersionUID = -6004728259961814265L;
 
-	ModuleService getModuleService();
+	public DuplicateUserException() {
+	}
 
-	QuestionService getQuestionService();
+	public DuplicateUserException(String message) {
+		super(message);
+	}
 
-	UserService getUserService();
+	public DuplicateUserException(Throwable cause) {
+		super(cause);
+	}
 
+	public DuplicateUserException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

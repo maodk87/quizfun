@@ -16,24 +16,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package quizfun.view.servicelocator;
-
-import quizfun.model.service.CourseService;
-import quizfun.model.service.ModuleService;
-import quizfun.model.service.QuestionService;
-import quizfun.model.service.UserService;
+package quizfun.model.exception;
 
 /**
  * @author M. Isuru Tharanga Chrishantha Perera
  */
-public interface ServiceLocator {
+public class UserNotFoundException extends Exception {
 
-	CourseService getCourseService();
+	private static final long serialVersionUID = -2351392372304857934L;
 
-	ModuleService getModuleService();
+	public UserNotFoundException() {
+	}
 
-	QuestionService getQuestionService();
+	public UserNotFoundException(String message) {
+		super(message);
+	}
 
-	UserService getUserService();
+	public UserNotFoundException(Throwable cause) {
+		super(cause);
+	}
 
+	public UserNotFoundException(String message, Throwable cause) {
+		super(message, cause);
+	}
 }

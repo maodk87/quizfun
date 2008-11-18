@@ -16,24 +16,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package quizfun.view.servicelocator;
+package quizfun.model.service;
 
-import quizfun.model.service.CourseService;
-import quizfun.model.service.ModuleService;
-import quizfun.model.service.QuestionService;
-import quizfun.model.service.UserService;
+import java.util.List;
+
+import quizfun.model.dto.UserSCDO;
+import quizfun.model.entity.User;
+import quizfun.model.exception.DuplicateUserException;
+import quizfun.model.exception.UserNotFoundException;
+
 
 /**
  * @author M. Isuru Tharanga Chrishantha Perera
  */
-public interface ServiceLocator {
+public interface UserService {
 
-	CourseService getCourseService();
+	User findUser(String username) throws UserNotFoundException;
 
-	ModuleService getModuleService();
+	void saveUser(User user) throws DuplicateUserException;
 
-	QuestionService getQuestionService();
+	List<User> findUser(UserSCDO userSCDO);
 
-	UserService getUserService();
+	User updateUser(User user);
+
+	void deleteUser(User user);
 
 }

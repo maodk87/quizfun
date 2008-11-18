@@ -31,26 +31,47 @@ import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import quizfun.model.dto.CourseSCDO;
-import quizfun.model.dto.ModuleSCDO;
-import quizfun.model.entity.Module;
-import quizfun.model.exception.DuplicateModuleException;
+import quizfun.model.dto.UserSCDO;
+import quizfun.model.entity.User;
+import quizfun.model.exception.DuplicateUserException;
+import quizfun.model.exception.UserNotFoundException;
 
-public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao {
+/**
+ * @author M. Isuru Tharanga Chrishantha Perera
+ */
+public class HibernateUserDao extends HibernateDaoSupport implements UserDao {
 
-	final Logger logger = LoggerFactory.getLogger(HibernateModuleDao.class);
+	final Logger logger = LoggerFactory.getLogger(HibernateUserDao.class);
 	
 	@Override
-	public void saveModule(Module module) throws DuplicateModuleException {
+	public User findUser(String username) throws UserNotFoundException {
 		if (logger.isDebugEnabled()) {
-			logger.info("Saving Module: {}", module);
+			logger.info("Finding User by username: {}", username);
 		}
 		Session session = getSession(false);
 		try {
-			Module existingModule = (Module) session.get(Module.class, module.getCode());
-			if (existingModule != null) {
-				throw new DuplicateModuleException(module.toString());
+			User user = (User) session.get(User.class, username);
+			if (user == null) {
+				throw new UserNotFoundException(username);
 			}
-			session.save(module);
+			return user;
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+	}
+
+	@Override
+	public void saveUser(User user) throws DuplicateUserException {
+		if (logger.isDebugEnabled()) {
+			logger.info("Saving User: {}", user);
+		}
+		Session session = getSession(false);
+		try {
+			User existingUser = (User) session.get(User.class, user.getUsername());
+			if (existingUser != null) {
+				throw new DuplicateUserException(user.toString());
+			}
+			session.save(user);
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
 		}
@@ -59,30 +80,43 @@ public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Module> findModule(ModuleSCDO moduleSCDO) {
+	public List<User> findUser(UserSCDO userSCDO) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("Finding Module(s): {}", moduleSCDO);
+			logger.debug("Finding User(s): {}", userSCDO);
 		}
-		List<Module> list = null;
+		List<User> list = null;
 		Session session = getSession(false);
 		try {
-			String code = moduleSCDO.getCode();
-			String name = moduleSCDO.getName();
 			
-			CourseSCDO courseSCDO = moduleSCDO.getCourseSCDO();
+			String username = userSCDO.getUsername();
+			Boolean accountNonExpired = userSCDO.getAccountNonExpired();
+			Boolean accountNonLocked = userSCDO.getAccountNonLocked();
+			Boolean credentialsNonExpired = userSCDO.getCredentialsNonExpired();
+			Boolean enabled = userSCDO.getEnabled();
+			
+			CourseSCDO courseSCDO = userSCDO.getCourseSCDO();
 			
 			String courseCode = courseSCDO.getCode();
 			String courseName = courseSCDO.getName();
 
-			Criteria criteria = session.createCriteria(Module.class);
-			if (code != null && !code.equals("")) {
-				criteria.add(Restrictions.like("code", code, MatchMode.ANYWHERE));
+			Criteria criteria = session.createCriteria(User.class);
+			if (username != null && !username.equals("")) {
+				criteria.add(Restrictions.like("username", username, MatchMode.ANYWHERE));
 			}
-			if (name != null && !name.equals("")) {
-				criteria.add(Restrictions.like("name", name, MatchMode.ANYWHERE));
+			if (accountNonExpired != null) {
+				criteria.add(Restrictions.eq("accountNonExpired", accountNonExpired));
+			}
+			if (accountNonLocked != null) {
+				criteria.add(Restrictions.eq("accountNonLocked", accountNonLocked));
+			}
+			if (credentialsNonExpired != null) {
+				criteria.add(Restrictions.eq("credentialsNonExpired", credentialsNonExpired));
+			}
+			if (enabled != null) {
+				criteria.add(Restrictions.eq("enabled", enabled));
 			}
 			
-			criteria.addOrder(Order.asc("code"));
+			criteria.addOrder(Order.asc("username"));
 			
 			if ((courseCode != null && !courseCode.isEmpty()) || (courseName != null && !courseName.isEmpty())) {
 				criteria = criteria.createCriteria("course");
@@ -94,7 +128,7 @@ public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao
 			if (courseName != null && !courseName.isEmpty()) {
 				criteria.add(Restrictions.like("name", courseName, MatchMode.ANYWHERE));
 			}
-
+			
 			list = criteria.list();
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
@@ -103,26 +137,26 @@ public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao
 	}
 
 	@Override
-	public Module updateModule(Module module) {
+	public User updateUser(User user) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("Updating Module: {}", module);
+			logger.debug("Updating User: {}", user);
 		}
 		Session session = getSession(false);
 		try {
-			return (Module) session.merge(module);
+			return (User) session.merge(user);
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
 		}
 	}
 
 	@Override
-	public void deleteModule(Module module) {
+	public void deleteUser(User user) {
 		if (logger.isDebugEnabled()) {
-			logger.debug("Deleting Module: {}", module);
+			logger.debug("Deleting User: {}", user);
 		}
 		Session session = getSession(false);
 		try {
-			session.delete(module);
+			session.delete(user);
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
 		}

@@ -23,42 +23,49 @@ import javax.faces.event.ActionEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import quizfun.model.entity.Module;
-import quizfun.model.exception.DuplicateModuleException;
+import quizfun.model.entity.User;
+import quizfun.model.exception.DuplicateUserException;
 import quizfun.view.util.JSFUtils;
 
 /**
- * @author Nevindaree Premarathne
+ * @author M. Isuru Tharanga Chrishantha Perera
  */
-public class CreateModuleManagedBean extends ModuleManagedBean {
+public class CreateUserManagedBean extends UserManagedBean {
 
-	final Logger logger = LoggerFactory.getLogger(CreateModuleManagedBean.class);
+	final Logger logger = LoggerFactory.getLogger(CreateUserManagedBean.class);
 
 	@javax.annotation.PostConstruct
 	public void init() {
-		module = new Module();
+		user = new User();
+		user.setAccountNonExpired(true);
+		user.setAccountNonLocked(true);
+		user.setCredentialsNonExpired(true);
+		user.setEnabled(true);
 		initializeCourseSelectInput();
+		initializeRoleSelection();
 	}
 
 	public void saveActionListener(ActionEvent event) {
-		if (course == null) {
-			JSFUtils.addFacesErrorMessage("selectcourse.course.required.message");
-			courseSelectInputText.requestFocus();
+		if (!validatePassword()) {
 			return;
 		}
 		
+		if (!validateCourse()) {
+			return;
+		}
+
 		try {
-			module.setCourse(course);
-			serviceLocator.getModuleService().saveModule(module);
+			user.setCourse(course);
+			setGrantedAuthorities(user);
+			serviceLocator.getUserService().saveUser(user);
 			clearValues();
-			JSFUtils.addFacesInfoMessage("module.save.successful");
-			codeInputText.requestFocus();
-		} catch (DuplicateModuleException e) {
-			JSFUtils.addFacesErrorMessage("module.save.duplicate", new Object[] { module.getCode() });
+			JSFUtils.addFacesInfoMessage("user.save.successful");
+			userNameInputText.requestFocus();
+		} catch (DuplicateUserException e) {
+			JSFUtils.addFacesErrorMessage("user.save.duplicate", new Object[] { user.getUsername() });
 			return;
 		} catch (Throwable e) {
-			logger.error("Exception when saving module: " + module, e);
+			logger.error("Exception when saving user: " + user, e);
 			JSFUtils.addApplicationErrorMessage();
 			return;
 		}

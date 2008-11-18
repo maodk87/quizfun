@@ -30,6 +30,19 @@ div.clearer {
 	visibility: hidden;
 }
 
+.contentbox {
+	border: 1px solid #D3DFF8;
+	margin: 0;
+	padding: 0;
+}
+
+.contentheader {
+	background-color: #D3DFF8;
+	color: #192666;
+	padding: 8px;
+	margin: 0;
+}
+
 /*Overridden Style Class Properties for Rime*/
 .iceCmdBtn, .iceCmdBtn-dis {
 	background-image: url('./css-images/button_bg.png');
@@ -275,3 +288,11 @@ div.clearer {
     background-image: url( './css-images/page_edit.gif' );
 }
 /* Command Link Action Styles - End */
+
+/* Login Styles - Start */
+.openIDUserName {
+	background: #FFFFFF url('./css-images/openid-icon-small.gif') no-repeat scroll left center;
+	padding-left: 18px;
+	width: 180px;
+}
+/* Login Styles - End */
