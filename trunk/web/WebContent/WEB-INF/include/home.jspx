@@ -19,6 +19,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jstl/core">
 
-<p>This is the home page</p>
-
+	<p>Hello!, Thank you for signing in with your OpenID <span style="font-weight: bold; margin-left: 1em;">#{common.username}</span></p>
+	
+	<c:if test="#{empty common.user}">
+		<p>It seems that you are not registered with QuizFun to play games.</p>
+		<p>We need to know about your course, and we can give you questions.</p>
+	</c:if>
+	
+	<c:if test="#{not empty common.user}">
+		<p>You are registered with QuizFun and your course is <span style="font-weight: bold; margin-left: 1em;">#{common.user.course.name}</span></p>
+	</c:if>
 </div>

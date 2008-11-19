@@ -19,12 +19,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" class="headerContainer">
 
-<form id="logoutform" action="j_spring_security_logout" method="POST">
+<form id="frmLogout" action="j_spring_security_logout" method="POST">
 </form>
-<ice:form>
+<ice:form id="frmH">
 	<!-- Header -->
 	<div id="header">
-		<!-- Logotyp -->
+		<!-- Logo -->
 		<h1 id="logo">
 			<ice:commandLink action="home" value="#{res['common.application.title']}" title="#{res['common.application.title']}"></ice:commandLink>
 			<span></span>
@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<ice:outputFormat value="#{res['login.welcome.message']}">
 				<f:param value="#{common.username}"></f:param>
 			</ice:outputFormat>
-			<ice:outputLink value="javaScript:void(0);" onclick="document.getElementById('logoutform').submit();">
+			<ice:outputLink value="javaScript:void(0);" onclick="document.getElementById('frmLogout').submit();">
 				 <ice:outputText value="#{res['common.logout.label']}" style="color: #FFFFFF; text-decoration: underline;"/>
 			</ice:outputLink>
 		</ice:panelGroup>
@@ -78,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<ice:menuItem id="mitAbout" value="#{res['menu.about.label']}" action="test" immediate="true" />
 			</ice:menuBar>
 			<!-- Ice Connection -->
-			<ice:outputConnectionStatus showPopupOnDisconnect="true" style="float: right;" />
+			<ice:outputConnectionStatus id="connStatus" showPopupOnDisconnect="true" style="float: right;" />
 		</div>
 	
 	</div> <!-- /menu"> -->

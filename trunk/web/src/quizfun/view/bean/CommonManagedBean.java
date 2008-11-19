@@ -25,7 +25,9 @@ import org.springframework.security.context.SecurityContextHolder;
 import org.springframework.security.userdetails.UserDetails;
 
 import quizfun.model.entity.User;
+import quizfun.model.exception.UserNotFoundException;
 import quizfun.view.servicelocator.ServiceLocator;
+import quizfun.view.util.JSFUtils;
 
 /**
  * @author M. Isuru Tharanga Chrishantha Perera
@@ -36,8 +38,8 @@ public class CommonManagedBean {
 
 	private String username;
 	
-	// We might need the service locator
-	@SuppressWarnings("unused")
+	private User user;
+
 	private ServiceLocator serviceLocator;
 
 	public void setServiceLocator(ServiceLocator serviceLocator) {
@@ -47,22 +49,47 @@ public class CommonManagedBean {
 	@javax.annotation.PostConstruct
 	public void init() {
 		username = null;
-		User user = null;
+		user = null;
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication != null) {
 			Object obj = authentication.getPrincipal();
-			if (obj instanceof User) {
-				user = (User) obj;
-				username = user.getUsername();
+			// Can't obtain UserDetails from the OpenIDAuthenticationToken. 
+			// It will only return the identity URL.
+			// See http://jira.springframework.org/browse/SEC-931
+			if (obj instanceof String) {
+				username = (String) obj;
 			} else if (obj instanceof UserDetails) {
 				username = ((UserDetails) obj).getUsername();
-			} else if (obj instanceof String) {
-				username = (String) obj;
+			} else if (obj instanceof User) {
+				user = (User) obj;
+				username = user.getUsername();
+			}
+		}
+		
+		if (username != null) {
+			if (user == null) {
+				// User is not loaded. Finding user..
+				try {
+					user = serviceLocator.getUserService().findUser(username);
+				} catch (UserNotFoundException e) {
+					// This is OK. OpenID users can create a new user.
+					if (logger.isWarnEnabled()) {
+						logger.warn("Could not find user: {}", username);
+					}
+				} catch (Throwable e) {
+					logger.error("Exception when finding user: " + username, e);
+					JSFUtils.addApplicationErrorMessage();
+					return;
+				}
 			}
 		}
 	}
 
 	public String getUsername() {
 		return username;
+	}
+
+	public User getUser() {
+		return user;
 	}
 }

@@ -96,6 +96,10 @@ div.clearer {
 	background: #FFFFFF url('./css-images/arrow_118.gif') no-repeat scroll center right;
 }
 
+.iceOutConStat {
+	margin: 2px;
+}
+
 /* Error Styles - Start */
 #msgsGlobal {
 	background-color: #E6F3FB; /*#FFFFCE*/
