@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<intercept-url pattern="/css/**" filters="none" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
 		<intercept-url pattern="/login.iface*" filters="none" />
+		<logout/>
 		<openid-login login-page="/login.iface" authentication-failure-url="/login.iface?login_error=true" />
 	</http>
 

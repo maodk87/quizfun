@@ -51,6 +51,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<managed-bean-scope>application</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
+		<description>Managed bean for common purposes</description>
+		<managed-bean-name>common</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CommonManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
 		<description>Managed bean for create course</description>
 		<managed-bean-name>createCourse</managed-bean-name>
 		<managed-bean-class>quizfun.view.bean.CreateCourseManagedBean</managed-bean-class>

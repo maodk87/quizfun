@@ -295,4 +295,9 @@ div.clearer {
 	padding-left: 18px;
 	width: 180px;
 }
+.userInfo {
+	position: absolute; 
+	right: 25px;
+	top: 5px;
+}
 /* Login Styles - End */
