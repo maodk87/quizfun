@@ -44,4 +44,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     </ui:define>
     
+    <ui:define name="script">
+		<!-- BEGIN ID SELECTOR -->
+		<script type="text/javascript" id="__openidselector" src="https://www.idselector.com/selector/b2cf7b3ed2f20c903fc5158571647ea11c4d49ef" charset="utf-8"></script>
+		<script type="text/javascript">
+			idselector_input_id = "j_username";
+		</script>
+		<!-- END ID SELECTOR -->
+    </ui:define>
+    
 </ui:composition>

@@ -43,6 +43,11 @@ div.clearer {
 	margin: 0;
 }
 
+.floatright {
+	float: right;
+	margin: 0 0 10px 10px;
+}
+
 /*Overridden Style Class Properties for Rime*/
 .iceCmdBtn, .iceCmdBtn-dis {
 	background-image: url('./css-images/button_bg.png');
