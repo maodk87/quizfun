@@ -69,6 +69,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<ui:include src="/WEB-INF/include/content/footer.jspx"/>
 	</ui:insert><!-- /footer -->
 </div> <!-- /main -->
+<ui:insert name="script">
+</ui:insert>
 </body>
 
 </html>

@@ -20,33 +20,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jstl/core">
 
-	<p>Want to play a game? Please login with your OpenID</p>
-
-	<div style="float: right;" class="contentbox">
-		<h3 class="contentheader">Login with OpenID<a id="openid_help" href="http://openid.net/what" target="_blank" title="OpenID allows you to use a single identity multiple places." style="margin-left: 1em; cursor: help; font-size:85%;">What's this?</a></h3>
-		<form action="j_spring_openid_security_check" method="POST">
-			<table style="width: 300px;">
-				<tr>
-					<td>
-						<input type="text" id="j_username" name="j_username" class="iceInpTxt openIDUserName" />
-						<ice:outputFormat value="#{res['login.error.message']}" rendered="#{not empty param.login_error}" styleClass="iceMsgError" style="display: block;">
-							<f:param value="#{(empty SPRING_SECURITY_LAST_EXCEPTION) ? '' : SPRING_SECURITY_LAST_EXCEPTION.message}"></f:param>
-						</ice:outputFormat>
-					</td>
-				</tr>
-				<tr>
-					<td><input name="submit" type="submit" class="iceCmdBtn" value="#{res['common.label.login']}"/></td>
-				</tr>
-			</table>
-			
-			<!-- BEGIN ID SELECTOR -->
-			<script type="text/javascript" id="__openidselector" src="https://www.idselector.com/selector/b2cf7b3ed2f20c903fc5158571647ea11c4d49ef" charset="utf-8"></script>
-			<script type="text/javascript">
-				idselector_input_id = "j_username";
-			</script>
-			<!-- END ID SELECTOR -->
-		</form>
-	</div>
+	<p>
+		<div class="contentbox floatright">
+			<h3 class="contentheader">Login with OpenID<a id="openid_help" href="http://openid.net/what" target="_blank" title="OpenID allows you to use a single identity multiple places." style="margin-left: 1em; cursor: help; font-size:85%;">What's this?</a></h3>
+			<form action="j_spring_openid_security_check" method="POST">
+				<table style="width: auto;">
+					<tr>
+						<td>
+							<input type="text" id="j_username" name="j_username" class="iceInpTxt openIDUserName" />
+							<ice:outputFormat value="#{res['login.error.message']}" rendered="#{not empty param.login_error}" styleClass="iceMsgError" style="display: block; width: 250px;">
+								<f:param value="#{(empty SPRING_SECURITY_LAST_EXCEPTION) ? '' : SPRING_SECURITY_LAST_EXCEPTION.message}"></f:param>
+							</ice:outputFormat>
+						</td>
+						<td style="vertical-align: top;"><input name="submit" type="submit" class="iceCmdBtn" value="#{res['common.label.login']}"/></td>
+					</tr>
+				</table>
+			</form>
+		</div>
 	
+		Want to play a game? Please login with your OpenID
+	</p>	
 	
 </div>
