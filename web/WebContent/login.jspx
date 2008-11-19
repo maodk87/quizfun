@@ -51,6 +51,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			idselector_input_id = "j_username";
 		</script>
 		<!-- END ID SELECTOR -->
+		
+		<script type="text/javascript">
+			function showWorkingStatus() {
+				var component = document.getElementById('frmH:connStatus:connection-working');
+				if (component) {
+					component.style.visibility="visible";
+				}
+			}
+		</script>
     </ui:define>
     
 </ui:composition>

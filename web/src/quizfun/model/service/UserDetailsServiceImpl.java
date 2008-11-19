@@ -58,7 +58,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 			user = userService.findUser(username);
 		} catch (UserNotFoundException e) {
 			if (logger.isTraceEnabled()) {
-				logger.trace("Could not find user: " + username, e);
+				logger.trace("Could not find user: {}", username);
 			}
 		}
 

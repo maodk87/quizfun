@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 								<f:param value="#{(empty SPRING_SECURITY_LAST_EXCEPTION) ? '' : SPRING_SECURITY_LAST_EXCEPTION.message}"></f:param>
 							</ice:outputFormat>
 						</td>
-						<td style="vertical-align: top;"><input name="submit" type="submit" class="iceCmdBtn" value="#{res['common.label.login']}"/></td>
+						<td style="vertical-align: top;"><input name="submit" type="submit" class="iceCmdBtn" onclick="showWorkingStatus();" value="#{res['common.label.login']}"/></td>
 					</tr>
 				</table>
 			</form>
