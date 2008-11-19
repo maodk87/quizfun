@@ -38,6 +38,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<param-value>/WEB-INF/applicationContext*.xml</param-value>
 		<description>Spring context configuration files</description>
 	</context-param>
+	<context-param>
+		<param-name>quizfun.USE_PROXY</param-name>
+		<param-value>false</param-value>
+	</context-param>
+	<context-param>
+		<param-name>quizfun.PROXY_HOST_NAME</param-name>
+		<param-value>192.168.10.18</param-value>
+	</context-param>
+	<context-param>
+		<param-name>quizfun.PROXY_PORT</param-name>
+		<param-value>8080</param-value>
+	</context-param>
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -46,6 +58,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	<listener>
+		<listener-class>quizfun.view.web.ProxySetupListener</listener-class>
+	</listener>
 	<listener>
 		<listener-class>com.icesoft.faces.util.event.servlet.ContextEventRepeater</listener-class>
 	</listener>
