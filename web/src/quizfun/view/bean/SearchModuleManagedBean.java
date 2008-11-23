@@ -66,6 +66,8 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 	
 	private HtmlInputText courseCodeInputText;
 	private HtmlInputText courseNameInputText;
+	
+	private int selectedIndex = -1;
 
 	@javax.annotation.PostConstruct
 	public void init() {
@@ -188,6 +190,7 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 	}
 
 	public String editAction() {
+		selectedIndex = dataTable.getRowIndex();
 		Object object = dataTable.getRowData();
 		if (object != null) {
 			if (logger.isDebugEnabled()) {
@@ -246,5 +249,18 @@ public class SearchModuleManagedBean extends ModuleManagedBean {
 		
 		courseCodeInputText.resetValue();
 		courseNameInputText.resetValue();
+	}
+	
+	public String modifyBackAction() {
+		Module module = (Module) JSFUtils.removeFromRequestMap("module");
+		if (module != null && selectedIndex >= 0) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Going back to search page. Setting modified object to index {}. Object: {}", selectedIndex, module);
+			}
+			filterList.set(selectedIndex, module);
+		}
+		// Remove the modify managed bean
+		JSFUtils.removeFromRequestMap("modifyModule");
+		return "back";
 	}
 }

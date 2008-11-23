@@ -61,6 +61,8 @@ public class SearchCourseManagedBean extends CourseManagedBean {
 	private boolean removeConfirmVisible;
 
 	private Course removingCourse;
+	
+	private int selectedIndex = -1;
 
 	@javax.annotation.PostConstruct
 	public void init() {
@@ -160,6 +162,7 @@ public class SearchCourseManagedBean extends CourseManagedBean {
 	}
 
 	public String editAction() {
+		selectedIndex = dataTable.getRowIndex();
 		Object object = dataTable.getRowData();
 		if (object != null) {
 			if (logger.isDebugEnabled()) {
@@ -208,5 +211,18 @@ public class SearchCourseManagedBean extends CourseManagedBean {
 
 	public void closeRemoveActionListener(ActionEvent event) {
 		removeConfirmVisible = false;
+	}
+	
+	public String modifyBackAction() {
+		Course course = (Course) JSFUtils.removeFromRequestMap("course");
+		if (course != null && selectedIndex >= 0) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Going back to search page. Setting modified object to index {}. Object: {}", selectedIndex, course);
+			}
+			filterList.set(selectedIndex, course);
+		}
+		// Remove the modify managed bean
+		JSFUtils.removeFromRequestMap("modifyCourse");
+		return "back";
 	}
 }

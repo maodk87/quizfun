@@ -33,7 +33,8 @@ body {
 }
 
 html body {
-	background-color: #F2F5FE; /* To fix an issue. ICEfaces render an IFrame after body. Therefore, Safari and Google Chrome do not display the background color */
+	background-color: #F2F5FE;
+	/* To fix an issue. ICEfaces render an IFrame after body. Therefore, Safari and Google Chrome do not display the background color */
 }
 
 a {
@@ -259,12 +260,40 @@ code,kbd,samp {
 	_height: 1px;
 }
 
+/* Strip */
+#strip {
+	position: relative;
+	clear: both;
+	padding: 3px 20px;
+	color: #6182D1;
+}
+
+#strip p {
+	margin: 0;
+}
+
+#strip a {
+	color: #6182D1;
+}
+
+#strip a:hover {
+	color: #192666;
+}
+
+/* Strip - breadcrumbs */
+#strip #breadcrumbs {
+	width: 730px;
+	margin: 0;
+	padding: 0;
+}
+
 /* Content */
 #content {
-	width: 730px; 
+	width: 730px;
 	margin: 0;
 	padding: 0 0 0 20px;
-	min-height: 400px; /* http://www.dustindiaz.com/min-height-fast-hack/ */
+	min-height: 400px;
+	/* http://www.dustindiaz.com/min-height-fast-hack/ */
 	height: auto !important;
 	height: 400px;
 }

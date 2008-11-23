@@ -19,7 +19,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <ui:composition template="/WEB-INF/include/template/page-template.jspx"
              xmlns="http://www.w3.org/1999/xhtml"
              xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:f="http://java.sun.com/jsf/core">
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:ice="http://www.icesoft.com/icefaces/component">
 
 
     <ui:param name="pageTitle" value="#{res['course.page.title']}" />
@@ -43,4 +44,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     </ui:define>
     
+    <ui:param name="breadcrumbenabled" value="true" />
+    <ui:param name="currentpagename" value="#{res['breadcrumb.modify.label']}" />
+    <ui:define name="breadcrumb">
+    	<ice:commandLink action="#{searchCourse.modifyBackAction}" value="#{res['breadcrumb.course.search.label']}" styleClass="bcLink">
+    	</ice:commandLink>
+    </ui:define>
 </ui:composition>
