@@ -54,6 +54,7 @@ public class ModifyCourseManagedBean extends CourseManagedBean {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Course updated: {}", modifyingCourse);
 			}
+			JSFUtils.storeOnRequestMap("course", modifyingCourse);
 			JSFUtils.addFacesInfoMessage("course.save.successful");
 			codeInputText.requestFocus();
 		} catch (Throwable e) {

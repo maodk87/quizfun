@@ -71,6 +71,7 @@ public class ModifyModuleManagedBean extends ModuleManagedBean {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Module updated: {}", modifyingModule);
 			}
+			JSFUtils.storeOnRequestMap("module", modifyingModule);
 			JSFUtils.addFacesInfoMessage("module.save.successful");
 			codeInputText.requestFocus();
 		} catch (Throwable e) {

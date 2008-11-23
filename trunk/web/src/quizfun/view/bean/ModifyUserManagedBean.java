@@ -101,6 +101,7 @@ public class ModifyUserManagedBean extends UserManagedBean {
 			if (logger.isDebugEnabled()) {
 				logger.debug("User updated: {}", modifyingUser);
 			}
+			JSFUtils.storeOnRequestMap("user", modifyingUser);
 			JSFUtils.addFacesInfoMessage("user.save.successful");
 			userNameInputText.requestFocus();
 		} catch (Throwable e) {

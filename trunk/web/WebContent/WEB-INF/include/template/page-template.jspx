@@ -52,7 +52,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<!-- Page (2 columns) -->
 	<div id="page" class="box">
 		<div id="page-in" class="box">
-		
+	        <ice:panelGroup id="strip" styleClass="box" rendered="#{breadcrumbenabled}">
+	        	<ice:form>
+	            	<!-- Breadcrumbs -->
+		            <p id="breadcrumbs">
+		            	#{res['common.breadcrumb.label']}
+		            	<ice:commandLink action="home" value="#{res['breadcrumb.home.label']}" style="margin-left: 5px;"></ice:commandLink>
+		            	<ui:insert name="breadcrumb"></ui:insert>
+		            	<ice:outputText value="#{currentpagename}" styleClass="bcLink" style="font-weight: bold;"></ice:outputText>
+		            </p>
+	        	</ice:form>
+	        </ice:panelGroup> <!-- /strip -->
+
+
 			<!-- Content -->
 			<div id="content">
 				<ice:messages id="msgsGlobal" layout="table" globalOnly="true" />

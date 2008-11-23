@@ -42,5 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </ui:decorate>
 
     </ui:define>
-    
+
+    <ui:param name="breadcrumbenabled" value="true" />
+    <ui:param name="currentpagename" value="#{res['breadcrumb.user.search.label']}" />
 </ui:composition>
