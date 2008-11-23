@@ -88,7 +88,7 @@ public class ModifyUserManagedBean extends UserManagedBean {
 				modifyingUser.setCourse(course);
 			}
 			if (password != null && !password.isEmpty()) {
-				modifyingUser.setPassword(password);
+				modifyingUser.setPassword(encodePassword(password,	modifyingUser.getUsername()));
 			}
 			setGrantedAuthorities(modifyingUser);
 			modifyingUser.setUsername(user.getUsername());

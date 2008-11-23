@@ -30,9 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<span></span>
 		</h1>
 		<ice:panelGroup styleClass="userInfo" rendered="#{not empty common.username}">
-			<ice:outputFormat value="#{res['login.welcome.message']}">
-				<f:param value="#{common.username}"></f:param>
-			</ice:outputFormat>
+			<ice:outputText value="#{res['login.welcome.message']}" style="color: #FFFFFF;" />
+			<ice:commandLink value="#{common.username}" action="#{common.editAction}" style="color: #FFFFFF; text-decoration: underline;" rendered="#{not empty common.user}" />
+			<ice:outputText value="#{common.username}" style="color: #FFFFFF;" rendered="#{empty common.user}" />
 			<ice:outputLink value="javaScript:void(0);" onclick="document.getElementById('frmLogout').submit();">
 				 <ice:outputText value="#{res['common.logout.label']}" style="color: #FFFFFF; text-decoration: underline;"/>
 			</ice:outputLink>

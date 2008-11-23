@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
             <!-- insert content here -->
             <ui:define name="pageContent">
             	<ui:decorate template="/WEB-INF/include/user/inc-modify.jspx" >
-            		<ui:param name="advanced" value="#{true}" />
+            		<ui:param name="advanced" value="#{false}" />
             	</ui:decorate>
             </ui:define>
 

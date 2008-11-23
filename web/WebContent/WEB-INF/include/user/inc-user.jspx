@@ -44,16 +44,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</ice:inputSecret>
 		<ice:message for="txtCPass" />
 	</ice:panelGroup>
-	<ice:outputLabel id="lblEnabled" value="#{res['user.enabled.label']}" for="chkEnabled" styleClass="lblRequired">
+	<ice:outputLabel id="lblEnabled" value="#{res['user.enabled.label']}" for="chkEnabled" styleClass="lblRequired" rendered="#{advanced}">
 	</ice:outputLabel>
-	<ice:panelGroup>
+	<ice:panelGroup rendered="#{advanced}">
 		<ice:selectBooleanCheckbox id="chkEnabled" value="#{managedBean.user.enabled}" required="true"  binding="#{managedBean.enabledSelectBooleanCheckbox}" 
 			partialSubmit="true">
 		</ice:selectBooleanCheckbox>
 		<ice:message for="chkEnabled" />
 	</ice:panelGroup>
-	<ice:outputLabel id="lblRoles" value="#{res['user.roles.label']}" for="mmnuRoles" styleClass="lblRequired" />
-	<ice:panelGroup>
+	<ice:outputLabel id="lblRoles" value="#{res['user.roles.label']}" for="mmnuRoles" styleClass="lblRequired" rendered="#{advanced}" />
+	<ice:panelGroup rendered="#{advanced}">
 		<ice:selectManyMenu id="mmnuRoles" style="height: 50px;" value="#{managedBean.selectedRoles}" required="true" binding="#{managedBean.roleSelectManyMenu}" partialSubmit="true">
 			<f:selectItems value="#{managedBean.roleList}" />
 		</ice:selectManyMenu>

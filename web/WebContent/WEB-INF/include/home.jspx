@@ -24,6 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<c:if test="#{empty common.user}">
 		<p>It seems that you are not registered with QuizFun to play games.</p>
 		<p>We need to know about your course, and we can give you questions.</p>
+		<ice:form>
+			<p><ice:commandLink action="registerUser" value="Click here"></ice:commandLink> to register... </p>
+		</ice:form>
 	</c:if>
 	
 	<c:if test="#{not empty common.user}">

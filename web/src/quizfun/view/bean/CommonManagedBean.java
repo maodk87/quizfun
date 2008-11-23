@@ -92,4 +92,15 @@ public class CommonManagedBean {
 	public User getUser() {
 		return user;
 	}
+	
+	public String editAction() {
+		if (user != null) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Going to edit: {}", user);
+			}
+			JSFUtils.storeOnSessionMap("user", user);
+			return "settings";
+		}
+		return null;
+	}
 }
