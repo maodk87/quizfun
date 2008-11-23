@@ -121,6 +121,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
+		<description>Managed bean for register user</description>
+		<managed-bean-name>registerUser</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.RegisterUserManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
 		<description>Managed bean for create user</description>
 		<managed-bean-name>createUser</managed-bean-name>
 		<managed-bean-class>quizfun.view.bean.CreateUserManagedBean</managed-bean-class>
@@ -157,6 +167,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<navigation-case>
 			<from-outcome>home</from-outcome>
 			<to-view-id>/index.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>registerUser</from-outcome>
+			<to-view-id>/pages/user/register.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>settings</from-outcome>
+			<to-view-id>/pages/user/settings.iface</to-view-id>
 			<redirect />
 		</navigation-case>
 		<navigation-case>
@@ -219,5 +239,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<to-view-id>/pages/question/modify.iface</to-view-id>
 			<redirect />
 		</navigation-case>	 -->
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/user/register.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/index.iface</to-view-id>
+			<redirect/>
+		</navigation-case>
 	</navigation-rule>
 </faces-config>

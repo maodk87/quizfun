@@ -32,6 +32,7 @@ import org.openid4java.discovery.DiscoveryException;
 import org.openid4java.discovery.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.providers.encoding.ShaPasswordEncoder;
 
 import quizfun.model.entity.User;
 import quizfun.view.util.JSFUtils;
@@ -249,5 +250,10 @@ public abstract class UserManagedBean extends CourseSelectManagedBean {
 		clearValues();
 		resetComponents();
 		userNameInputText.requestFocus();
+	}
+	
+	protected String encodePassword(String password, String username) {
+		ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder();
+		return passwordEncoder.encodePassword(password, username);
 	}
 }

@@ -45,6 +45,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<ice:outputText value="#{res['user.create.password.info']}" styleClass="iceMsgInfo" style="padding: 2px 2px 2px 22px;" />
 			<ui:decorate template="/WEB-INF/include/user/inc-user.jspx">
 
+				<ui:param name="advanced" value="#{true}" />
 				<ui:param name="required" value="#{true}" />
 				<ui:param name="passwordrequired" value="#{true}" />
 				<ui:param name="editMode" value="#{false}" />

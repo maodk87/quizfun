@@ -21,7 +21,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<ice:form id="frmCourse">
+	<ice:form rendered="#{registerUser.saved}">
+		<ice:panelGroup style="padding: 20px 0px;">
+			<ice:outputText value="#{res['user.register.successful']}" styleClass="infoMessage" style="font-size: 1.1em; color: blue;" />
+		</ice:panelGroup>
+		<p><ice:commandLink action="back" value="Click here"></ice:commandLink> to go back to Home page.</p>
+	</ice:form>
+	<ice:form id="frmCourse" rendered="#{not registerUser.saved}">
 		<ice:panelCollapsible id="pncCourse" expanded="true">
 			<f:facet name="header">
 				<ice:panelGroup>
@@ -30,30 +36,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			</f:facet>
 
 			<ui:decorate template="/WEB-INF/include/course/inc-selectcourse.jspx">
-				<ui:param name="managedBean" value="#{modifyUser}" />
+				<ui:param name="managedBean" value="#{registerUser}" />
 			</ui:decorate>
 		</ice:panelCollapsible>
 	</ice:form>
 
-	<ice:form id="frmUser">
+	<ice:form id="frmUser" rendered="#{not registerUser.saved}" >
 		<ice:panelCollapsible id="pncUser" expanded="true" toggleOnClick="false">
 			<f:facet name="header">
 				<ice:panelGroup>
-					<ice:outputText value="#{res['user.modify.panel.title']}" />
+					<ice:outputText value="#{res['user.create.panel.title']}" />
 				</ice:panelGroup>
 			</f:facet>
-			<ice:outputText value="#{res['user.modify.password.info']}" styleClass="iceMsgInfo" style="padding: 2px 2px 2px 22px;" />
+			<ice:outputText value="#{res['user.create.password.info']}" styleClass="iceMsgInfo" style="padding: 2px 2px 2px 22px;" />
 			<ui:decorate template="/WEB-INF/include/user/inc-user.jspx">
 
-				<ui:param name="advanced" value="#{advanced}" />
+				<ui:param name="advanced" value="#{false}" />
 				<ui:param name="required" value="#{true}" />
-				<ui:param name="passwordrequired" value="#{false}" />
+				<ui:param name="passwordrequired" value="#{true}" />
 				<ui:param name="editMode" value="#{true}" />
-				<ui:param name="managedBean" value="#{modifyUser}" />
+				<ui:param name="managedBean" value="#{registerUser}" />
 				<ui:define name="commandsPanel">
 					<ice:panelGroup>
-						<ice:commandButton value="#{res['common.label.save']}" actionListener="#{modifyUser.saveActionListener}"/>
-						<ice:commandButton value="#{res['common.label.reset']}"  actionListener="#{modifyUser.resetActionListener}" immediate="true" />
+						<ice:commandButton value="#{res['common.label.save']}" actionListener="#{registerUser.saveActionListener}" />
+						<ice:commandButton value="#{res['common.label.clear']}"  actionListener="#{registerUser.clearActionListener}" immediate="true" />
 					</ice:panelGroup>
 				</ui:define>
 
