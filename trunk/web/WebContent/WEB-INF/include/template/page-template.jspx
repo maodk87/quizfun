@@ -25,7 +25,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
           doctypePublic="-//W3C//DTD XHTML 1.0 Strict//EN"
           doctypeSystem="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
 
-<head>
+<!-- http://www.w3.org/2005/10/howto-favicon -->
+<head profile="http://www.w3.org/2005/10/profile">
+<link rel="icon" type="image/png" href="./css/default/css-images/favicon.png" />
 
 <!-- page title param passed in by param -->
 <title>#{res['common.application.title']} - #{pageTitle}</title>
