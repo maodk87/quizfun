@@ -29,7 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<intercept-url pattern="/block/**" access="ROLE_ANONYMOUS,ROLE_USER" />
 		<intercept-url pattern="/login.iface*" access="ROLE_ANONYMOUS" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
-		<anonymous />
+		<anonymous username="guest" />
 		<logout/>
 		<openid-login login-page="/login.iface" authentication-failure-url="/login.iface?login_error=true" />
 	</http>
