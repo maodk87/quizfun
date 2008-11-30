@@ -19,6 +19,7 @@
 package quizfun.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,9 +29,9 @@ import org.springframework.security.userdetails.UserDetails;
 /**
  * @author M. Isuru Tharanga Chrishantha Perera
  */
-public class User implements UserDetails, Serializable {
+public class User implements UserDetails, Serializable, Auditable {
 
-	private static final long serialVersionUID = -3866807548456258047L;
+	private static final long serialVersionUID = -1425503060155190198L;
 
 	private String password;
 	private String username;
@@ -46,6 +47,11 @@ public class User implements UserDetails, Serializable {
 	private GrantedAuthority[] authorities;
 
 	private Long version;
+	
+	private String createdBy;
+	private Date createdDate;
+	private String modifiedBy;
+	private Date modifiedDate;
 
 	public User() {
 	}
@@ -144,6 +150,38 @@ public class User implements UserDetails, Serializable {
 		this.version = version;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -197,6 +235,10 @@ public class User implements UserDetails, Serializable {
 			builder.append("Not granted any authorities");
 		}
 		builder.append(separator).append("version = ").append(getVersion());
+		builder.append(separator).append("createdBy = ").append('\"').append(getCreatedBy()).append('\"');
+		builder.append(separator).append("createdDate = ").append(getCreatedDate());
+		builder.append(separator).append("modifiedBy = ").append('\"').append(getModifiedBy()).append('\"');
+		builder.append(separator).append("modifiedDate = ").append(getModifiedDate());
 		builder.append(separator).append("course = ").append(getCourse());
 		builder.append("}");
 		return builder.toString();

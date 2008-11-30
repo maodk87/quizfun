@@ -19,12 +19,13 @@
 package quizfun.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Question implements Serializable {
+public class Question implements Serializable, Auditable {
 
-	private static final long serialVersionUID = 7400661908891515938L;
+	private static final long serialVersionUID = 6831395193559009788L;
 
 	private Long id;
 	private String question;
@@ -38,6 +39,11 @@ public class Question implements Serializable {
 	private Long version;
 	
 	private Set<Answer> answers = new HashSet<Answer>();
+	
+	private String createdBy;
+	private Date createdDate;
+	private String modifiedBy;
+	private Date modifiedDate;
 
 	public Long getId() {
 		return id;
@@ -110,6 +116,39 @@ public class Question implements Serializable {
 	public void setAnswers(Set<Answer> answers) {
 		this.answers = answers;
 	}
+	
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 
 	@Override
 	public int hashCode() {
@@ -155,6 +194,10 @@ public class Question implements Serializable {
 		builder.append(separator).append("hint = ").append('\"').append(getHint()).append('\"');
 		builder.append(separator).append("reference = ").append('\"').append(getReference()).append('\"');
 		builder.append(separator).append("version = ").append(getVersion());
+		builder.append(separator).append("createdBy = ").append('\"').append(getCreatedBy()).append('\"');
+		builder.append(separator).append("createdDate = ").append(getCreatedDate());
+		builder.append(separator).append("modifiedBy = ").append('\"').append(getModifiedBy()).append('\"');
+		builder.append(separator).append("modifiedDate = ").append(getModifiedDate());
 		builder.append(separator).append("module = ").append(getModule());
 		builder.append("}");
 		return builder.toString();

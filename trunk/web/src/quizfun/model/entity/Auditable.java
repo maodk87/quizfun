@@ -23,5 +23,11 @@ public interface Auditable {
 
 	void setCreatedDate(Date createdDate);
 
+	String getModifiedBy();
 
+	void setModifiedBy(String modifiedBy);
+
+	Date getModifiedDate();
+
+	void setModifiedDate(Date modifiedDate);
 }

@@ -31,18 +31,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="status" type="string" not-null="true">
 			<column name="STATUS" length="255" />
 		</property>
-		<property name="createdBy" type="string" >
-			<column name="CREATED_BY" length="255" />
-		</property>
-		<property name="createdDate" type="timestamp" >
-			<column name="CREATED_DATE" />
-		</property>		
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="255" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="255" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" />
+        </property>
 		<many-to-one name="module" column="MODULE" not-null="true" fetch="join" lazy="false"></many-to-one>		
-		<!-- <many-to-many column="QUESTION" fetch="join" lazy="false" ></many-to-many> -->
-		<set name="questions" cascade="all">
-            <key column="QUESTION"/>
-            <many-to-many class="quizfun.model.entity.Question"/>
-        </set>
+	    <set name="questions" table="GAME_QUESTION" cascade="all">
+	        <key column="GAME_ID"/>
+	        <many-to-many column="QUESTION_ID" class="quizfun.model.entity.Question"/>
+	    </set>
 	</class>
 </hibernate-mapping>
 

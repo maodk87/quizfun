@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 <hibernate-mapping>
 	<class name="quizfun.model.entity.User" table="USER">
 		<id name="username" type="string">
-			<column name="USERNAME" />
+			<column name="USERNAME" length="255" />
 			<generator class="assigned"></generator>
 		</id>
 		<version column="VERSION" name="version" type="long" />

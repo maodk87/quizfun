@@ -30,5 +30,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="name" type="string" not-null="true">
 			<column name="NAME" length="255" />
 		</property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="255" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="255" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" />
+        </property>
 	</class>
 </hibernate-mapping>

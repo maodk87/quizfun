@@ -34,6 +34,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="correct" type="boolean" not-null="true">
 			<column name="CORRECT" />
 		</property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="255" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="255" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" />
+        </property>
 		<many-to-one name="question" column="QUESTION" not-null="true" fetch="join" lazy="false"></many-to-one>
 	</class>
 </hibernate-mapping>
