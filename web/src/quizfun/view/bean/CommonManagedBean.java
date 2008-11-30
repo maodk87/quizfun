@@ -66,6 +66,13 @@ public class CommonManagedBean {
 			}
 		}
 		
+		if (username != null && "guest".equalsIgnoreCase(username)) {
+			username = null;
+			if (logger.isDebugEnabled()) {
+				logger.debug("Anonymous User... No need to load data");
+			}
+		}
+		
 		if (username != null) {
 			if (user == null) {
 				// User is not loaded. Finding user..
