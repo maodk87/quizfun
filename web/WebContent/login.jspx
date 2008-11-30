@@ -53,11 +53,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<!-- END ID SELECTOR -->
 		
 		<script type="text/javascript">
-			function showWorkingStatus() {
+			function submitLogin() {
 				var component = document.getElementById('frmH:connStatus:connection-working');
 				if (component) {
 					component.style.visibility="visible";
 				}
+				var waitMsg = document.getElementById('wait');
+				if (waitMsg) {
+					waitMsg.style.display = "inline";
+				}
+				var submitBtn = document.getElementById('submitBtn');
+				if (submitBtn) {
+					submitBtn.disabled = true;
+					submitBtn.className = "iceCmdBtn-dis";
+				}
+				var errorMsg = document.getElementById('errorMsg');
+				if (errorMsg) {
+					errorMsg.style.display = "none";
+				}
+				return true;
 			}
 		</script>
     </ui:define>
