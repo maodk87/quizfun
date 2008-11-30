@@ -42,5 +42,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </ui:decorate>
 
     </ui:define>
-    
+
+    <ui:define name="script">	
+		<script type="text/javascript">
+			setInitialFocus("frmCourse:stxtCourse");
+		</script>
+    </ui:define>
 </ui:composition>

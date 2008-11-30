@@ -45,4 +45,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     <ui:param name="breadcrumbenabled" value="true" />
     <ui:param name="currentpagename" value="#{res['breadcrumb.user.search.label']}" />
+
+    <ui:define name="script">	
+		<script type="text/javascript">
+			setInitialFocus("frmUser:txtName");
+		</script>
+    </ui:define>
 </ui:composition>

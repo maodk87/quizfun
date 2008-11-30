@@ -52,4 +52,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     	<ice:commandLink action="#{searchUser.modifyBackAction}" value="#{res['breadcrumb.user.search.label']}" styleClass="bcLink">
     	</ice:commandLink>
     </ui:define>
+
+    <ui:define name="script">	
+		<script type="text/javascript">
+			setInitialFocus("frmCourse:stxtCourse");
+		</script>
+    </ui:define>
 </ui:composition>
