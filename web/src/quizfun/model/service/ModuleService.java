@@ -23,6 +23,7 @@ import java.util.List;
 import quizfun.model.dto.ModuleSCDO;
 import quizfun.model.entity.Module;
 import quizfun.model.exception.DuplicateModuleException;
+import quizfun.model.exception.ModuleNotFoundException;
 
 public interface ModuleService {
 
@@ -33,5 +34,9 @@ public interface ModuleService {
 	Module updateModule(Module module);
 
 	void deleteModule(Module module);
+
+	List<Module> findAllModules();
+
+	Module findModuleByCode(String code) throws ModuleNotFoundException;
 
 }

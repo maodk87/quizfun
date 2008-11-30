@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import quizfun.model.entity.User;
 import quizfun.model.exception.DuplicateUserException;
-import quizfun.model.util.SpringSecurityUtil;
 import quizfun.view.util.JSFUtils;
 
 /**
@@ -34,17 +33,10 @@ import quizfun.view.util.JSFUtils;
 public class RegisterUserManagedBean extends UserManagedBean {
 
 	final Logger logger = LoggerFactory.getLogger(RegisterUserManagedBean.class);
-	
-	private boolean saved;
-
-	public boolean isSaved() {
-		return saved;
-	}
 
 	@javax.annotation.PostConstruct
 	public void init() {
 		user = new User();
-		user.setUsername(SpringSecurityUtil.getUsername());
 		user.setAccountNonExpired(true);
 		user.setAccountNonLocked(true);
 		user.setCredentialsNonExpired(true);
@@ -63,11 +55,10 @@ public class RegisterUserManagedBean extends UserManagedBean {
 
 		try {
 			user.setCourse(course);
-			user.getGrantedAuthorities().add("ROLE_USER");
-			user.setPassword(encodePassword(user.getPassword(),	user.getUsername()));
 			serviceLocator.getUserService().saveUser(user);
 			clearValues();
-			saved = true;
+			JSFUtils.addFacesInfoMessage("user.save.successful");
+			userNameInputText.requestFocus();
 		} catch (DuplicateUserException e) {
 			JSFUtils.addFacesErrorMessage("user.save.duplicate", new Object[] { user.getUsername() });
 			return;
@@ -76,21 +67,5 @@ public class RegisterUserManagedBean extends UserManagedBean {
 			JSFUtils.addApplicationErrorMessage();
 			return;
 		}
-	}
-	
-	protected void clearValues() {
-		confirmPassword = null;
-		user.setPassword(null);
-	}
-	
-	protected void resetComponents() {
-		passwordInputSecret.resetValue();
-		confirmPasswordInputSecret.resetValue();
-	}
-
-	public void clearActionListener(ActionEvent event) {
-		clearValues();
-		resetComponents();
-		passwordInputSecret.requestFocus();
 	}
 }

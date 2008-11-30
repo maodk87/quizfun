@@ -37,7 +37,7 @@ public class Question implements Serializable {
 
 	private Long version;
 	
-	private Set<Answer> answers = new HashSet<Answer>(0);
+	private Set<Answer> answers = new HashSet<Answer>();
 
 	public Long getId() {
 		return id;

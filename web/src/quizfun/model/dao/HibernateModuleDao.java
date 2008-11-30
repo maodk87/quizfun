@@ -18,6 +18,7 @@
 
 package quizfun.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -126,6 +127,58 @@ public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
 		}
+	}
+	
+	@Override
+	public List<Module> findAllModules (){
+		if(logger.isDebugEnabled()){
+			logger.debug("Going to find Modules");
+		}
+		Session session = getSession(false);
+		
+
+		List<Module> modules = new ArrayList<Module>();
+
+		try {
+			Criteria criteria = session.createCriteria(Module.class);
+
+			modules = criteria.list();
+		} catch (HibernateException e) {
+			throw convertHibernateAccessException(e);
+		}
+		
+		if(modules != null && !modules.isEmpty()){
+			if(logger.isDebugEnabled()){
+				logger.debug("Returning " + modules.size() + " Modules");
+			}
+			return modules;	
+		}
+		return null;
+
+	}
+	
+	@Override
+	public Module findModuleByCode (String code){
+		if(logger.isDebugEnabled()){
+			logger.debug("Going to find Module");
+		}
+		Session session = getSession(false);
+
+		Module module = new Module();
+		try {
+			module = (Module) session.get(Module.class, code);
+		} catch (HibernateException e) {
+			throw convertHibernateAccessException(e);
+		}
+		
+		if(module != null){
+			if(logger.isDebugEnabled()){
+				logger.debug("Returning " + module.getCode() + " Module");
+			}
+			return module;	
+		}
+		return null;
+
 	}
 
 }

@@ -1,0 +1,104 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Hiranya Mudunkotuwa -->
+<ice:panelGroup xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" >
+<ice:panelGrid id="pnlConf1" width="100%"
+	columns="2" columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+		<!-- Answer -->
+		<ice:outputLabel id="lblAnswr" value="#{res['question.answer.label']}"
+			for="txtaAnswr"
+			styleClass="lblCommon">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:panelGrid id="pnlConf2" width="100%" columns="2"
+				columnClasses="pnlGrdTwoColumnFormTextarea,pnlGrdTwoColumnFormButton">
+				<ice:panelGroup>
+					<ice:inputTextarea id="txtaAnswr"
+						binding="#{managedBean.answrInputTextArea}"
+						maxlength="#{res['question.answer.maxlength']}"
+						partialSubmit="true">
+					</ice:inputTextarea>
+					<ice:message for="txtaAnswr" />
+				</ice:panelGroup>
+				<!-- Command buttons -->
+				<ice:panelGroup id="pnlAnswrButton">
+					<ice:commandButton id="btnAddAnswr"
+						action="#{managedBean.addAnswers}"
+						value="#{res['common.label.add']}" 
+						immediate="true"
+						rendered="#{!managedBean.updateAnswer}"/>
+					<!-- disabled="#{managedBean.viewMode}" -->
+					 <ice:commandButton id="btnUpdateAnswer"
+						value="#{res['command.common.label.update']}"
+						rendered="#{managedBean.updateAnswer}"
+						action="#{managedBean.editAnswer}" />
+		 
+				</ice:panelGroup>
+			</ice:panelGrid>
+		</ice:panelGroup>
+		</ice:panelGrid>
+	<ice:panelGrid id="pnlConf3" width="100%" columns="1">
+
+		<ice:panelGroup id="pngData" binding="#{managedBean.tblPanelGroup}">
+			<ice:dataTable id="dtbAnswers" var="unit" width="100%"
+				binding="#{managedBean.tblAnswers}" value="#{managedBean.answerList}" 
+				columnClasses="tmplApplicationCol3TableColumn1,tmplApplicationCol3TableColumn2,tmplApplicationCol3TableColumn3Right">
+
+				<ice:column id="colCode">
+					<f:facet name="header">
+						<ice:outputText	value="#{res['question.answer.label.answer']}"></ice:outputText>
+					</f:facet>
+					<ice:panelGroup contextValue="text">
+						<ice:outputText value="#{unit.answer}" />
+					</ice:panelGroup>
+				</ice:column>
+
+				<ice:column id="colCorrect">
+					<f:facet name="header">
+						<ice:outputText	value="#{res['question.answer.label.correct']}"></ice:outputText>
+					</f:facet>
+					<ice:panelGroup contextValue="text">
+						<ice:selectBooleanCheckbox id="chkCorrect" value="#{unit.correct}"
+							binding="#{managedBean.correctSelectBooleanCheckbox}" immediate="true"
+							valueChangeListener="#{managedBean.correctValueChangeEvent}" partialSubmit="true" >
+						</ice:selectBooleanCheckbox>
+					</ice:panelGroup>
+				</ice:column>
+
+				<ice:column id="colShare" styleClass="tmplShareRightColumn">
+					<f:facet name="header">
+						<ice:outputText	value="#{res['question.answer.label.action']}"></ice:outputText>
+					</f:facet>
+					<ice:panelGroup contextValue="text">
+						<ice:commandLink id="oplEdit" value="#{res['common.label.edit']}" action="#{managedBean.editAnswerAction}"  styleClass="editRecord" />
+						<ice:commandLink id="oplRemove" value="#{res['common.action.remove.link']}" actionListener="#{managedBean.removeAnswerConfirmActionListener}"  styleClass="editRecord" />
+					</ice:panelGroup>
+				</ice:column>
+
+			</ice:dataTable>
+
+		</ice:panelGroup>
+	</ice:panelGrid>	
+	<ice:panelGrid id="pnlConf4" width="100%"
+	columns="2" columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+			<f:verbatim></f:verbatim>
+		<ui:insert name="commandsPanel" />
+</ice:panelGrid>
+</ice:panelGroup>

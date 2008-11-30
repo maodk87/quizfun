@@ -34,4 +34,8 @@ public interface ModuleDao {
 
 	void deleteModule(Module module);
 
+	List<Module> findAllModules();
+
+	Module findModuleByCode(String code);
+
 }

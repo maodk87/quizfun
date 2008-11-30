@@ -41,6 +41,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<value>#{moduleService}</value>
 		</managed-property>
 		<managed-property>
+			<property-name>questionService</property-name>
+			<value>#{questionService}</value>
+		</managed-property>
+		<managed-property>
 			<property-name>userService</property-name>
 			<value>#{userService}</value>
 		</managed-property>
@@ -90,6 +94,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<value>#{serviceLocator}</value>
 		</managed-property>
 	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create question</description>
+		<managed-bean-name>createQuestion</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateQuestionManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search question</description>
+		<managed-bean-name>searchQuestion</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchQuestionManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>	
+	<managed-bean>
+		<description>Managed bean for modify question</description>
+		<managed-bean-name>modifyQuestion</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ModifyQuestionManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for static lists</description>
+		<managed-bean-name>staticList</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.StaticListManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>	
 	<managed-bean>
 		<description>Managed bean for create module</description>
 		<managed-bean-name>createModule</managed-bean-name>
@@ -161,4 +201,73 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</managed-property>
 	</managed-bean>
 	<!-- Manage Beans - End -->
+
+	<!-- Navigation Rules - Start -->
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/index.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createCourse</from-outcome>
+			<to-view-id>/pages/course/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchCourse</from-outcome>
+			<to-view-id>/pages/course/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modifyCourse</from-outcome>
+			<to-view-id>/pages/course/modify.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createModule</from-outcome>
+			<to-view-id>/pages/module/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchModule</from-outcome>
+			<to-view-id>/pages/module/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modifyModule</from-outcome>
+			<to-view-id>/pages/module/modify.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createUser</from-outcome>
+			<to-view-id>/pages/user/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchUser</from-outcome>
+			<to-view-id>/pages/user/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modifyUser</from-outcome>
+			<to-view-id>/pages/user/modify.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createQuestion</from-outcome>
+			<to-view-id>/pages/question/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchQuestion</from-outcome>
+			<to-view-id>/pages/question/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>modifyQuestion</from-outcome>
+			<to-view-id>/pages/question/modify.iface</to-view-id>
+			<redirect />
+		</navigation-case>	 
+	</navigation-rule>
 </faces-config>

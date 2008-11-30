@@ -15,17 +15,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-
 <!-- Author: Hiranya Mdunkotuwa -->
-
 <ui:composition template="/WEB-INF/include/template/page-template.jspx"
              xmlns="http://www.w3.org/1999/xhtml"
              xmlns:ui="http://java.sun.com/jsf/facelets"
-             xmlns:f="http://java.sun.com/jsf/core">
+             xmlns:f="http://java.sun.com/jsf/core"
+             xmlns:ice="http://www.icesoft.com/icefaces/component">
 
 
     <ui:param name="pageTitle" value="#{res['question.page.title']}" />
-    <ui:param name="contentHeader" value="#{res['question.search.content.header']}"/>
+    <ui:param name="contentHeader" value="#{res['question.modify.content.header']}"/>
 
     <ui:define name="content">
 
@@ -38,12 +37,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
             <!-- insert content here -->
             <ui:define name="pageContent">
-	            <ui:include src="/WEB-INF/include/question/inc-search.jspx" /> 
+	            <ui:include src="/WEB-INF/include/question/inc-modify.jspx" /> 
             </ui:define>
 
         </ui:decorate>
 
     </ui:define>
-    <ui:param name="breadcrumbenabled" value="true" />
-    <ui:param name="currentpagename" value="#{res['breadcrumb.question.search.label']}" />
+        <ui:param name="breadcrumbenabled" value="true" />
+    <ui:param name="currentpagename" value="#{res['breadcrumb.modify.label']}" />
+    <ui:define name="breadcrumb">
+    	<ice:commandLink action="#{searchQuestion.modifyBackAction}" value="#{res['breadcrumb.question.search.label']}" styleClass="bcLink">
+    	</ice:commandLink>
+    </ui:define>
 </ui:composition>

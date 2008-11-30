@@ -1,0 +1,53 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Hiranya Mudunkotuwa -->
+<ice:panelGrid xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlModule" width="100%"
+	columns="4" columnClasses="pnlGrdFourColumnFormLabel,pnlGrdFourColumnFormField">
+		<ice:outputLabel id="lblModule" 
+			styleClass="lblAutocomplete"
+			value="#{res['selectmodule.module.label']}" for="stxtModule" />
+	<ice:panelGroup>
+		<ice:selectInputText id="stxtModule" rows="20" value="#{managedBean.moduleCode}"
+			valueChangeListener="#{managedBean.moduleValueChangeListener}" binding="#{managedBean.moduleSelectInputText}" listVar="module"
+			listValue="#{managedBean.moduleSelectItemList}" required="false" partialSubmit="true"
+			maxlength="#{res['selectmodule.module.maxlength']}" title="#{res['common.autocomplete.title']}">
+			<f:facet name="selectInputText">
+				<ice:panelGrid id="pnlSelModule" columns="2" columnClasses="pnlGrdSelectInputCode,pnlGrdSelectInputName">
+					<ice:outputText value="#{module.code}" />
+					<ice:outputText value="#{module.name}" />
+				</ice:panelGrid>
+			</f:facet>
+		</ice:selectInputText>
+		<ice:message for="stxtModule" />
+	</ice:panelGroup>
+
+	<ice:outputLabel id="lblSelected" value="#{res['selectmodule.selectedmodule.label']}" for="txtSelected" styleClass="lblRequired">
+	</ice:outputLabel>
+	<ice:panelGroup>
+		<ice:inputText id="txtSelected" value="#{managedBean.selectedModule}" binding="#{managedBean.selectedModuleInputText}" maxlength="#{res['selectmodule.module.maxlength']}"
+			 onkeydown="javascript:return false;" autocomplete="off">
+		</ice:inputText>
+		<ice:message for="txtSelected" />
+	</ice:panelGroup>
+	<f:verbatim></f:verbatim>
+	<ice:panelGroup>
+		<ice:commandButton value="#{res['common.label.clear']}"  actionListener="#{managedBean.clearModuleActionListener}" immediate="true" />
+	</ice:panelGroup>
+</ice:panelGrid>

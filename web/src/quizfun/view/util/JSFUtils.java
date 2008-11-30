@@ -164,4 +164,23 @@ public class JSFUtils {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		facesContext.addMessage(component.getClientId(facesContext), getMessageFromBundle(key, FacesMessage.SEVERITY_ERROR, args));
 	}
+	
+	
+    /**
+     * Method to return a property from a property file
+     * @param bundleName
+     * @param key
+     * @return
+     */
+    public static String getStringFromBundle(String bundleName, String key){
+        String value = key;
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(bundleName);
+        value = resourceBundle.getString(key);
+        return value;
+    }
+	
+    public static String getStringFromBundle(String bundleName, String key, Object[] args){
+        return MessageFormat.format(getStringFromBundle(bundleName, key), args);
+    }
+    
 }

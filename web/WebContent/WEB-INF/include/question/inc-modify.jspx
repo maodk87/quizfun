@@ -34,7 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			</f:facet>
 
 			<ui:decorate template="/WEB-INF/include/module/inc-selectmodule.jspx">
-				<ui:param name="managedBean" value="#{createQuestion}" />
+				<ui:param name="managedBean" value="#{modifyQuestion}" />
 			</ui:decorate>
 		</ice:panelCollapsible>
 	</ice:form>
@@ -48,7 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			</f:facet>
 
 			<ui:decorate template="/WEB-INF/include/question/inc-question.jspx">
-				<ui:param name="managedBean" value="#{createQuestion}" />
+				<ui:param name="managedBean" value="#{modifyQuestion}" />
 			</ui:decorate>
 		</ice:panelCollapsible>
 	</ice:form>
@@ -64,14 +64,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<ui:decorate template="/WEB-INF/include/question/inc-answer.jspx">
 
 				<ui:param name="required" value="#{true}" />
-				<ui:param name="editMode" value="#{false}" />
-				<ui:param name="managedBean" value="#{createQuestion}" />
+				<ui:param name="editMode" value="#{true}" />
+				<ui:param name="managedBean" value="#{modifyQuestion}" />
 				<ui:define name="commandsPanel">
 					<ice:panelGroup>
 						<ice:commandButton value="#{res['common.label.save']}"
-							actionListener="#{createQuestion.saveActionListener}" />
+							actionListener="#{modifyQuestion.saveActionListener}" />
 						<ice:commandButton value="#{res['common.label.clear']}"
-							actionListener="#{createQuestion.clearActionListener}"
+							actionListener="#{modifyQuestion.resetActionListener}"
 							immediate="true" />
 					</ice:panelGroup>
 				</ui:define>
@@ -82,7 +82,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	<ice:form>
 		<ice:panelPopup draggable="false" autoCentre="true" modal="true"
-			visible="#{createQuestion.removeAnswerConfirmVisible}"
+			visible="#{modifyQuestion.removeAnswerConfirmVisible}"
 			rendered="true" styleClass="pnlPopup"
 			style="width: 350px; height: auto; overflow: visible;">
 			<f:facet name="header">
@@ -96,11 +96,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 					</ice:outputFormat>
 					<ice:panelGroup style="text-align: center;">
 						<ice:commandButton id="btnYes"
-							actionListener="#{createQuestion.removeAnswerActionListener}"
+							actionListener="#{modifyQuestion.removeAnswerActionListener}"
 							value="#{res['common.label.yes']}"
 							style="padding: 2px 5px 2px 5px;" />
 						<ice:commandButton id="btnNo" immediate="true"
-							actionListener="#{createQuestion.closeRemoveAnswerActionListener}"
+							actionListener="#{modifyQuestion.closeRemoveAnswerActionListener}"
 							value="#{res['common.label.no']}"
 							style="padding: 2px 5px 2px 5px;" />
 					</ice:panelGroup>

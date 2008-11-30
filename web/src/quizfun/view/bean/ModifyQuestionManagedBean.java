@@ -20,18 +20,20 @@ package quizfun.view.bean;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import quizfun.model.entity.Answer;
 import quizfun.model.entity.Module;
 import quizfun.model.entity.Question;
-import quizfun.model.exception.DuplicateQuestionException;
+import quizfun.model.exception.QuestionNotFoundException;
 import quizfun.view.util.JSFUtils;
 
 /**
@@ -39,21 +41,48 @@ import quizfun.view.util.JSFUtils;
  * @author Hiranya Mudunkotuwa
  *
  */
-public class CreateQuestionManagedBean extends QuestionManagedBean{
 
-	final Logger logger = LoggerFactory.getLogger(CreateQuestionManagedBean.class);
+public class ModifyQuestionManagedBean extends QuestionManagedBean {
+	
+	final Logger logger = LoggerFactory.getLogger(ModifyQuestionManagedBean.class);
+
+	private Question modifyingQuestion;
 	
 	@javax.annotation.PostConstruct
 	public void init() {
-		question = new Question();
-		question.setAnswers(null);
-		question.setModule(new Module());
+		modifyingQuestion = (Question) JSFUtils.removeFromSessionMap("question");
+		if (logger.isDebugEnabled()) {
+			logger.debug("Object retrieved from session: {}", modifyingQuestion);
+		}
 		answerList = new ArrayList<Answer>(0);
-//		ans = new HashSet<Answer>();
-		initializeModuleSelectInput();		
+		question = new Question();
+		resetValues();
+		initializeModuleSelectInput();
 	}
+	
+	private void resetValues() {
 
-
+		question.setId(modifyingQuestion.getId());
+		question.setQuestion(modifyingQuestion.getQuestion());
+		question.setHint(modifyingQuestion.getHint());
+		question.setLevel(modifyingQuestion.getLevel());
+		question.setType(modifyingQuestion.getType());
+		question.setReference(modifyingQuestion.getReference());
+		Question ques = new Question();
+		try {
+			ques = serviceLocator.getQuestionService().findQuestionById(modifyingQuestion.getId());
+		} catch (QuestionNotFoundException e) {
+			return;
+		}
+	//	ans = ques.getAnswers();
+		question.setAnswers(ques.getAnswers());
+		answerList = new ArrayList<Answer>(ques.getAnswers());
+		
+		module = modifyingQuestion.getModule();
+		selectedModule = JSFUtils.getStringFromBundle("question.selectedmodule.display.pattern", new Object[] { module.getCode(),
+				module.getName() });
+	}
+	
 	public void saveActionListener(ActionEvent event) {
 		if (module == null) {
 			JSFUtils.addFacesErrorMessage("question.module.required.message");
@@ -62,20 +91,45 @@ public class CreateQuestionManagedBean extends QuestionManagedBean{
 		}
 		
 		try {
-			question.setModule(module);
-			serviceLocator.getQuestionService().saveQuestion(question);
-			super.clearValues();
-			clearValues();
-			quesInputTextArea.requestFocus();
+			if (!modifyingQuestion.getModule().equals(module)) {
+				modifyingQuestion.setModule(module);
+			}
+//			ans = new HashSet<Answer>(answerList);
+			question.setAnswers(new HashSet<Answer>(answerList));
+			modifyingQuestion.setId(question.getId());
+			modifyingQuestion.setQuestion(question.getQuestion());
+			modifyingQuestion.setHint(question.getHint());
+			modifyingQuestion.setLevel(question.getLevel());
+			modifyingQuestion.setType(question.getType());
+			modifyingQuestion.setReference(question.getReference());
+			modifyingQuestion.setAnswers(question.getAnswers());
+			modifyingQuestion = serviceLocator.getQuestionService().updateQuestion(modifyingQuestion);
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Question updated: {}", modifyingQuestion);
+			}
 			JSFUtils.addFacesInfoMessage("question.save.successful");
-		} catch (DuplicateQuestionException e) {
-			JSFUtils.addFacesErrorMessage("question.save.duplicate", new Object[] { question.getId() });
-			return;
+			answrInputTextArea.resetValue();
 		} catch (Throwable e) {
 			logger.error("Exception when saving question: " + question, e);
 			JSFUtils.addApplicationErrorMessage();
 			return;
 		}
+	}	
+	
+	public void resetActionListener(ActionEvent event) {
+		 resetValues();
+
+		 quesInputTextArea.resetValue();
+		 hintInputTextArea.resetValue();
+		 refInputTextArea.resetValue();	
+		 typeSelectOneMenu.resetValue();
+		 levelSelectOneMenu.resetValue();
+		 answrInputTextArea.resetValue();
+		 correctSelectBooleanCheckbox.resetValue();
+		 tblAnswers.getChildren().clear();
+		 tblPanelGroup.getChildren().clear();	
+		 selectedModuleInputText.resetValue();
 	}
 	
 	/**
@@ -87,6 +141,7 @@ public class CreateQuestionManagedBean extends QuestionManagedBean{
 		String answer = (String) answrInputTextArea.getValue();
 		Answer newAnswer = new Answer();
 		newAnswer.setAnswer(answer);
+		newAnswer.setQuestion(question);
 		answerList.add(newAnswer);		
 //		ans.add(newAnswer);
 		question.setAnswers(new HashSet<Answer>(answerList));
@@ -104,20 +159,6 @@ public class CreateQuestionManagedBean extends QuestionManagedBean{
 		correctAns.setCorrect(correct);
 	}	
 	
-	public void clearActionListener(ActionEvent event) {
-		super.clearActionListener(event);
-		 clearValues();
-		 answrInputTextArea.resetValue();
-		 correctSelectBooleanCheckbox.resetValue();
-		 tblAnswers.getChildren().clear();
-		 tblPanelGroup.getChildren().clear();		 
-	}
-	
-	public void clearValues() {
-		question.setAnswers(new HashSet<Answer>());
-		setAnswerList(new ArrayList<Answer>());
-//		setAns(new HashSet<Answer>());
-	}
 	
 	public void editAnswerAction() {
 		this.answer = (Answer) tblAnswers.getRowData();
@@ -127,10 +168,17 @@ public class CreateQuestionManagedBean extends QuestionManagedBean{
 	
 	public void editAnswer() {
 		this.answer.setAnswer((String) answrInputTextArea.getValue());
-		answrInputTextArea.resetValue();
+		for(Answer answr :this.answerList) {
+			if(answr.getAnswer().equals(this.answer.getAnswer())) {
+				answr.setAnswer((String) answrInputTextArea.getValue());
+				answrInputTextArea.resetValue();
+				break;
+			}
+			
+		}
 		updateAnswer = false;
 	}
-
+	
 	public void removeAnswerConfirmActionListener(ActionEvent event) {
 		this.answer = (Answer) tblAnswers.getRowData();
 		removeAnswerConfirmVisible = this.answer != null;
@@ -145,12 +193,20 @@ public class CreateQuestionManagedBean extends QuestionManagedBean{
 			return;
 		}
 		this.answerList.remove(this.answer);
-	//	this.ans.remove(this.answer);
+//		this.ans.remove(this.answer);
 		removeAnswerConfirmVisible = false;
 
 	}
 	
 	public void closeRemoveAnswerActionListener(ActionEvent event) {
 		removeAnswerConfirmVisible = false;
-	}	
+	}		
+	
+	public Question getModifyingQuestion() {
+		return modifyingQuestion;
+	}
+
+	public void setModifyingQuestion(Question modifyingQuestion) {
+		this.modifyingQuestion = modifyingQuestion;
+	}
 }

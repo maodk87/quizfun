@@ -69,6 +69,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	<bean id="moduleDao" class="quizfun.model.dao.HibernateModuleDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	<bean id="questionDao" class="quizfun.model.dao.HibernateQuestionDao">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
 	<bean id="userDao" class="quizfun.model.dao.HibernateUserDao">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
@@ -80,6 +83,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</bean>
 	<bean id="moduleService" class="quizfun.model.service.ModuleServiceImpl">
 		<property name="moduleDao" ref="moduleDao" />
+	</bean>	
+	<bean id="questionService" class="quizfun.model.service.QuestionServiceImpl">
+		<property name="questionDao" ref="questionDao" />
+		<property name="moduleService" ref="moduleService" />
 	</bean>
 	<bean id="userService" class="quizfun.model.service.UserServiceImpl">
 		<property name="userDao" ref="userDao" />

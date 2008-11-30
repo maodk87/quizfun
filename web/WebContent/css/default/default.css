@@ -213,6 +213,16 @@ div.clearer {
 	width: 60%;
 }
 
+.pnlGrdTwoColumnFormTextarea {
+	text-align: left;
+	width: 30%;
+}
+
+.pnlGrdTwoColumnFormButton {
+	text-align: left;
+	width: 70%;
+}
+
 .pnlGrdFourColumnFormLabel{
 	text-align: right;
 	width: 20%;
