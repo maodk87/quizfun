@@ -16,29 +16,25 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package quizfun.model.exception;
+package quizfun.view.util;
+
+import ca.odell.glazedlists.matchers.TextMatcherEditor;
 
 /**
  * 
  * @author Hiranya Mudunkotuwa
  *
  */
-public class DuplicateQuestionException extends Exception {
-
-	private static final long serialVersionUID = 5607596049296544746L;
-
-	public DuplicateQuestionException() {
+public interface Constants {
+	
+	public interface BundleNames{
+		//Bundle Names
+		public static final String RESOURCES = "quizfun.view.resources.resources";	
+		public static final String MESSAGES = "quizfun.view.resources.messages";
 	}
+	
+	public static final String EMPTY_STRING = "";
+	
+	public static final int TEXT_MATCHER_EDITOR_MODE = TextMatcherEditor.CONTAINS;
 
-	public DuplicateQuestionException(String message) {
-		super(message);
-	}
-
-	public DuplicateQuestionException(Throwable cause) {
-		super(cause);
-	}
-
-	public DuplicateQuestionException(String message, Throwable cause) {
-		super(message, cause);
-	}
 }

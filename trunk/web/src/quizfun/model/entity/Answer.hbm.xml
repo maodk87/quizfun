@@ -34,6 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="correct" type="boolean" not-null="true">
 			<column name="CORRECT" />
 		</property>
-		<many-to-one name="question" column="QUESTION" not-null="true" fetch="select" ></many-to-one>
+		<many-to-one name="question" column="QUESTION" not-null="true" fetch="join" lazy="false"></many-to-one>
 	</class>
 </hibernate-mapping>

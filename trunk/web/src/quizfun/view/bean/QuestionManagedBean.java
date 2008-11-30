@@ -1,39 +1,92 @@
+/*
+ * QuizFun - A quiz game
+ * Copyright (C) 2008
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package quizfun.view.bean;
 
-import javax.faces.component.UIComponent;
+import java.util.List;
+import java.util.Set;
+
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlSelectOneMenu;
 import javax.faces.event.ActionEvent;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import quizfun.model.entity.Answer;
+import quizfun.model.entity.Question;
 
 import com.icesoft.faces.component.ext.HtmlInputTextarea;
 import com.icesoft.faces.component.ext.HtmlPanelGroup;
 import com.icesoft.faces.component.ext.HtmlSelectBooleanCheckbox;
-import com.icesoft.faces.component.selectinputtext.SelectInputText;
 
-import quizfun.model.entity.Question;
-import quizfun.view.servicelocator.ServiceLocator;
+/**
+ * 
+ * @author Hiranya Mudunkotuwa
+ *
+ */
+public abstract class QuestionManagedBean extends ModuleSelectManagedBean{
+	final Logger logger = LoggerFactory.getLogger(QuestionManagedBean.class);
 
-public abstract class QuestionManagedBean {
-
-	protected ServiceLocator serviceLocator;
+	//protected ServiceLocator serviceLocator;
 	protected Question question;
 
-	protected UIComponent tblAnswers;
+	protected HtmlDataTable tblAnswers;
 
 	protected HtmlPanelGroup tblPanelGroup;
 	protected HtmlInputTextarea quesInputTextArea;
 	protected HtmlInputTextarea hintInputTextArea;
 	protected HtmlInputTextarea refInputTextArea;
 	protected HtmlInputTextarea answrInputTextArea;
-	protected SelectInputText moduleCodeSelectInputText;
-	protected SelectInputText moduleNameSelectInputText;
+
+
 	protected HtmlSelectOneMenu typeSelectOneMenu;
 	protected HtmlSelectOneMenu levelSelectOneMenu;
 	protected HtmlSelectBooleanCheckbox correctSelectBooleanCheckbox;
 
-	public void setServiceLocator(ServiceLocator serviceLocator) {
-		this.serviceLocator = serviceLocator;
+
+	protected boolean loadModuleDetails = false;	
+	protected boolean updateAnswer = false;
+
+
+
+	protected List<Answer> answerList;
+//	protected Set<Answer> ans;
+	protected Answer answer;
+
+	protected boolean removeAnswerConfirmVisible;
+
+	public void clearActionListener(ActionEvent event) {
+		clearValues();
+		
+		 quesInputTextArea.resetValue();
+		 hintInputTextArea.resetValue();
+		 refInputTextArea.resetValue();	
+		 typeSelectOneMenu.resetValue();
+		 levelSelectOneMenu.resetValue();
+		 quesInputTextArea.requestFocus();
 	}
 
+	
+/*	public void setServiceLocator(ServiceLocator serviceLocator) {
+		this.serviceLocator = serviceLocator;
+	}
+*/
 	public Question getQuestion() {
 		return question;
 	}
@@ -43,23 +96,19 @@ public abstract class QuestionManagedBean {
 	}
 
 	protected void clearValues() {
-		/*
-		 * course.setCode(null); course.setName(null);
-		 */
-	}
+		question.setQuestion(null);
+		question.setType(new Integer(0));
+		question.setLevel(new Integer(0));
+		question.setHint(null);
+		question.setReference(null);
 
-	public void clearActionListener(ActionEvent event) {
-		clearValues();
-		/*
-		 * codeInputText.resetValue(); nameInputText.resetValue();
-		 */
-	}
+	}	
 	
-	public UIComponent getTblAnswers() {
+	public HtmlDataTable getTblAnswers() {
 		return tblAnswers;
 	}
 
-	public void setTblAnswers(UIComponent tblAnswers) {
+	public void setTblAnswers(HtmlDataTable tblAnswers) {
 		this.tblAnswers = tblAnswers;
 	}
 
@@ -103,24 +152,6 @@ public abstract class QuestionManagedBean {
 		this.answrInputTextArea = answrInputTextArea;
 	}
 
-	public SelectInputText getModuleCodeSelectInputText() {
-		return moduleCodeSelectInputText;
-	}
-
-	public void setModuleCodeSelectInputText(
-			SelectInputText moduleCodeSelectInputText) {
-		this.moduleCodeSelectInputText = moduleCodeSelectInputText;
-	}
-
-	public SelectInputText getModuleNameSelectInputText() {
-		return moduleNameSelectInputText;
-	}
-
-	public void setModuleNameSelectInputText(
-			SelectInputText moduleNameSelectInputText) {
-		this.moduleNameSelectInputText = moduleNameSelectInputText;
-	}
-
 	public HtmlSelectOneMenu getTypeSelectOneMenu() {
 		return typeSelectOneMenu;
 	}
@@ -144,5 +175,47 @@ public abstract class QuestionManagedBean {
 	public void setCorrectSelectBooleanCheckbox(
 			HtmlSelectBooleanCheckbox correctSelectBooleanCheckbox) {
 		this.correctSelectBooleanCheckbox = correctSelectBooleanCheckbox;
+	}
+
+	public List<Answer> getAnswerList() {
+		return answerList;
+	}
+
+	public void setAnswerList(List<Answer> answerList) {
+		this.answerList = answerList;
+	}	
+	
+
+/*	public Set<Answer> getAns() {
+		return ans;
+	}
+
+	public void setAns(Set<Answer> ans) {
+		this.ans = ans;
+	}*/
+	
+	
+	public Answer getAnswer() {
+		return answer;
+	}
+
+	public void setAnswer(Answer answer) {
+		this.answer = answer;
+	}
+	
+	public boolean isUpdateAnswer() {
+		return updateAnswer;
+	}
+
+	public void setUpdateAnswer(boolean updateAnswer) {
+		this.updateAnswer = updateAnswer;
+	}
+	
+	public boolean isRemoveAnswerConfirmVisible() {
+		return removeAnswerConfirmVisible;
+	}
+
+	public void setRemoveAnswerConfirmVisible(boolean removeAnswerConfirmVisible) {
+		this.removeAnswerConfirmVisible = removeAnswerConfirmVisible;
 	}
 }

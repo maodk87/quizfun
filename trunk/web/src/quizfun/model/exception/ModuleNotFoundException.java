@@ -16,6 +16,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
+
 package quizfun.model.exception;
 
 /**
@@ -23,22 +24,21 @@ package quizfun.model.exception;
  * @author Hiranya Mudunkotuwa
  *
  */
-public class DuplicateQuestionException extends Exception {
+public class ModuleNotFoundException  extends Exception {
 
-	private static final long serialVersionUID = 5607596049296544746L;
-
-	public DuplicateQuestionException() {
+	public ModuleNotFoundException() {
 	}
 
-	public DuplicateQuestionException(String message) {
+	public ModuleNotFoundException(String message) {
 		super(message);
 	}
 
-	public DuplicateQuestionException(Throwable cause) {
+	public ModuleNotFoundException(Throwable cause) {
 		super(cause);
 	}
 
-	public DuplicateQuestionException(String message, Throwable cause) {
+	public ModuleNotFoundException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
 }

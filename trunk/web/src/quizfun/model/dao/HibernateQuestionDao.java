@@ -1,86 +1,200 @@
+/*
+ * QuizFun - A quiz game
+ * Copyright (C) 2008
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
 package quizfun.model.dao;
 
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import quizfun.model.dto.CourseSCDO;
+import quizfun.model.dto.ModuleSCDO;
 import quizfun.model.dto.QuestionSCDO;
-import quizfun.model.entity.Course;
+import quizfun.model.entity.Module;
 import quizfun.model.entity.Question;
-import quizfun.model.exception.DuplicateCourseException;
-import quizfun.model.exception.DuplicateQuestionException;
+import quizfun.model.entity.Answer;
 
+/**
+ * 
+ * @author Hiranya Mudunkotuwa
+ *
+ */
 public class HibernateQuestionDao extends HibernateDaoSupport implements QuestionDao {
 
+	final Logger logger = LoggerFactory.getLogger(HibernateQuestionDao.class);
 	@Override
-	public void saveQuestion(Question question) throws DuplicateQuestionException {
+	public Long saveQuestion(Question question) {
 		if (logger.isDebugEnabled()) {
 			logger.info("Saving Question: " + question);
 		}
+		Long id = null;
 		Session session = getSession(false);
 		try {
-			Question existingCourse = (Question) session.get(Question.class, question.getId());
-			if (existingCourse != null) {
-				throw new DuplicateQuestionException(question.toString());
-			}
-			session.save(question);
+			id = (Long) session.save(question);
+			
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
 		}
+		
+		return id;
 	}
 
 	@Override
-	public List<Question> findQuestion(QuestionSCDO questionSCDO) {/*
-
+	public List<Question> findQuestion(QuestionSCDO questionSCDO) {
 		if (logger.isDebugEnabled()) {
 			logger.debug("Finding Question(s): {}", questionSCDO);
 		}
 		List<Question> list = null;
 		Session session = getSession(false);
 		try {
-			String id = questionSCDO.getId();
-			String question = questionSCDO.getQuestion();
-			String moduleCode = questionSCDO.getModuleCode();
-			String level = questionSCDO.getLevel();
+			Long id = questionSCDO.getId();
+			String ques = questionSCDO.getQuestion();
+			int type = questionSCDO.getType();
+			int level = questionSCDO.getLevel();
+			String hint = questionSCDO.getHint();
+			String reference = questionSCDO.getReference();
+			ModuleSCDO moduleSCDO = questionSCDO.getModuleSCDO();
+
+			String moduleCode = moduleSCDO.getCode();
+			String moduleName = moduleSCDO.getName();
 
 			Criteria criteria = session.createCriteria(Question.class);
-			if (id != null && !id.isEmpty()) {
-				if (!id.contains("%")) {
-					id = "%" + id + "%";
-				}
-				criteria.add(Restrictions.like("id", id));
+			if (ques != null && !ques.equals("")) {
+				criteria.add(Restrictions
+						.like("question", ques, MatchMode.ANYWHERE));
 			}
-			if (question != null && !question.isEmpty()) {
-				if (!question.contains("%")) {
-					question = "%" + question + "%";
-				}
-				criteria.add(Restrictions.like("question", question));
-			}
-			if (moduleCode != null && !moduleCode.isEmpty()) {
-				if (!moduleCode.contains("%")) {
-					moduleCode = "%" + moduleCode + "%";
-				}
-				criteria.add(Restrictions.like("module", moduleCode));
-			}
-			if (level != null && !level.isEmpty()) {
-				if (!level.contains("%")) {
-					level = "%" + level + "%";
-				}
-				criteria.add(Restrictions.like("level", level));
+			if (String.valueOf(type) != null && !String.valueOf(type).equals("")) {
+				criteria.add(Restrictions
+						.like("type", type));
+			}	
+			if (String.valueOf(level) != null && !String.valueOf(level).equals("")) {
+				criteria.add(Restrictions
+						.like("level", level));
 			}			
+			if (hint != null && !hint.equals("")) {
+				criteria.add(Restrictions
+						.like("hint", hint, MatchMode.ANYWHERE));
+			}
+			if (reference != null && !reference.equals("")) {
+				criteria.add(Restrictions
+						.like("reference", reference, MatchMode.ANYWHERE));
+			}				
 
 			criteria.addOrder(Order.asc("id"));
+
+			if ((moduleCode != null && !moduleCode.isEmpty())
+					|| (moduleName != null && !moduleName.isEmpty())) {
+				criteria = criteria.createCriteria("module");
+			}
+
+			if (moduleCode != null && !moduleCode.isEmpty()) {
+				criteria.add(Restrictions.like("code", moduleCode,
+						MatchMode.ANYWHERE));
+			}
+			if (moduleName != null && !moduleName.isEmpty()) {
+				criteria.add(Restrictions.like("name", moduleName,
+						MatchMode.ANYWHERE));
+			}
+
 			list = criteria.list();
 		} catch (HibernateException ex) {
 			throw convertHibernateAccessException(ex);
 		}
 		return list;
-	*/
-		return null;
 	}
+	
+	@Override	
+	public Question findQuestionById (Long id){
+		if(logger.isDebugEnabled()){
+			logger.debug("Going to find Question");
+		}
+		Session session = getSession(false);
+
+		Question question = new Question();
+		try {
+			question = (Question) session.get(Question.class, id);
+			session.refresh(question);
+	        Hibernate.initialize(question.getAnswers());
+		} catch (HibernateException e) {
+			throw convertHibernateAccessException(e);
+		}
+		
+		if(question != null){
+			if(logger.isDebugEnabled()){
+				logger.debug("Returning " + question.getId() + " Module");
+			}
+			return question;	
+		}
+		return null;
+
+	}	
+	
+	@Override
+	public Question updateQuestion(Question question) {
+		if (logger.isDebugEnabled()) {
+			logger.info("Updating Question: " + question);
+		}
+		//Long id = null;
+		Session session = getSession(false);
+		try {
+			return (Question)session.merge(question);
+			
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+		
+		
+	}
+	
+
+	@Override
+	public void deleteQuestion(Question question) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Deleting Question: {}", question);
+		}
+		Session session = getSession(false);
+		try {
+			session.delete(question);
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+	}
+	
+	@Override
+	public void deleteAnswer(Answer answer) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Deleting Answer: {}", answer);
+		}
+		Session session = getSession(false);
+		try {
+			session.delete(answer);
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+	}	
 }

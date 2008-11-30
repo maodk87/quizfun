@@ -62,6 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 						<ice:menuItem id="mitCreateModule" value="#{res['menu.create.label']}" action="createModule" immediate="true" />
 					</ice:menuItem>
 					<ice:menuItem id="mitQuestion" value="#{res['menu.question.label']}" action="question" immediate="true">
+						<ice:menuItem id="mitSearchQuestion" value="#{res['menu.search.label']}" action="searchQuestion" immediate="true" />
 						<ice:menuItem id="mitCreateQuestion" value="#{res['menu.create.label']}" action="createQuestion" immediate="true" />
 					</ice:menuItem>
 				</ice:menuItem>
