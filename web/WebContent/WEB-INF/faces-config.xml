@@ -125,12 +125,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</managed-property>
 	</managed-bean>
 	<managed-bean>
-		<description>Managed bean for static lists</description>
-		<managed-bean-name>staticList</managed-bean-name>
-		<managed-bean-class>quizfun.view.bean.StaticListManagedBean</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>	
-	<managed-bean>
 		<description>Managed bean for create module</description>
 		<managed-bean-name>createModule</managed-bean-name>
 		<managed-bean-class>quizfun.view.bean.CreateModuleManagedBean</managed-bean-class>
