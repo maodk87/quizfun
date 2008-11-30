@@ -48,8 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<ice:selectOneMenu id="slctomType"
 				value="#{managedBean.question.type}" required="#{required}"
 				binding="#{managedBean.typeSelectOneMenu}" partialSubmit="true">
-				<f:selectItems id="slctMuLevel"
-					value="#{staticList.convertedQuestionTypeUnitElementsWOEmpty}" />
+				<f:selectItem itemLabel="#{res['question.select.label.mcq']}" itemValue="#{res['question.select.value.mcq']}" />
 			</ice:selectOneMenu>
 			<ice:message for="txtaQues" />
 		</ice:panelGroup>
@@ -62,6 +61,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<ice:selectOneMenu id="slctomLevel"
 				value="#{managedBean.question.level}" required="#{required}"
 				binding="#{managedBean.levelSelectOneMenu}" partialSubmit="true">
+				<f:selectItem itemLabel="#{res['question.select.label.easy']}" itemValue="#{res['question.select.value.easy']}" />
+				<f:selectItem itemLabel="#{res['question.select.label.medium']}" itemValue="#{res['question.select.value.medium']}" />
+				<f:selectItem itemLabel="#{res['question.select.label.hard']}" itemValue="#{res['question.select.value.hard']}" />
 				<f:selectItems id="slctMuLevel"
 					value="#{staticList.convertedQuestionLevelUnitElementsWOEmpty}" />
 			</ice:selectOneMenu>
