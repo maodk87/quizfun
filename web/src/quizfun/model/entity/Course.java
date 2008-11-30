@@ -19,18 +19,24 @@
 package quizfun.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author M. Isuru Tharanga Chrishantha Perera
  */
-public class Course implements Serializable {
+public class Course implements Serializable, Auditable {
 
-	private static final long serialVersionUID = -391586708430585277L;
+	private static final long serialVersionUID = -1911425458909445108L;
 
 	private String code;
 	private String name;
 
 	private Long version;
+	
+	private String createdBy;
+	private Date createdDate;
+	private String modifiedBy;
+	private Date modifiedDate;
 
 	public String getCode() {
 		return code;
@@ -54,6 +60,38 @@ public class Course implements Serializable {
 
 	public void setVersion(Long version) {
 		this.version = version;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
 	}
 
 	@Override
@@ -90,6 +128,10 @@ public class Course implements Serializable {
 		builder.append("code = ").append('\"').append(getCode()).append('\"');
 		builder.append(separator).append("name = ").append('\"').append(getName()).append('\"');
 		builder.append(separator).append("version = ").append(getVersion());
+		builder.append(separator).append("createdBy = ").append('\"').append(getCreatedBy()).append('\"');
+		builder.append(separator).append("createdDate = ").append(getCreatedDate());
+		builder.append(separator).append("modifiedBy = ").append('\"').append(getModifiedBy()).append('\"');
+		builder.append(separator).append("modifiedDate = ").append(getModifiedDate());
 		builder.append("}");
 		return builder.toString();
 	}

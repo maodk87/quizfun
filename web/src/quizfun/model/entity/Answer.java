@@ -19,10 +19,11 @@
 package quizfun.model.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class Answer implements Serializable {
+public class Answer implements Serializable, Auditable {
 
-	private static final long serialVersionUID = 3598134666777318602L;
+	private static final long serialVersionUID = -915476791384543118L;
 
 	private Long id;
 	private String answer;
@@ -31,6 +32,11 @@ public class Answer implements Serializable {
 	private Question question;
 
 	private Long version;
+	
+	private String createdBy;
+	private Date createdDate;
+	private String modifiedBy;
+	private Date modifiedDate;
 
 	public Long getId() {
 		return id;
@@ -72,6 +78,37 @@ public class Answer implements Serializable {
 		this.version = version;
 	}
 
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -110,6 +147,10 @@ public class Answer implements Serializable {
 		builder.append(separator).append("answer = ").append('\"').append(getAnswer()).append('\"');
 		builder.append(separator).append("correct = ").append(isCorrect());
 		builder.append(separator).append("version = ").append(getVersion());
+		builder.append(separator).append("createdBy = ").append('\"').append(getCreatedBy()).append('\"');
+		builder.append(separator).append("createdDate = ").append(getCreatedDate());
+		builder.append(separator).append("modifiedBy = ").append('\"').append(getModifiedBy()).append('\"');
+		builder.append(separator).append("modifiedDate = ").append(getModifiedDate());
 		builder.append(separator).append("question = ").append(getQuestion());
 		builder.append("}");
 		return builder.toString();
