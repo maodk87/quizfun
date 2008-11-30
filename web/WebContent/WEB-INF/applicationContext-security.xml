@@ -24,11 +24,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 	<http>
-		<intercept-url pattern="/xmlhttp/**" filters="none" />
-		<intercept-url pattern="/block/**" filters="none" />
 		<intercept-url pattern="/css/**" filters="none" />
+		<intercept-url pattern="/xmlhttp/**" access="ROLE_ANONYMOUS,ROLE_USER" />
+		<intercept-url pattern="/block/**" access="ROLE_ANONYMOUS,ROLE_USER" />
+		<intercept-url pattern="/login.iface*" access="ROLE_ANONYMOUS" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
-		<intercept-url pattern="/login.iface*" filters="none" />
+		<anonymous />
 		<logout/>
 		<openid-login login-page="/login.iface" authentication-failure-url="/login.iface?login_error=true" />
 	</http>
