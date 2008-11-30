@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,9 +32,7 @@ import quizfun.model.dto.QuestionSCDO;
 import quizfun.model.entity.Answer;
 import quizfun.model.entity.Question;
 import quizfun.model.exception.DuplicateQuestionException;
-import quizfun.model.exception.ModuleNotFoundException;
 import quizfun.model.exception.QuestionNotFoundException;
-import quizfun.view.bean.QuestionManagedBean;
 
 /**
  * 

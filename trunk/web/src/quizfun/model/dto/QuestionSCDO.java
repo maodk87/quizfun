@@ -21,14 +21,14 @@ package quizfun.model.dto;
 
 import java.io.Serializable;
 
-import quizfun.model.entity.Module;
-
 /**
  * 
  * @author Hiranya Mudunkotuwa
  *
  */
 public class QuestionSCDO implements Serializable {
+
+	private static final long serialVersionUID = -94519190602260416L;
 	private Long id;
 	private String question;
 	private int type;

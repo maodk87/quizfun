@@ -18,7 +18,6 @@
 
 package quizfun.view.bean;
 
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.slf4j.Logger;

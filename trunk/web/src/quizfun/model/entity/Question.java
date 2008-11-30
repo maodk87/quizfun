@@ -116,7 +116,7 @@ public class Question implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + getLevel();
-		result = prime * result + ((getQuestion() == null) ? 0 : getQuestion().hashCode());
+		result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
 		result = prime * result + getType();
 		return result;
 	}

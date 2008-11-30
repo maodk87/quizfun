@@ -128,7 +128,8 @@ public class HibernateModuleDao extends HibernateDaoSupport implements ModuleDao
 			throw convertHibernateAccessException(ex);
 		}
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Module> findAllModules (){
 		if(logger.isDebugEnabled()){

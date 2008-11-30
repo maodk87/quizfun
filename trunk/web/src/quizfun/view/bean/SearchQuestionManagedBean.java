@@ -26,10 +26,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import quizfun.model.dto.CourseSCDO;
 import quizfun.model.dto.ModuleSCDO;
 import quizfun.model.dto.QuestionSCDO;
-import quizfun.model.entity.Course;
 import quizfun.model.entity.Module;
 import quizfun.model.entity.Question;
 import quizfun.view.util.JSFUtils;
