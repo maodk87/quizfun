@@ -78,7 +78,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>searchQuestion</from-outcome>
-			<to-view-id>/pages/quesiton/search.iface</to-view-id>
+			<to-view-id>/pages/question/search.iface</to-view-id>
 			<redirect />
 		</navigation-case>
 	</navigation-rule>
