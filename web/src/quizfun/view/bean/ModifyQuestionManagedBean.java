@@ -20,18 +20,15 @@ package quizfun.view.bean;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.event.ActionEvent;
 import javax.faces.event.ValueChangeEvent;
 
-import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import quizfun.model.entity.Answer;
-import quizfun.model.entity.Module;
 import quizfun.model.entity.Question;
 import quizfun.model.exception.QuestionNotFoundException;
 import quizfun.view.util.JSFUtils;

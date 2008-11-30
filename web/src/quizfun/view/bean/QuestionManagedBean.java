@@ -19,7 +19,6 @@
 package quizfun.view.bean;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlSelectOneMenu;

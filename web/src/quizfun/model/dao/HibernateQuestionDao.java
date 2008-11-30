@@ -32,12 +32,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import quizfun.model.dto.CourseSCDO;
 import quizfun.model.dto.ModuleSCDO;
 import quizfun.model.dto.QuestionSCDO;
-import quizfun.model.entity.Module;
-import quizfun.model.entity.Question;
 import quizfun.model.entity.Answer;
+import quizfun.model.entity.Question;
 
 /**
  * 
@@ -64,6 +62,7 @@ public class HibernateQuestionDao extends HibernateDaoSupport implements Questio
 		return id;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Question> findQuestion(QuestionSCDO questionSCDO) {
 		if (logger.isDebugEnabled()) {
@@ -72,6 +71,7 @@ public class HibernateQuestionDao extends HibernateDaoSupport implements Questio
 		List<Question> list = null;
 		Session session = getSession(false);
 		try {
+			@SuppressWarnings("unused")
 			Long id = questionSCDO.getId();
 			String ques = questionSCDO.getQuestion();
 			int type = questionSCDO.getType();

@@ -57,7 +57,8 @@ public class IceUtility {
 	 * Create an editor for matching text
 	 * @return
 	 */
-    public static TextMatcherEditor getMatcherUtility(){
+    @SuppressWarnings("unchecked")
+	public static TextMatcherEditor getMatcherUtility(){
     	TextMatcherEditor editor = new TextMatcherEditor(new TextFilterator() {
 
             public void getFilterStrings(List stringList, Object obj)

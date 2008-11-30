@@ -10,7 +10,6 @@ import javax.faces.model.SelectItem;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import quizfun.model.entity.Course;
 import quizfun.model.entity.Module;
 import quizfun.view.servicelocator.ServiceLocator;
 import quizfun.view.util.JSFUtils;

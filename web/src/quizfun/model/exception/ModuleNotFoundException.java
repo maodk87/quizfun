@@ -26,6 +26,8 @@ package quizfun.model.exception;
  */
 public class ModuleNotFoundException  extends Exception {
 
+	private static final long serialVersionUID = 8096354142771380643L;
+
 	public ModuleNotFoundException() {
 	}
 
