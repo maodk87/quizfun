@@ -52,6 +52,10 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     private boolean midletPaused = false;
     private boolean login = false;
     /**
+     * Session ID
+     */
+    private String sessionId;
+    /**
      * Exit <code>Command</code>
      */
     private Command exitCommand;
@@ -142,16 +146,6 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         if (loginTask == null) {
             loginTask = new SimpleCancellableTask();
             loginTask.setExecutable(new LoginExecutable());
-        /*loginTask.setExecutable(new Executable() {
-        public void execute() throws Exception {
-        try {
-        new LoginExecutable().execute();
-        } catch (Exception ex) {
-        logException(ex);
-        throw ex;
-        }
-        }
-        });*/
         }
         return loginTask;
     }
@@ -508,10 +502,14 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 hc.setRequestMethod(HttpConnection.POST);
                 hc.setRequestProperty("User-Agent", agent);
                 hc.setRequestProperty("Content-Type", type);
+                if (sessionId != null) {
+                    hc.setRequestProperty("Cookie", "JSESSIONID=" + sessionId);
+                }
+
 
                 String postData = getPostData();
                 if (postData != null) {
-                    System.out.println("postData: " + postData);
+                    //System.out.println("postData: " + postData);
                     hc.setRequestProperty("Content-Length", String.valueOf(postData.length()));
                     byte postBytes[] = postData.getBytes();
                     OutputStream os = hc.openOutputStream();
@@ -579,6 +577,8 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                         message = text;
                     } else if (name.equals("login-failed")) {
                         login = Boolean.FALSE.toString().equals(text);
+                    } else if (name.equals("session-id")) {
+                        sessionId = text;
                     }
 
                     parser.require(XmlPullParser.END_TAG, null, name);
@@ -600,7 +600,6 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
 
             } catch (Exception ex) {
                 getAlertFailure().setString(ex.getMessage());
-                logException(ex);
                 throw ex;
             }
         }
