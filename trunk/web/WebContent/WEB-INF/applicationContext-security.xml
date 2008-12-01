@@ -24,11 +24,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
               http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
 
 	<http>
-		<intercept-url pattern="/css/**" filters="none" />
-		<intercept-url pattern="/xmlhttp/**" access="ROLE_ANONYMOUS,ROLE_USER" />
-		<intercept-url pattern="/block/**" access="ROLE_ANONYMOUS,ROLE_USER" />
-		<intercept-url pattern="/login.iface*" access="ROLE_ANONYMOUS" />
-		<intercept-url pattern="/**" access="ROLE_USER" />
+		<!-- 
+		<intercept-url pattern="/course/**" access="ROLE_LECTURER" requires-channel="https" />	
+		<intercept-url pattern="/module/**" access="ROLE_LECTURER" requires-channel="https" />
+		<intercept-url pattern="/question/**" access="ROLE_LECTURER" requires-channel="https" />
+		<intercept-url pattern="/user/**" access="ROLE_ADMIN" requires-channel="https" />
+		<intercept-url pattern="/user/register.iface" access="ROLE_USER" requires-channel="https" />
+		<intercept-url pattern="/user/settings.iface" access="ROLE_USER" requires-channel="https" />
+		 -->
+		<intercept-url pattern="/css/**" filters="none" requires-channel="https" />
+		<intercept-url pattern="/xmlhttp/**" access="ROLE_ANONYMOUS,ROLE_USER" requires-channel="https" />
+		<intercept-url pattern="/block/**" access="ROLE_ANONYMOUS,ROLE_USER" requires-channel="https" />
+		<intercept-url pattern="/login.iface*" access="ROLE_ANONYMOUS" requires-channel="https" />
+		<intercept-url pattern="/**" access="ROLE_USER" requires-channel="https" />
 		<anonymous username="guest" />
 		<logout/>
 		<openid-login login-page="/login.iface" authentication-failure-url="/login.iface?login_error=true" />
