@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.openid4java.discovery.Discovery;
 import org.openid4java.discovery.DiscoveryException;
@@ -20,10 +21,9 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import quizfun.model.entity.User;
 import quizfun.model.exception.UserNotFoundException;
 import quizfun.model.service.UserService;
-import quizfun.view.util.JSFUtils;
 
 /**
- * Servlet implementation class Login
+ * MIDlet Login Servlet
  * 
  * @author M. Isuru Tharanga Chrishantha Perera
  */
@@ -49,6 +49,17 @@ public class LoginServlet extends HttpServlet {
 			logger.trace("Processing Login Request...");
 		}
 
+		// Retrieve the session object corresponding to this request.
+		HttpSession session = request.getSession();
+		String sessionId = session.getId();
+		if (logger.isTraceEnabled()) {
+			if (session.isNew()) {
+				logger.trace("New session created: {}", sessionId);
+			} else {
+				logger.trace("Used existing session: {}", sessionId);
+			}
+		}
+
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 
@@ -61,7 +72,7 @@ public class LoginServlet extends HttpServlet {
 			logger.trace("Username: {}", username);
 			logger.trace("Password: *******");
 		}
-		
+
 		try {
 			Identifier identifier = Discovery.parseIdentifier(username);
 			username = identifier.getIdentifier();
@@ -79,9 +90,10 @@ public class LoginServlet extends HttpServlet {
 		boolean loginFailed = false;
 		final String invalidLogin = "Invalid Username or Password.";
 		String message = null;
-
+		User user = null;
+		
 		try {
-			User user = userService.findUser(username);
+			user = userService.findUser(username);
 			ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder();
 			if (passwordEncoder.isPasswordValid(user.getPassword(), password, username)) {
 				loginFailed = false;
@@ -89,6 +101,7 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				loginFailed = true;
 				message = invalidLogin;
+				user = null;
 			}
 		} catch (UserNotFoundException e) {
 			if (logger.isTraceEnabled()) {
@@ -98,6 +111,8 @@ public class LoginServlet extends HttpServlet {
 			message = invalidLogin;
 		}
 		
+		session.setAttribute("User", user);
+
 		if (logger.isTraceEnabled()) {
 			logger.trace(message);
 		}
@@ -109,6 +124,9 @@ public class LoginServlet extends HttpServlet {
 		out.write("<message>");
 		out.write(message);
 		out.write("</message>");
+		out.write("<session-id>");
+		out.write(sessionId);
+		out.write("</session-id>");
 		out.write("</login>");
 		out.close();
 	}
