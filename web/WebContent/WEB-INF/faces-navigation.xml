@@ -150,6 +150,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<to-view-id>/pages/user/search.iface</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/user/register.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/index.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 	<!-- User - Navigation Rules - End -->
 	
 	<!-- Navigation Rules - End -->
