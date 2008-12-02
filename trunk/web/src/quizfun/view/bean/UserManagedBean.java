@@ -166,7 +166,12 @@ public abstract class UserManagedBean extends CourseSelectManagedBean {
 	}
 	
 	protected boolean validateCourse() {
-		if (course == null) {
+		boolean validateCourse = true;
+		if (selectedRoles != null && selectedRoles.length == 1) {
+			// Course is not required for administrators
+			validateCourse = !selectedRoles[0].equals("ROLE_ADMIN");
+		}
+		if (validateCourse && (course == null)) {
 			JSFUtils.addFacesErrorMessage("selectcourse.course.required.message");
 			courseSelectInputText.requestFocus();
 			return false;
