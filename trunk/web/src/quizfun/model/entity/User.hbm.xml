@@ -43,11 +43,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<property name="enabled" type="boolean" not-null="true">
 			<column name="ENABLED" />
 		</property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="255" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="255" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" />
+        </property>
 		<set name="grantedAuthorities" table="USER_AUTHORITY" lazy="false" fetch="subselect" cascade="all" order-by="AUTHORITY">
 			<key column="USERNAME" />
 			<element type="string" column="AUTHORITY" length="255" not-null="true" />
 		</set>
-		<many-to-one name="course" column="COURSE" not-null="true" lazy="false" fetch="join">
+		<many-to-one name="course" column="COURSE" lazy="false" fetch="join">
 		</many-to-one>
 	</class>
 </hibernate-mapping>
