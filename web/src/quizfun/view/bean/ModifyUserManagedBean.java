@@ -67,8 +67,10 @@ public class ModifyUserManagedBean extends UserManagedBean {
 		
 		
 		course = modifyingUser.getCourse();
-		selectedCourse = JSFUtils.getStringFromBundle("selectcourse.selectedcourse.display.pattern", new Object[] { course.getCode(),
-				course.getName() });
+		if (course != null) {
+			selectedCourse = JSFUtils.getStringFromBundle("selectcourse.selectedcourse.display.pattern", new Object[] { course.getCode(),
+					course.getName() });
+		}
 	}
 
 	public void saveActionListener(ActionEvent event) {
@@ -84,7 +86,7 @@ public class ModifyUserManagedBean extends UserManagedBean {
 		}
 		
 		try {
-			if (!modifyingUser.getCourse().equals(course)) {
+			if (course != null && !course.equals(modifyingUser.getCourse())) {
 				modifyingUser.setCourse(course);
 			}
 			if (password != null && !password.isEmpty()) {

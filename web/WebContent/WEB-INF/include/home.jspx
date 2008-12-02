@@ -30,6 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	</c:if>
 	
 	<c:if test="#{not empty common.user}">
-		<p>You are registered with QuizFun and your course is <span style="font-weight: bold; margin-left: 1em;">#{common.user.course.name}</span></p>
+		<p>You are registered with QuizFun....</p>
+	</c:if>
+	<c:if test="#{(not empty common.user) and (not empty common.user.course)}">
+		<p>Your course is <span style="font-weight: bold; margin-left: 1em;">#{common.user.course.name}</span></p>
 	</c:if>
 </div>
