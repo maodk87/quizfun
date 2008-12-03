@@ -39,6 +39,7 @@ import quizfun.model.exception.QuestionNotFoundException;
  * @author Hiranya Mudunkotuwa
  *
  */
+@Transactional(readOnly = true)
 public class QuestionServiceImpl implements QuestionService {
 	final Logger logger = LoggerFactory.getLogger(QuestionService.class);
 
@@ -135,6 +136,11 @@ public class QuestionServiceImpl implements QuestionService {
 		ques.setType(question.getType());
 		
 		return questionDao.updateQuestion(ques);
+	}
+
+	@Override
+	public List<Question> findRandomQuestionByLevel(String moduleCode, int level, int limit) {
+		return questionDao.findRandomQuestionByLevel(moduleCode, level, limit);
 	}	
 	
 }
