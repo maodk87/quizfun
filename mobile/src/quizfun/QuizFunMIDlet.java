@@ -42,6 +42,7 @@ import org.netbeans.microedition.lcdui.WaitScreen;
 import org.netbeans.microedition.util.Executable;
 import org.netbeans.microedition.util.SimpleCancellableTask;
 import org.xmlpull.v1.XmlPullParser;
+import quizfun.exception.ApplicationException;
 import quizfun.util.EncodeURL;
 
 /**
@@ -324,7 +325,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 logException(ex);
             }
             loginForm = new Form("QuizFun - Login");
-            usernameTextField = new TextField("Username:", username, 255, TextField.ANY);
+            usernameTextField = new TextField("Username:", username, 255, TextField.NON_PREDICTIVE);
             passwordTextField = new TextField("Password:", "", 255, TextField.PASSWORD);
             loginForm.append(usernameTextField);
             loginForm.append(passwordTextField);
@@ -377,7 +378,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     private void resetAlertSuccess() {
-        getAlertFailure().setString("");
+        getAlertSuccess().setString("");
     }
 
     public Alert getAlertAbout() {
@@ -522,7 +523,12 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 process(hc);
 
                 hc.close();
+            } catch (ApplicationException ex) {
+                getAlertFailure().setString(ex.getMessage());
+                logException(ex);
+                throw ex;
             } catch (Exception ex) {
+                getAlertFailure().setString("Error connecting with server.");
                 logException(ex);
                 throw ex;
             }
@@ -553,54 +559,48 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             return str;
         }
 
-        protected void process(HttpConnection hc) throws Exception {
+        protected void process(HttpConnection hc) throws ApplicationException, Exception {
             login = false;
-            try {
-                String message = null;
+            String message = null;
 
-                //Initilialize XML parser
-                KXmlParser parser = new KXmlParser();
+            //Initilialize XML parser
+            KXmlParser parser = new KXmlParser();
 
-                parser.setInput(new InputStreamReader(hc.openInputStream()));
+            parser.setInput(new InputStreamReader(hc.openInputStream()));
 
-                parser.nextTag();
+            parser.nextTag();
 
-                parser.require(XmlPullParser.START_TAG, null, "login");
+            parser.require(XmlPullParser.START_TAG, null, "login");
 
-                //Iterate through our XML file
-                while (parser.nextTag() != XmlPullParser.END_TAG) {
-                    parser.require(XmlPullParser.START_TAG, null, null);
-                    String name = parser.getName();
-                    String text = parser.nextText();
+            //Iterate through our XML file
+            while (parser.nextTag() != XmlPullParser.END_TAG) {
+                parser.require(XmlPullParser.START_TAG, null, null);
+                String name = parser.getName();
+                String text = parser.nextText();
 
-                    if (name.equals("message")) {
-                        message = text;
-                    } else if (name.equals("login-failed")) {
-                        login = Boolean.FALSE.toString().equals(text);
-                    } else if (name.equals("session-id")) {
-                        sessionId = text;
-                    }
-
-                    parser.require(XmlPullParser.END_TAG, null, name);
+                if (name.equals("message")) {
+                    message = text;
+                } else if (name.equals("login-failed")) {
+                    login = Boolean.FALSE.toString().equals(text);
+                } else if (name.equals("session-id")) {
+                    sessionId = text;
                 }
 
-                parser.require(XmlPullParser.END_TAG, null, "login");
-                parser.next();
+                parser.require(XmlPullParser.END_TAG, null, name);
+            }
 
-                parser.require(XmlPullParser.END_DOCUMENT, null, null);
+            parser.require(XmlPullParser.END_TAG, null, "login");
+            parser.next();
 
-                //Take action based on login value
-                if (login) {
-                    Alert alert = getAlertSuccess();
-                    alert.setString(message);
-                    alert.setTimeout(2000);
-                } else {
-                    throw new Exception(message);
-                }
+            parser.require(XmlPullParser.END_DOCUMENT, null, null);
 
-            } catch (Exception ex) {
-                getAlertFailure().setString(ex.getMessage());
-                throw ex;
+            //Take action based on login value
+            if (login) {
+                Alert alert = getAlertSuccess();
+                alert.setString(message);
+                alert.setTimeout(2000);
+            } else {
+                throw new ApplicationException(message);
             }
         }
     }
