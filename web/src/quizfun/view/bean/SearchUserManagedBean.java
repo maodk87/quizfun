@@ -79,8 +79,11 @@ public class SearchUserManagedBean extends UserManagedBean {
 			@Override
 			public void getFilterStrings(List<String> baseList, User user) {
 				baseList.add(user.getUsername());
-				baseList.add(user.getCourse().getCode());
-				baseList.add(user.getCourse().getName());
+				Course course = user.getCourse();
+				if (course != null) {
+					baseList.add(user.getCourse().getCode());
+					baseList.add(user.getCourse().getName());
+				}
 			}
 
 		};
