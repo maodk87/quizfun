@@ -197,4 +197,21 @@ public class HibernateQuestionDao extends HibernateDaoSupport implements Questio
 			throw convertHibernateAccessException(ex);
 		}
 	}	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Question> findRandomQuestionByLevel(String moduleCode, int level, int limit) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Finding {} Random Questions by Level: {}", limit, level);
+		}
+		Session session = getSession(false);
+		List<Question> list = null;
+		try {
+			list = session.createQuery("from Question o where o.module = :module and o.level = :level order by rand()").setString(
+					"module", moduleCode).setInteger("level", level).setMaxResults(limit).list();
+		} catch (HibernateException ex) {
+			throw convertHibernateAccessException(ex);
+		}
+		return list;
+	}
 }

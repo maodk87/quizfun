@@ -44,5 +44,7 @@ public interface QuestionDao {
 
 	void deleteAnswer(Answer answer);
 
+	List<Question> findRandomQuestionByLevel(String moduleCode, int level, int limit);
+
 
 }

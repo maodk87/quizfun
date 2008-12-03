@@ -43,5 +43,7 @@ public interface QuestionService {
 	Question findQuestionById(Long id) throws QuestionNotFoundException;
 
 	Question updateQuestion(Question question);
+	
+	List<Question> findRandomQuestionByLevel(String moduleCode, int level, int limit);
 
 }
