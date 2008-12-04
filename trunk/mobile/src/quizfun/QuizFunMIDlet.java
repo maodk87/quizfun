@@ -129,7 +129,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      */
     private TextField moduleTextField;
     /**
-     * Question list
+     * Question list. Assuming 5 questions per level
      */
     private Vector questionVector = new Vector(5);
     /**
@@ -165,6 +165,14 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      * Happy Alerts
      */
     private Alert[] sadAlerts;
+    /**
+     * Correct Answer Messages
+     */
+    private String[] correctMessages;
+    /**
+     * Wrong Answer Messages
+     */
+    private String[] wrongMessages;
 
     //private List
     private void initialize() {
@@ -268,21 +276,38 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
 
                 Alert alert = null;
                 Random random = new Random();
-                Alert[] alerts = null;
+                Alert[] alerts;
+                String[] messages;
+                String message;
                 if (correct) {
                     alerts = getHappyAlerts();
+                    messages = getCorrectMessages();
                     alert = alerts[random.nextInt(alerts.length)];
+                    message = messages[random.nextInt(messages.length)];
+                    alert.setString(message);
                 } else {
                     alerts = getSadAlerts();
+                    messages = getWrongMessages();
                     alert = alerts[random.nextInt(alerts.length)];
-                    alert.setString("Your answer is wrong!\nCorrect answer is '" + correctAnswer.getAnswer() + "'");
+                    message = messages[random.nextInt(messages.length)];
+                    alert.setString(message + "\n\nCorrect answer is '" + correctAnswer.getAnswer() + "'");
                 }
 
                 if (questionEnumeration.hasMoreElements()) {
                     setQuestionDisplay();
                     switchDisplayable(alert, questionForm);
                 } else {
-                    switchDisplayable(alert, getMenu());
+                    level++;
+                    WaitScreen screen = getWaitScreen();
+                    screen.setTask(getGameTask());
+                    if (level > 3) {
+                        // Game over.
+                        successDisplayable = getMenu();
+                    } else {
+                        successDisplayable = getQuestionForm();
+                    }
+                    failureDisplayable = getMenu();
+                    switchDisplayable(alert, screen);
                 }
             }
         } else if (displayable == loginForm) {
@@ -508,7 +533,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         if (happyAlerts == null) {
             happyAlerts = new Alert[3];
             String title = "Correct!";
-            String alertText = "You answer is correct!";
+            String alertText = "";
 
             Image image = null;
             try {
@@ -612,10 +637,50 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return sadAlerts;
     }
 
+    public String[] getCorrectMessages() {
+        if (correctMessages == null) {
+            correctMessages = new String[7];
+            correctMessages[0] = "Well Done! Keep Going!!";
+            correctMessages[1] = "Ooh, sounds good!!";
+            correctMessages[2] = "Yes, go ahead!";
+            correctMessages[3] = "Damn! You are good!";
+            correctMessages[4] = "Good Choice!";
+            correctMessages[5] = "Congratulations!!";
+            correctMessages[6] = "Hey, that's a good choice!!";
+        }
+        return correctMessages;
+    }
+
+    public String[] getWrongMessages() {
+        if (wrongMessages == null) {
+            wrongMessages = new String[9];
+            wrongMessages[0] = "Your answer is wrong!!";
+            wrongMessages[1] = "Yo, No Way! Didn't you see the correct one?";
+            wrongMessages[2] = "Ooops! Wrong Choice!";
+            wrongMessages[3] = "You have my sympathy!";
+            wrongMessages[4] = "Mind your step!!";
+            wrongMessages[5] = "Excuse me!!";
+            wrongMessages[6] = "You can't give it up!";
+            wrongMessages[7] = "I think you are crying now...";
+            wrongMessages[8] = "Heh, Heh, Heh, what a mess!";
+            wrongMessages[8] = "It's a shame!";
+        }
+        return wrongMessages;
+    }
+
     public Form getModuleForm() {
         if (moduleForm == null) {
+            String moduleCode = null;
+            try {
+                RecordStore settings = RecordStore.openRecordStore("QuizFun", true);
+                moduleCode = new String(settings.getRecord(2));
+                settings.closeRecordStore();
+            // No settings file existed
+            } catch (Exception ex) {
+                logException(ex);
+            }
             moduleForm = new Form("Module");
-            moduleTextField = new TextField("Enter Module Code:", "", 255, TextField.NON_PREDICTIVE);
+            moduleTextField = new TextField("Enter Module Code:", moduleCode, 255, TextField.NON_PREDICTIVE);
             moduleForm.append(moduleTextField);
             moduleForm.addCommand(getBackCommand());
             moduleForm.addCommand(getDoneCommand());
@@ -707,6 +772,11 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     return;
                 }
 
+                String moduleCode = null;
+                if (moduleTextField != null) {
+                    moduleCode = moduleTextField.getString();
+                }
+
                 try {
 
                     RecordStore settings = RecordStore.openRecordStore("QuizFun", true);
@@ -717,6 +787,16 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     } catch (RecordStoreException rse) {
                         settings.addRecord(username.getBytes(), 0, username.length());
                     }
+
+                    if (moduleCode != null) {
+                        try {
+                            settings.setRecord(2, moduleCode.getBytes(), 0, moduleCode.length());
+                        // First time writing to the settings file
+                        } catch (RecordStoreException rse) {
+                            settings.addRecord(moduleCode.getBytes(), 0, moduleCode.length());
+                        }
+                    }
+
 
                     settings.closeRecordStore();
                 } catch (Exception ex) {
@@ -854,6 +934,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         protected void init() {
             resetAlertFailure();
             resetAlertSuccess();
+            questionVector.removeAllElements();
         }
 
         protected String getURL() {
@@ -867,6 +948,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
 
         protected void process(HttpConnection hc) throws ApplicationException, Exception {
             boolean error = false;
+            boolean gameOver = false;
             String errorMessage = null;
 
             //Initilialize XML parser
@@ -889,6 +971,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     errorMessage = text;
                 } else if (name.equals("question")) {
                     parseQuestion(parser);
+                } else if (name.equals("game-over")) {
+                    String text = parser.nextText();
+                    gameOver = Boolean.TRUE.toString().equals(text);
                 }
 
                 parser.require(XmlPullParser.END_TAG, null, name);
@@ -898,6 +983,12 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             parser.next();
 
             parser.require(XmlPullParser.END_DOCUMENT, null, null);
+
+            if (gameOver) {
+                Alert alert = getAlertSuccess();
+                alert.setString("Game Over");
+                return;
+            }
 
             if (error) {
                 throw new ApplicationException(errorMessage);
