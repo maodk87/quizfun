@@ -20,11 +20,15 @@ package quizfun;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.util.Enumeration;
+import java.util.Random;
+import java.util.Vector;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Choice;
+import javax.microedition.lcdui.ChoiceGroup;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
@@ -32,6 +36,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.List;
+import javax.microedition.lcdui.StringItem;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.midlet.*;
 import javax.microedition.rms.RecordStore;
@@ -42,6 +47,8 @@ import org.netbeans.microedition.lcdui.WaitScreen;
 import org.netbeans.microedition.util.Executable;
 import org.netbeans.microedition.util.SimpleCancellableTask;
 import org.xmlpull.v1.XmlPullParser;
+import quizfun.dto.Answer;
+import quizfun.dto.Question;
 import quizfun.exception.ApplicationException;
 import quizfun.util.EncodeURL;
 
@@ -60,7 +67,14 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      * Exit <code>Command</code>
      */
     private Command exitCommand;
+    /**
+     * Login Task
+     */
     private SimpleCancellableTask loginTask;
+    /**
+     * Game Task
+     */
+    private SimpleCancellableTask gameTask;
     private WaitScreen waitScreen;
     private SplashScreen splashScreen;
     /**
@@ -114,6 +128,43 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      * Module Code input <code>TextField</code>
      */
     private TextField moduleTextField;
+    /**
+     * Question list
+     */
+    private Vector questionVector = new Vector(5);
+    /**
+     * Game level
+     */
+    private int level;
+    /**
+     * Question <code>Form</code>
+     */
+    private Form questionForm;
+    /**
+     * Question
+     */
+    private StringItem questionItem;
+    /**
+     * Answers
+     */
+    private ChoiceGroup answerCg;
+    /**
+     * Enumerate through question. There is no going back.
+     * This is for prototype only.
+     */
+    private Enumeration questionEnumeration;
+    /**
+     * Current Question displayed
+     */
+    private Question currentQuestion;
+    /**
+     * Happy Alerts
+     */
+    private Alert[] happyAlerts;
+    /**
+     * Happy Alerts
+     */
+    private Alert[] sadAlerts;
 
     //private List
     private void initialize() {
@@ -151,6 +202,14 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return loginTask;
     }
 
+    public SimpleCancellableTask getGameTask() {
+        if (gameTask == null) {
+            gameTask = new SimpleCancellableTask();
+            gameTask.setExecutable(new GameExecutable());
+        }
+        return gameTask;
+    }
+
     /**
      * Called by a system to indicated that a command has been invoked on a particular displayable.
      * @param command the Command that was invoked
@@ -177,6 +236,54 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             if (command == backCommand) {
                 switchDisplayable(null, getMenu());
             } else if (command == doneCommand) {
+                String code = moduleTextField.getString();
+                if (code == null || code.trim().length() == 0) {
+                    getAlertFailure().setString("Please enter a module code.");
+                    switchDisplayable(getAlertFailure(), moduleForm);
+                } else {
+                    WaitScreen screen = getWaitScreen();
+                    screen.setTask(getGameTask());
+                    successDisplayable = getQuestionForm();
+                    failureDisplayable = moduleForm;
+                    level = 1;
+                    switchDisplayable(null, screen);
+                }
+            }
+        } else if (displayable == questionForm) {
+            if (command == doneCommand) {
+                boolean correct = false;
+                Answer correctAnswer = null;
+                Vector answers = currentQuestion.getAnswers();
+                String selectedAnswer = answerCg.getString(answerCg.getSelectedIndex());
+                Enumeration enumeration = answers.elements();
+                while (enumeration.hasMoreElements()) {
+                    Answer answer = (Answer) enumeration.nextElement();
+                    if (answer.isCorrect()) {
+                        correctAnswer = answer;
+                        if (answer.getAnswer().equals(selectedAnswer)) {
+                            correct = true;
+                        }
+                    }
+                }
+
+                Alert alert = null;
+                Random random = new Random();
+                Alert[] alerts = null;
+                if (correct) {
+                    alerts = getHappyAlerts();
+                    alert = alerts[random.nextInt(alerts.length)];
+                } else {
+                    alerts = getSadAlerts();
+                    alert = alerts[random.nextInt(alerts.length)];
+                    alert.setString("Your answer is wrong!\nCorrect answer is '" + correctAnswer.getAnswer() + "'");
+                }
+
+                if (questionEnumeration.hasMoreElements()) {
+                    setQuestionDisplay();
+                    switchDisplayable(alert, questionForm);
+                } else {
+                    switchDisplayable(alert, getMenu());
+                }
             }
         } else if (displayable == loginForm) {
             if (command == loginCommand) {
@@ -247,9 +354,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             splashScreen = new SplashScreen(getDisplay());
             splashScreen.setTitle("QuizFun");
             splashScreen.setCommandListener(this);
-            splashScreen.setText("QuizFun...");
+            splashScreen.setText("QuizFun - A mobile game");
             try {
-                Image image = Image.createImage("/quizfun/resources/wizard.png");
+                Image image = Image.createImage("/quizfun/resources/easymoblog.png");
                 splashScreen.setImage(image);
             } catch (IOException ex) {
                 logException(ex);
@@ -389,23 +496,160 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             } catch (IOException ex) {
                 logException(ex);
             }
-            alertAbout = new Alert("About QuizFun", "3SFE515 Software Engineering Group Project.\n\nInformatics Institute of Technology.", image, AlertType.INFO);
+            alertAbout = new Alert("About QuizFun", "3SFE515 Software Engineering Group Project.\nBy\nIsuru, Hiranya, Nevindaree and Madura" +
+                    "\n\nInformatics Institute of Technology.", image, AlertType.INFO);
             alertAbout.setTimeout(Alert.FOREVER);
 
         }
         return alertAbout;
     }
 
+    public Alert[] getHappyAlerts() {
+        if (happyAlerts == null) {
+            happyAlerts = new Alert[3];
+            String title = "Correct!";
+            String alertText = "You answer is correct!";
+
+            Image image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/cool-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            Alert alert = new Alert(title, alertText, image, AlertType.INFO);
+            alert.setTimeout(Alert.FOREVER);
+            happyAlerts[0] = alert;
+
+            image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/happy-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            alert = new Alert(title, alertText, image, AlertType.INFO);
+            alert.setTimeout(Alert.FOREVER);
+            happyAlerts[1] = alert;
+
+            image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/winky-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            alert = new Alert(title, alertText, image, AlertType.INFO);
+            alert.setTimeout(Alert.FOREVER);
+            happyAlerts[2] = alert;
+        }
+        return happyAlerts;
+    }
+
+    public Alert[] getSadAlerts() {
+        if (sadAlerts == null) {
+            sadAlerts = new Alert[6];
+            String title = "Wrong!!";
+            String alertText = "";
+
+            Image image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/hmm-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            Alert alert = new Alert(title, alertText, image, AlertType.WARNING);
+            alert.setTimeout(Alert.FOREVER);
+            sadAlerts[0] = alert;
+
+            image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/nervous-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            alert = new Alert(title, alertText, image, AlertType.WARNING);
+            alert.setTimeout(Alert.FOREVER);
+            sadAlerts[1] = alert;
+
+            image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/sad-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            alert = new Alert(title, alertText, image, AlertType.WARNING);
+            alert.setTimeout(Alert.FOREVER);
+            sadAlerts[2] = alert;
+
+            image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/shame-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            alert = new Alert(title, alertText, image, AlertType.WARNING);
+            alert.setTimeout(Alert.FOREVER);
+            sadAlerts[3] = alert;
+
+            image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/surprise-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            alert = new Alert(title, alertText, image, AlertType.WARNING);
+            alert.setTimeout(Alert.FOREVER);
+            sadAlerts[4] = alert;
+
+            image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/weepy-48x48.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            alert = new Alert(title, alertText, image, AlertType.WARNING);
+            alert.setTimeout(Alert.FOREVER);
+            sadAlerts[5] = alert;
+        }
+        return sadAlerts;
+    }
+
     public Form getModuleForm() {
         if (moduleForm == null) {
             moduleForm = new Form("Module");
-            moduleTextField = new TextField("Enter Module Code:", "", 255, TextField.ANY);
+            moduleTextField = new TextField("Enter Module Code:", "", 255, TextField.NON_PREDICTIVE);
             moduleForm.append(moduleTextField);
             moduleForm.addCommand(getBackCommand());
             moduleForm.addCommand(getDoneCommand());
             moduleForm.setCommandListener(this);
         }
         return moduleForm;
+    }
+
+    public Form getQuestionForm() {
+        if (questionForm == null) {
+            questionForm = new Form("");
+            questionItem = new StringItem("Question:", "");
+            questionForm.append(questionItem);
+            // Create an exclusive (radio) choice group
+            answerCg = new ChoiceGroup("Answers:", Choice.EXCLUSIVE);
+            questionForm.append(answerCg);
+            questionForm.addCommand(getExitCommand());
+            questionForm.addCommand(getDoneCommand());
+            questionForm.setCommandListener(this);
+        }
+        return questionForm;
+    }
+
+    private void setQuestionDisplay() {
+        // Assuming that questionEnumeration, questionItem and answerCg is initialized.
+        currentQuestion = (Question) questionEnumeration.nextElement();
+        Vector answers = currentQuestion.getAnswers();
+        questionItem.setText(currentQuestion.getQuestion());
+        answerCg.deleteAll();
+        Enumeration enumeration = answers.elements();
+        while (enumeration.hasMoreElements()) {
+            Answer answer = (Answer) enumeration.nextElement();
+            answerCg.append(answer.getAnswer(), null);
+        }
     }
 
     /**
@@ -602,6 +846,110 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             } else {
                 throw new ApplicationException(message);
             }
+        }
+    }
+
+    class GameExecutable extends AbstractExecutable {
+
+        protected void init() {
+            resetAlertFailure();
+            resetAlertSuccess();
+        }
+
+        protected String getURL() {
+            return "game";
+        }
+
+        protected String getPostData() {
+            String str = "module=" + EncodeURL.encode(moduleTextField.getString()) + "&level=" + String.valueOf(level);
+            return str;
+        }
+
+        protected void process(HttpConnection hc) throws ApplicationException, Exception {
+            boolean error = false;
+            String errorMessage = null;
+
+            //Initilialize XML parser
+            KXmlParser parser = new KXmlParser();
+
+            parser.setInput(new InputStreamReader(hc.openInputStream()));
+
+            parser.nextTag();
+
+            parser.require(XmlPullParser.START_TAG, null, "game");
+
+            //Iterate through our XML file
+            while (parser.nextTag() != XmlPullParser.END_TAG) {
+                parser.require(XmlPullParser.START_TAG, null, null);
+                String name = parser.getName();
+
+                if (name.equals("error-msg")) {
+                    String text = parser.nextText();
+                    error = true;
+                    errorMessage = text;
+                } else if (name.equals("question")) {
+                    parseQuestion(parser);
+                }
+
+                parser.require(XmlPullParser.END_TAG, null, name);
+            }
+
+            parser.require(XmlPullParser.END_TAG, null, "game");
+            parser.next();
+
+            parser.require(XmlPullParser.END_DOCUMENT, null, null);
+
+            if (error) {
+                throw new ApplicationException(errorMessage);
+            }
+
+            getQuestionForm().setTitle("QuizFun - Level " + level);
+            questionEnumeration = questionVector.elements();
+            setQuestionDisplay();
+
+            Alert alert = getAlertSuccess();
+            alert.setString("QuizFun\n\nLevel " + level);
+        }
+
+        private void parseQuestion(KXmlParser parser) throws Exception {
+            Question question = new Question();
+            Vector answers = new Vector(4);
+            question.setAnswers(answers);
+            questionVector.addElement(question);
+            while (parser.nextTag() != XmlPullParser.END_TAG) {
+                parser.require(XmlPullParser.START_TAG, null, null);
+                String name = parser.getName();
+                if (name.equals("id")) {
+                    String text = parser.nextText();
+                    question.setId(text);
+                } else if (name.equals("value")) {
+                    String text = parser.nextText();
+                    question.setQuestion(text);
+                } else if (name.equals("answer")) {
+                    parseAnswer(parser, answers);
+                }
+
+                parser.require(XmlPullParser.END_TAG, null, name);
+            }
+        }
+
+        private void parseAnswer(KXmlParser parser, Vector answers) throws Exception {
+            Answer answer = new Answer();
+            while (parser.nextTag() != XmlPullParser.END_TAG) {
+                parser.require(XmlPullParser.START_TAG, null, null);
+                String name = parser.getName();
+                String text = parser.nextText();
+                if (name.equals("id")) {
+                    answer.setId(text);
+                } else if (name.equals("value")) {
+                    answer.setAnswer(text);
+                } else if (name.equals("correct")) {
+                    answer.setCorrect(Boolean.TRUE.toString().equals(text));
+                }
+
+                parser.require(XmlPullParser.END_TAG, null, name);
+            }
+            answers.addElement(answer);
         }
     }
     private boolean debug = true;
