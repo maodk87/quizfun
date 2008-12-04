@@ -24,10 +24,19 @@ import java.util.Vector;
  */
 public class Question {
 
+    private String id;
     private String question;
     private String hint;
     private String reference;
     private Vector answers;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Vector getAnswers() {
         return answers;

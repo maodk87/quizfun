@@ -22,8 +22,17 @@ package quizfun.dto;
  */
 public class Answer {
 
+    private String id;
     private String answer;
     private boolean correct;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getAnswer() {
         return answer;
