@@ -104,22 +104,39 @@ public class GameServlet extends HttpServlet {
 		}
 		
 		if (moduleCode != null) {
-			Module module = null;
-			try {
-				module = moduleService.findModuleByCode(moduleCode);
-				if (logger.isTraceEnabled()) {
-					logger.trace("Found: {}", module);
+			Module module = (Module) session.getAttribute("Module");
+			if (module == null || !moduleCode.equals(module.getCode())) {
+				try {
+					module = moduleService.findModuleByCode(moduleCode);
+					if (logger.isTraceEnabled()) {
+						logger.trace("Found: {}", module);
+					}
+					session.setAttribute("Module", module);
+				} catch (ModuleNotFoundException e) {
+					StringBuilder builder = new StringBuilder();
+					builder.append("<game>");
+					builder.append("<error-msg>");
+					builder.append("Module not found for code '").append(moduleCode).append("'");
+					builder.append("</error-msg>");
+					builder.append("</game>");
+					out.write(builder.toString());
+					return;
 				}
-			} catch (ModuleNotFoundException e) {
-				StringBuilder builder = new StringBuilder();
-				builder.append("<game>");
-				builder.append("<error-msg>");
-				builder.append("Module not found for code '").append(moduleCode).append("'");
-				builder.append("</error-msg>");
-				builder.append("</game>");
-				out.write(builder.toString());
-				return;
 			}
+		}
+		
+		int levelNumber = Integer.parseInt(level);
+		if (levelNumber > 3) {
+			// There can be only three levels.
+			if (logger.isTraceEnabled()) {
+				logger.trace("Game over!");
+			}
+			StringBuilder builder = new StringBuilder();
+			builder.append("<game>");
+			builder.append("<game-over>true</game-over>");
+			builder.append("</game>");
+			out.write(builder.toString());
+			return;
 		}
 		
 		boolean loadingSuccess = true;
@@ -127,6 +144,7 @@ public class GameServlet extends HttpServlet {
 		Map<Integer, List<Question>> questionMapByLevel = (Map<Integer, List<Question>>) session.getAttribute("QuestionMapByLevel");
 		if (questionMapByLevel == null) {
 			questionMapByLevel = new HashMap<Integer, List<Question>>();
+			session.setAttribute("QuestionMapByLevel", questionMapByLevel);
 			if (moduleCode != null) {
 				if (logger.isTraceEnabled()) {
 					logger.trace("Getting random questions for module.");
@@ -166,8 +184,6 @@ public class GameServlet extends HttpServlet {
 			out.write(builder.toString());
 			return;
 		}
-		
-		int levelNumber = Integer.parseInt(level);
 		
 		List<Question> questionList = questionMapByLevel.get(levelNumber);
 		
