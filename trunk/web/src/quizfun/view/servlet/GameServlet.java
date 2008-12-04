@@ -78,7 +78,11 @@ public class GameServlet extends HttpServlet {
 			builder.append("Session Expired");
 			builder.append("</error-msg>");
 			builder.append("</game>");
-			out.write(builder.toString());
+			String xmlString = builder.toString();
+			if (logger.isTraceEnabled()) {
+				logger.trace("XML: {}", xmlString);
+			}
+			out.write(xmlString);
 			return;
 		}
 
@@ -89,11 +93,13 @@ public class GameServlet extends HttpServlet {
 		String gameId = request.getParameter("game");
 		String moduleCode = request.getParameter("module");
 		String level = request.getParameter("level");
+		String marks = request.getParameter("marks");
 
 		if (logger.isTraceEnabled()) {
 			logger.trace("Game ID: {}", gameId);
 			logger.trace("Module Code: {}", moduleCode);
 			logger.trace("Level: {}", level);
+			logger.trace("Marks: {}", marks);
 
 			if (moduleCode != null) {
 				logger.trace("Requesting questions by module...");
@@ -119,15 +125,43 @@ public class GameServlet extends HttpServlet {
 					builder.append("Module not found for code '").append(moduleCode).append("'");
 					builder.append("</error-msg>");
 					builder.append("</game>");
-					out.write(builder.toString());
+					String xmlString = builder.toString();
+					if (logger.isTraceEnabled()) {
+						logger.trace("XML: {}", xmlString);
+					}
+					out.write(xmlString);
 					return;
 				}
 			}
 		}
 		
+//		Map<String, String> parameterMap = request.getParameterMap();
+//		Set<String> keys = parameterMap.keySet();
+//		for (String key: keys) {
+//			if (key.startsWith("qa")) {
+//				String value = parameterMap.get(key);
+//				logger.debug(value);
+//			}
+//		}
+		
 		int levelNumber = Integer.parseInt(level);
+		int totalMarks = Integer.parseInt(marks);
+		
+		boolean gameOver = false;
 		if (levelNumber > 3) {
 			// There can be only three levels.
+			gameOver = true;
+		} else {
+			if (levelNumber == 2) {
+				// At least 10% should be scored.
+				gameOver = (totalMarks < 10);
+			} else if (levelNumber == 3) {
+				// At least 30% should be scored.
+				gameOver = (totalMarks < 30);
+			}
+		}
+		
+		if (gameOver) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Game over!");
 			}
@@ -135,14 +169,19 @@ public class GameServlet extends HttpServlet {
 			builder.append("<game>");
 			builder.append("<game-over>true</game-over>");
 			builder.append("</game>");
-			out.write(builder.toString());
+			String xmlString = builder.toString();
+			if (logger.isTraceEnabled()) {
+				logger.trace("XML: {}", xmlString);
+			}
+			out.write(xmlString);
 			return;
 		}
 		
 		boolean loadingSuccess = true;
 
 		Map<Integer, List<Question>> questionMapByLevel = (Map<Integer, List<Question>>) session.getAttribute("QuestionMapByLevel");
-		if (questionMapByLevel == null) {
+		if (levelNumber == 1 || questionMapByLevel == null) {
+			// level number 1 means a new game.
 			questionMapByLevel = new HashMap<Integer, List<Question>>();
 			session.setAttribute("QuestionMapByLevel", questionMapByLevel);
 			if (moduleCode != null) {
@@ -181,20 +220,26 @@ public class GameServlet extends HttpServlet {
 			builder.append("Quesion loading failed.");
 			builder.append("</error-msg>");
 			builder.append("</game>");
-			out.write(builder.toString());
+			String xmlString = builder.toString();
+			if (logger.isTraceEnabled()) {
+				logger.trace("XML: {}", xmlString);
+			}
+			out.write(xmlString);
 			return;
 		}
 		
 		List<Question> questionList = questionMapByLevel.get(levelNumber);
 		
 		StringBuilder builder = new StringBuilder();
-		builder.append("<?xml version='1.0' encoding='UTF-8'?>");
+		//builder.append("<?xml version='1.0' encoding='UTF-8'?>");
 		builder.append("<game>");
 		
 		for (Question question : questionList) {
 			builder.append("<question>");
 			builder.append("<id>").append(question.getId()).append("</id>");
 			builder.append("<value>").append(question.getQuestion()).append("</value>");
+			builder.append("<ref>").append(question.getReference()).append("</ref>");
+			builder.append("<hint>").append(question.getHint()).append("</hint>");
 			Set<Answer> answers = question.getAnswers();
 			for (Answer answer : answers) {
 				builder.append("<answer>");
@@ -207,11 +252,11 @@ public class GameServlet extends HttpServlet {
 		}
 		builder.append("</game>");
 		
+		String xmlString = builder.toString();
 		if (logger.isTraceEnabled()) {
-			logger.trace("XML: {}", builder.toString());
+			logger.trace("XML: {}", xmlString);
 		}
-		
-		out.write(builder.toString());
+		out.write(xmlString);
 		return;
 	}
 
