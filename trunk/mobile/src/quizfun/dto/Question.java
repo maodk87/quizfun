@@ -30,6 +30,11 @@ public class Question {
     private String reference;
     private Vector answers;
 
+    /**
+     * Selected Answer for this question.
+     */
+    private Answer selectedAnswer;
+
     public String getId() {
         return id;
     }
@@ -68,5 +73,13 @@ public class Question {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public Answer getSelectedAnswer() {
+        return selectedAnswer;
+    }
+
+    public void setSelectedAnswer(Answer selectedAnswer) {
+        this.selectedAnswer = selectedAnswer;
     }
 }
