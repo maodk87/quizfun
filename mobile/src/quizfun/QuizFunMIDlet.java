@@ -36,7 +36,6 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.List;
-import javax.microedition.lcdui.StringItem;
 import javax.microedition.lcdui.TextField;
 import javax.microedition.midlet.*;
 import javax.microedition.rms.RecordStore;
@@ -89,9 +88,22 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      * Username <code>TextField</code>
      */
     private TextField usernameTextField;
+    /**
+     * Failure Alert
+     */
     private Alert alertFailure;
+    /**
+     * Success Alert
+     */
     private Alert alertSuccess;
+    /**
+     * About Alert
+     */
     private Alert alertAbout;
+    /**
+     * Information Alert for displaying Hint and Reference.
+     */
+    private Alert alertInfo;
     /**
      * The Displayable displayed after failing wait screen
      */
@@ -121,6 +133,14 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      */
     private Command doneCommand;
     /**
+     * Show Reference <code>Command</code>
+     */
+    private Command referenceCommand;
+    /**
+     * Show Hint <code>Command</code>
+     */
+    private Command hintCommand;
+    /**
      * Select Module <code>Form</code>
      */
     private Form moduleForm;
@@ -140,10 +160,6 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      * Question <code>Form</code>
      */
     private Form questionForm;
-    /**
-     * Question
-     */
-    private StringItem questionItem;
     /**
      * Answers
      */
@@ -173,8 +189,25 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      * Wrong Answer Messages
      */
     private String[] wrongMessages;
+    /**
+     * Check whether hint or reference is used.
+     * Reduce marks if help used.
+     */
+    private boolean helpUsed;
+    /**
+     * Marks
+     */
+    private int marks;
+    /**
+     * Check whether game is over.
+     */
+    private boolean gameOver;
 
-    //private List
+    /**
+     * Marks Ticker.
+    // Ticker didn't work correctly
+    private Ticker marksTicker;
+     */
     private void initialize() {
     }
 
@@ -229,6 +262,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             return;
         }
         if (displayable == menu) {
+            // Reset values.
+            marks = 0;
+            gameOver = false;
             int selectedIndex = menu.getSelectedIndex();
             switch (selectedIndex) {
                 case 0:
@@ -266,11 +302,14 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 Enumeration enumeration = answers.elements();
                 while (enumeration.hasMoreElements()) {
                     Answer answer = (Answer) enumeration.nextElement();
-                    if (answer.isCorrect()) {
-                        correctAnswer = answer;
-                        if (answer.getAnswer().equals(selectedAnswer)) {
+                    if (answer.getAnswer().equals(selectedAnswer)) {
+                        if (answer.isCorrect()) {
                             correct = true;
                         }
+                        currentQuestion.setSelectedAnswer(answer);
+                    }
+                    if (answer.isCorrect()) {
+                        correctAnswer = answer;
                     }
                 }
 
@@ -284,13 +323,41 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     messages = getCorrectMessages();
                     alert = alerts[random.nextInt(alerts.length)];
                     message = messages[random.nextInt(messages.length)];
-                    alert.setString(message);
+
+
+                    // Marking Scheme is fixed for now.
+                    // The total is 100, and therefore no calculations required.
+                    int questionMarks = 0;
+                    if (level == 1) {
+                        if (helpUsed) {
+                            questionMarks = 2;
+                        } else {
+                            questionMarks = 4;
+                        }
+                    } else if (level == 2) {
+                        if (helpUsed) {
+                            questionMarks = 3;
+                        } else {
+                            questionMarks = 6;
+                        }
+                    } else if (level == 3) {
+                        if (helpUsed) {
+                            questionMarks = 5;
+                        } else {
+                            questionMarks = 10;
+                        }
+                    }
+                    marks = marks + questionMarks;
+
+                    alert.setString(message + "\n\nMarks: " + questionMarks + "\n" + getMarksString());
+                //Ticker ticker = getMarksTicker();
+                //ticker.setString(getMarksString());
                 } else {
                     alerts = getSadAlerts();
                     messages = getWrongMessages();
                     alert = alerts[random.nextInt(alerts.length)];
                     message = messages[random.nextInt(messages.length)];
-                    alert.setString(message + "\n\nCorrect answer is '" + correctAnswer.getAnswer() + "'");
+                    alert.setString(message + "\n\nCorrect answer is '" + correctAnswer.getAnswer() + "'\n" + getMarksString());
                 }
 
                 if (questionEnumeration.hasMoreElements()) {
@@ -300,15 +367,33 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     level++;
                     WaitScreen screen = getWaitScreen();
                     screen.setTask(getGameTask());
-                    if (level > 3) {
-                        // Game over.
-                        successDisplayable = getMenu();
-                    } else {
-                        successDisplayable = getQuestionForm();
-                    }
+                    successDisplayable = getQuestionForm();
                     failureDisplayable = getMenu();
                     switchDisplayable(alert, screen);
                 }
+            } else if (command == hintCommand || command == referenceCommand) {
+                helpUsed = true;
+                String message = null;
+                Alert alert = getAlertInfo();
+                boolean hint = (command == hintCommand);
+                if (hint) {
+                    message = currentQuestion.getHint();
+                    alert.setTitle("Hint");
+                } else {
+                    message = currentQuestion.getReference();
+                    alert.setTitle("Reference");
+                }
+
+                if (message != null && message.trim().length() > 0) {
+                    alert.setString(message);
+                } else {
+                    if (hint) {
+                        alert.setString("No hint found!");
+                    } else {
+                        alert.setString("No reference found!");
+                    }
+                }
+                switchDisplayable(alert, questionForm);
             }
         } else if (displayable == loginForm) {
             if (command == loginCommand) {
@@ -340,8 +425,8 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 logException(ex);
             }
             menu = new List("QuizFun Menu", Choice.IMPLICIT);
-            menu.append("Single player game", image);
-            menu.append("Multi-player game", image);
+            menu.append("New Game", image);
+            menu.append("Join Game", image);
             menu.append("About", image);
             menu.addCommand(getExitCommand());
             menu.setCommandListener(this);
@@ -379,7 +464,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             splashScreen = new SplashScreen(getDisplay());
             splashScreen.setTitle("QuizFun");
             splashScreen.setCommandListener(this);
-            splashScreen.setText("QuizFun - A mobile game");
+            splashScreen.setText("QuizFun Game");
             try {
                 Image image = Image.createImage("/quizfun/resources/easymoblog.png");
                 splashScreen.setImage(image);
@@ -445,6 +530,28 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return loginCommand;
     }
 
+    /**
+     * Returns an initiliazed instance of hintCommand component.
+     * @return the initialized component instance
+     */
+    public Command getHintCommand() {
+        if (hintCommand == null) {
+            hintCommand = new Command("Hint", Command.OK, 5);
+        }
+        return hintCommand;
+    }
+
+    /**
+     * Returns an initiliazed instance of referenceCommand component.
+     * @return the initialized component instance
+     */
+    public Command getReferenceCommand() {
+        if (referenceCommand == null) {
+            referenceCommand = new Command("Reference", Command.OK, 10);
+        }
+        return referenceCommand;
+    }
+
     public Form getLoginForm() {
         if (loginForm == null) {
             String username = null;
@@ -499,7 +606,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         if (alertSuccess == null) {
             Image image = null;
             try {
-                image = Image.createImage("/quizfun/resources/messagebox_info.png");
+                image = Image.createImage("/quizfun/resources/easymoblog.png");
             } catch (IOException ex) {
                 logException(ex);
             }
@@ -527,6 +634,24 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
 
         }
         return alertAbout;
+    }
+
+    /**
+     * Returns an initiliazed instance of alertInfo component.
+     * @return the initialized component instance
+     */
+    public Alert getAlertInfo() {
+        if (alertInfo == null) {
+            Image image = null;
+            try {
+                image = Image.createImage("/quizfun/resources/ktip.png");
+            } catch (IOException ex) {
+                logException(ex);
+            }
+            alertInfo = new Alert("", "", image, AlertType.INFO);
+            alertInfo.setTimeout(Alert.FOREVER);
+        }
+        return alertInfo;
     }
 
     public Alert[] getHappyAlerts() {
@@ -653,17 +778,15 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
 
     public String[] getWrongMessages() {
         if (wrongMessages == null) {
-            wrongMessages = new String[9];
+            wrongMessages = new String[8];
             wrongMessages[0] = "Your answer is wrong!!";
             wrongMessages[1] = "Yo, No Way! Didn't you see the correct one?";
             wrongMessages[2] = "Ooops! Wrong Choice!";
-            wrongMessages[3] = "You have my sympathy!";
+            wrongMessages[3] = "It's a shame!";
             wrongMessages[4] = "Mind your step!!";
             wrongMessages[5] = "Excuse me!!";
-            wrongMessages[6] = "You can't give it up!";
+            wrongMessages[6] = "You can't give up!";
             wrongMessages[7] = "I think you are crying now...";
-            wrongMessages[8] = "Heh, Heh, Heh, what a mess!";
-            wrongMessages[8] = "It's a shame!";
         }
         return wrongMessages;
     }
@@ -692,13 +815,14 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     public Form getQuestionForm() {
         if (questionForm == null) {
             questionForm = new Form("");
-            questionItem = new StringItem("Question:", "");
-            questionForm.append(questionItem);
             // Create an exclusive (radio) choice group
-            answerCg = new ChoiceGroup("Answers:", Choice.EXCLUSIVE);
+            answerCg = new ChoiceGroup("", Choice.EXCLUSIVE);
             questionForm.append(answerCg);
+            //questionForm.setTicker(getMarksTicker());
             questionForm.addCommand(getExitCommand());
             questionForm.addCommand(getDoneCommand());
+            questionForm.addCommand(getHintCommand());
+            questionForm.addCommand(getReferenceCommand());
             questionForm.setCommandListener(this);
         }
         return questionForm;
@@ -708,13 +832,27 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         // Assuming that questionEnumeration, questionItem and answerCg is initialized.
         currentQuestion = (Question) questionEnumeration.nextElement();
         Vector answers = currentQuestion.getAnswers();
-        questionItem.setText(currentQuestion.getQuestion());
+        answerCg.setLabel(currentQuestion.getQuestion());
         answerCg.deleteAll();
         Enumeration enumeration = answers.elements();
         while (enumeration.hasMoreElements()) {
             Answer answer = (Answer) enumeration.nextElement();
             answerCg.append(answer.getAnswer(), null);
         }
+        helpUsed = false;
+    }
+
+    /*public Ticker getMarksTicker() {
+    if (marksTicker == null) {
+    marksTicker = new Ticker(getMarksString());
+    }
+    return marksTicker;
+    }*/
+    /**
+     * Get Total Marks String for Display
+     */
+    public String getMarksString() {
+        return "Total Marks: " + marks + "%  ";
     }
 
     /**
@@ -922,7 +1060,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             if (login) {
                 Alert alert = getAlertSuccess();
                 alert.setString(message);
-                alert.setTimeout(2000);
+            //alert.setTimeout(2000);
             } else {
                 throw new ApplicationException(message);
             }
@@ -934,7 +1072,6 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         protected void init() {
             resetAlertFailure();
             resetAlertSuccess();
-            questionVector.removeAllElements();
         }
 
         protected String getURL() {
@@ -942,13 +1079,24 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         }
 
         protected String getPostData() {
-            String str = "module=" + EncodeURL.encode(moduleTextField.getString()) + "&level=" + String.valueOf(level);
+            String str = "module=" + EncodeURL.encode(moduleTextField.getString()) + "&level=" + String.valueOf(level) +
+                    "&marks=" + String.valueOf(marks);
+            if (!questionVector.isEmpty()) {
+                String answers = "";
+                Enumeration enumeration = questionVector.elements();
+                while (enumeration.hasMoreElements()) {
+                    Question q = (Question) enumeration.nextElement();
+                    Answer selectedAnswer = q.getSelectedAnswer();
+                    answers += "&qa_" + q.getId() + "_" + selectedAnswer.getId();
+                }
+                str += answers;
+            }
             return str;
         }
 
         protected void process(HttpConnection hc) throws ApplicationException, Exception {
+            questionVector.removeAllElements();
             boolean error = false;
-            boolean gameOver = false;
             String errorMessage = null;
 
             //Initilialize XML parser
@@ -986,7 +1134,8 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
 
             if (gameOver) {
                 Alert alert = getAlertSuccess();
-                alert.setString("Game Over");
+                alert.setString("Game Over\n\n" + getMarksString());
+                successDisplayable = getMenu();
                 return;
             }
 
@@ -999,9 +1148,16 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             setQuestionDisplay();
 
             Alert alert = getAlertSuccess();
-            alert.setString("QuizFun\n\nLevel " + level);
+            String message = "QuizFun\nLevel " + level;
+            if (level > 1) {
+                message = message + "\n" + getMarksString();
+            }
+            alert.setString(message);
         }
 
+        /**
+         * Parse XML and create Question Object
+         */
         private void parseQuestion(KXmlParser parser) throws Exception {
             Question question = new Question();
             Vector answers = new Vector(4);
@@ -1016,6 +1172,12 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 } else if (name.equals("value")) {
                     String text = parser.nextText();
                     question.setQuestion(text);
+                } else if (name.equals("ref")) {
+                    String text = parser.nextText();
+                    question.setReference(text);
+                } else if (name.equals("hint")) {
+                    String text = parser.nextText();
+                    question.setHint(text);
                 } else if (name.equals("answer")) {
                     parseAnswer(parser, answers);
                 }
@@ -1024,6 +1186,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             }
         }
 
+        /**
+         * Parse XML and create Answer Object
+         */
         private void parseAnswer(KXmlParser parser, Vector answers) throws Exception {
             Answer answer = new Answer();
             while (parser.nextTag() != XmlPullParser.END_TAG) {
