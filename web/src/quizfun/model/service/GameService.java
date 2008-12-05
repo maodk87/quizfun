@@ -16,27 +16,23 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-package quizfun.view.servicelocator;
+package quizfun.model.service;
 
-import quizfun.model.service.CourseService;
-import quizfun.model.service.GameService;
-import quizfun.model.service.ModuleService;
-import quizfun.model.service.QuestionService;
-import quizfun.model.service.UserService;
+import java.util.List;
+
+import quizfun.model.dto.GameSCDO;
+import quizfun.model.entity.Game;
 
 /**
- * @author M. Isuru Tharanga Chrishantha Perera
+ * 
+ * @author Hiranya Mudunkotuwa
+ *
  */
-public interface ServiceLocator {
-
-	CourseService getCourseService();
-
-	ModuleService getModuleService();
-
-	QuestionService getQuestionService();
-
-	UserService getUserService();
+public interface GameService {
 	
-	GameService getGameService();
+	void saveGame(Game game);
 
+	List<Game> findGame(GameSCDO gameSCDO);
+
+	Game findGameById(Long id);
 }

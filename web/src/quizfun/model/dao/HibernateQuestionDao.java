@@ -88,14 +88,20 @@ public class HibernateQuestionDao extends HibernateDaoSupport implements Questio
 				criteria.add(Restrictions
 						.like("question", ques, MatchMode.ANYWHERE));
 			}
-			if (String.valueOf(type) != null && !String.valueOf(type).equals("")) {
-				criteria.add(Restrictions
-						.like("type", type));
-			}	
-			if (String.valueOf(level) != null && !String.valueOf(level).equals("")) {
-				criteria.add(Restrictions
-						.like("level", level));
-			}			
+			if (type != 0) {
+				if (String.valueOf(type) != null && !String.valueOf(type).equals("")) {
+					criteria.add(Restrictions
+							.like("type", type));
+				}				
+			}
+
+			if (level != 0) {
+				if (String.valueOf(level) != null && !String.valueOf(level).equals("")) {
+					criteria.add(Restrictions
+							.like("level", level));
+				}				
+			}
+			
 			if (hint != null && !hint.equals("")) {
 				criteria.add(Restrictions
 						.like("hint", hint, MatchMode.ANYWHERE));
@@ -146,7 +152,7 @@ public class HibernateQuestionDao extends HibernateDaoSupport implements Questio
 		
 		if(question != null){
 			if(logger.isDebugEnabled()){
-				logger.debug("Returning " + question.getId() + " Module");
+				logger.debug("Returning " + question.getId() + " Question");
 			}
 			return question;	
 		}

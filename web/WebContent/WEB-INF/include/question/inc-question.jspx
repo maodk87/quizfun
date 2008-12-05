@@ -64,8 +64,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<f:selectItem itemLabel="#{res['question.select.label.easy']}" itemValue="#{res['question.select.value.easy']}" />
 				<f:selectItem itemLabel="#{res['question.select.label.medium']}" itemValue="#{res['question.select.value.medium']}" />
 				<f:selectItem itemLabel="#{res['question.select.label.hard']}" itemValue="#{res['question.select.value.hard']}" />
-				<f:selectItems id="slctMuLevel"
-					value="#{staticList.convertedQuestionLevelUnitElementsWOEmpty}" />
 			</ice:selectOneMenu>
 			<ice:message for="txtaQues" />
 		</ice:panelGroup>

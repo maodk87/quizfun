@@ -19,6 +19,7 @@
 package quizfun.view.bean;
 
 import quizfun.model.service.CourseService;
+import quizfun.model.service.GameService;
 import quizfun.model.service.ModuleService;
 import quizfun.model.service.QuestionService;
 import quizfun.model.service.UserService;
@@ -33,6 +34,7 @@ public class ServiceLocatorManagedBean implements ServiceLocator {
 	private QuestionService questionService;
 	private ModuleService moduleService;
 	private UserService userService;
+	private GameService gameService;	
 
 	@Override
 	public CourseService getCourseService() {
@@ -68,5 +70,13 @@ public class ServiceLocatorManagedBean implements ServiceLocator {
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+
+	public GameService getGameService() {
+		return gameService;
+	}
+
+	public void setGameService(GameService gameService) {
+		this.gameService = gameService;
 	}
 }

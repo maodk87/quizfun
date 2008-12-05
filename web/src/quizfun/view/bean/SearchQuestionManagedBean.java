@@ -45,7 +45,7 @@ import com.icesoft.faces.component.ext.HtmlInputText;
  *
  */
 public class SearchQuestionManagedBean extends QuestionManagedBean{
-	final Logger logger = LoggerFactory.getLogger(SearchCourseManagedBean.class);
+	final Logger logger = LoggerFactory.getLogger(SearchQuestionManagedBean.class);
 
 	private List<Question> questions;
 
