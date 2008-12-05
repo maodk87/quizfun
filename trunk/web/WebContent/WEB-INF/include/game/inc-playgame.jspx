@@ -53,40 +53,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<ice:panelGroup>
 
 					<!-- uses panelSerices to iterate over the question collection -->
-					<ice:panelSeries value="#{playGame.quesList}" var="ques"
-						style="float:left">
+					<ice:panelSeries value="#{playGame.gameDTOs}" var="gameDTO"
+						style="float:left; width: 100%;">
 						<!-- question box is repeated for each question record -->
 						<ice:panelGroup styleClass="questionBox">
 							<ice:panelGroup styleClass="questionHeader">
-								<ice:outputText value="#{ques.question}"
+								<ice:outputText value="#{gameDTO.question.question}"
 									style="font-weight:bold;" />
 							</ice:panelGroup>
-							<ice:panelGrid id="pnlGameAns" width="100%" columns="2">
+							<ice:panelGrid id="pnlGameAns" width="100%" columns="2" columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
 								<ice:panelGroup style="padding:10px;">
-									 <ice:outputText value="answer :  " style="font-weight:bold;" />
-									<ice:outputText value="answer :  1" />
-									<br />
-									<ice:outputText value="answer :  " style="font-weight:bold;" />
-									<ice:outputText value="answer :  2" /> 
-									<!-- <ice:dataTable id="tblAns" width="100%" rows="4" var="ans"
-										value="#{ques.answers}" rendered="#{!empty(ques.answers)}">
-
-										<ice:column id="id" style="width: 20%">
-											<ice:outputText value="#{ans.answer}" style="font-weight:bold;"></ice:outputText>
+									<ice:dataTable id="tblAns" width="100%" rows="4" var="ans"
+										value="#{gameDTO.question.answers}" rendered="#{!empty(gameDTO.question.answers)}">
+										<ice:column id="id" style="width: 100%">
+											<ice:outputText value="#{ans.answer}" styleClass="#{ans.correct ? 'answerCorrect' : 'answerWrong'}" style="font-weight:bold;"></ice:outputText>
 										</ice:column>
 
-									</ice:dataTable> -->
+									</ice:dataTable> 
 								</ice:panelGroup>
 								<ice:panelGroup style="padding:10px;">
-									<!-- 	<ice:outputText value="answer :  " style="font-weight:bold;" />
-									<ice:outputText value="answer :  1" />
-									<br />
-									<ice:outputText value="answer :  " style="font-weight:bold;" />
-									<ice:outputText value="answer :  2" />--> 
 									<ice:outputChart id="radialOuputChart" rendered="true"
 										type="pie3D" chartTitle="Answer Chart"
-										legendPlacement="bottom" data="#{playGame.chartData}"
-										colors="#{playGame.colors}" width="450" height="300" />
+										legendPlacement="bottom" data="#{gameDTO.chartData}"
+										colors="#{playGame.colors}" width="400" height="250" labels="#{gameDTO.labels}"/>
 								</ice:panelGroup>
 							</ice:panelGrid>
 						</ice:panelGroup>

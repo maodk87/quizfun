@@ -60,7 +60,21 @@ public class CreateQuestionManagedBean extends QuestionManagedBean{
 			moduleSelectInputText.requestFocus();
 			return;
 		}
+		if (question.getAnswers() == null || question.getAnswers().isEmpty()) {
+			JSFUtils.addFacesErrorMessage("question.answers.required.message");
+			return;
+		}
 		
+		Boolean correctAns = false;
+		for (Answer a :answerList) {
+			if(a.isCorrect()) {
+				correctAns = true;
+			}
+		}
+		if (!correctAns) {
+			JSFUtils.addFacesErrorMessage("question.correctans.required.message");
+			return;			
+		}
 		try {
 			question.setModule(module);
 			serviceLocator.getQuestionService().saveQuestion(question);

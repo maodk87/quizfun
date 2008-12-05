@@ -22,19 +22,21 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.icesoft.faces.component.ext.HtmlOutputText;
-
-
+import quizfun.model.dto.GameDTO;
+import quizfun.model.dto.QuesAnswDTO;
+import quizfun.model.dto.UserGameDTO;
 import quizfun.model.entity.Answer;
 import quizfun.model.entity.Game;
 import quizfun.model.entity.Question;
-import quizfun.model.exception.QuestionNotFoundException;
 import quizfun.view.servicelocator.ServiceLocator;
 import quizfun.view.util.JSFUtils;
+
+import com.icesoft.faces.component.ext.HtmlOutputText;
 
 /**
  * 
@@ -49,63 +51,141 @@ public class PlayGameManagedBean {
 	private Game selectedGame; 
 	private Game game;
 	private List<Question> quesList;
-	private List<Answer> ansList;	
+	private List<Answer> ansList;
+	private List<GameDTO> gameDTOs;
+	private List<UserGameDTO> userGameDTOs;
 
 	HtmlOutputText idOutputText;
 
-	@SuppressWarnings("unchecked")
-	private ArrayList chartData;
+	//@SuppressWarnings("unchecked")
+	//private ArrayList chartData;
 
 	@SuppressWarnings("unchecked")
 	private ArrayList colors;
+	
 	@SuppressWarnings("unchecked")
 	@javax.annotation.PostConstruct
 	public void init() {
 		game = new Game();
 		quesList = new ArrayList<Question>();
 		ansList = new ArrayList<Answer>();
+		gameDTOs =  new ArrayList<GameDTO>();
+		userGameDTOs = new ArrayList<UserGameDTO>();
 		selectedGame = (Game) JSFUtils.removeFromSessionMap("game");
 		if (logger.isDebugEnabled()) {
 			logger.debug("Object retrieved from session: {}", selectedGame);
 		}
 		resetValues();
-        chartData = new ArrayList(Arrays.asList(
+/*        chartData = new ArrayList(Arrays.asList(
                 new Double[]{new Double(50.0),
                              new Double(60.0),
                              new Double(80.0),
-                             new Double(40.0)}));
+                             new Double(40.0)}));*/
 
 
         // build colors
         colors = new ArrayList(Arrays.asList(
-                new Color[]{new Color(26, 86, 138),
-                new Color(76, 126, 167),
-                new Color(0, 34, 102),
+                new Color[]{new Color(222, 29, 42),
+                new Color(255, 217, 0),
+                new Color(90, 103, 39),
                 new Color(148, 179, 203)}));
 	}
+	
+	@SuppressWarnings("unchecked")
 	private void resetValues() {
 
 		game.setId(selectedGame.getId());
 		Game sgame = new Game();
 
-			sgame = serviceLocator.getGameService().findGameById(selectedGame.getId());
+		sgame = serviceLocator.getGameService().findGameById(
+				selectedGame.getId());
 
-	//	ans = ques.getAnswers();
 		game.setQuestions(sgame.getQuestions());
-		List<Question> list = new ArrayList<Question>();
-		list = new ArrayList<Question>(game.getQuestions());
-		for(Question q :list) {
-			Question ques = new Question();
-			try {
-				ques = serviceLocator.getQuestionService().findQuestionById(q.getId());
-			} catch (QuestionNotFoundException e) {
-				return;
-			}
-			
-			q.setAnswers(ques.getAnswers());
-			quesList.add(q);
-		}
+		quesList = new ArrayList<Question>(game.getQuestions());
+		
+		
 
+		//Should get UserGameDTOs
+		for(Question qq :quesList) {
+
+			
+			GameDTO gameDTO = new GameDTO();
+			gameDTO.setGameId(selectedGame.getId());
+			gameDTO.setQuestion(qq);	
+			//Setting Answers
+			 ansList = new ArrayList<Answer>(qq.getAnswers());
+			gameDTO.setLabels(new ArrayList<String>());
+			for (Answer a :ansList) {
+				gameDTO.getLabels().add(a.getAnswer());
+			}
+			Random random = new Random();
+			Double ans1 = 10 + Math.ceil(30 * random.nextDouble());
+			Double ans2 = 10 + Math.ceil(30 * random.nextDouble());
+			Double ans3 = 10 + Math.ceil(30 * random.nextDouble());
+			Double ans4 = 10 + Math.ceil(30 * random.nextDouble());
+			
+			ArrayList chartData = new ArrayList(Arrays.asList(
+	                new Double[]{ans1, ans2,ans3,ans4}));
+			gameDTO.setChartData(chartData);
+			gameDTOs.add(gameDTO);
+		}
+	}
+	
+	public GameDTO generatingChart(Question ques, GameDTO gameDTO) {
+		//Setting Answers
+		
+		
+		gameDTO.setLabels(new ArrayList<String>());
+		Double ans1 = new Double(0);
+		Double ans2 = new Double(0);
+		Double ans3 = new Double(0);
+		Double ans4 = new Double(0);
+		Answer a1 = new Answer();
+		Answer a2 = new Answer();
+		Answer a3 = new Answer();
+		Answer a4 = new Answer();
+		int i = 1;
+		for (Answer a :ansList) {
+			gameDTO.getLabels().add(a.getAnswer());
+			
+			if(i == 1) {
+				a1 = a;
+			} else if (i == 2) {
+				a2 = a;
+			} else if (i == 3) {
+				a3 = a;
+			} else if (i == 4) {
+				a4 = a;
+			}
+			i++;
+		}
+		
+		
+		for(UserGameDTO ugDTO :userGameDTOs) {
+			List<QuesAnswDTO> qaDTOs = ugDTO.getQuesAnswDTOs();
+			
+			for(QuesAnswDTO aq :qaDTOs) {
+				if(aq.getQuestionId().equals(ques.getId())) {
+					if(aq.getGivenAnsId().equals(a1.getId())) {
+						ans1++;
+					}
+					if(aq.getGivenAnsId().equals(a2.getId())) {
+						ans2++;
+					}
+					if(aq.getGivenAnsId().equals(a3.getId())) {
+						ans3++;
+					}
+					if(aq.getGivenAnsId().equals(a4.getId())) {
+						ans4++;
+					}
+				}
+			}
+		}
+		//Temp
+		ArrayList chartData = new ArrayList(Arrays.asList(
+                new Double[]{ans1, ans2,ans3,ans4}));
+		gameDTO.setChartData(chartData); // This should change accordingly to total hits.
+		return gameDTO;
 	}
 	public void setServiceLocator(ServiceLocator serviceLocator) {
 		this.serviceLocator = serviceLocator;
@@ -140,12 +220,12 @@ public class PlayGameManagedBean {
 	public void setQuesList(List<Question> quesList) {
 		this.quesList = quesList;
 	}
-	public ArrayList getChartData() {
+/*	public ArrayList getChartData() {
 		return chartData;
 	}
 	public void setChartData(ArrayList chartData) {
 		this.chartData = chartData;
-	}
+	}*/
 	public ArrayList getColors() {
 		return colors;
 	}
@@ -157,5 +237,21 @@ public class PlayGameManagedBean {
 	}
 	public void setAnsList(List<Answer> ansList) {
 		this.ansList = ansList;
+	}
+
+	public List<GameDTO> getGameDTOs() {
+		return gameDTOs;
+	}
+
+	public void setGameDTOs(List<GameDTO> gameDTOs) {
+		this.gameDTOs = gameDTOs;
+	}
+
+	public List<UserGameDTO> getUserGameDTOs() {
+		return userGameDTOs;
+	}
+
+	public void setUserGameDTOs(List<UserGameDTO> userGameDTOs) {
+		this.userGameDTOs = userGameDTOs;
 	}
 }

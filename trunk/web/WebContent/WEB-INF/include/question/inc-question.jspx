@@ -50,7 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				binding="#{managedBean.typeSelectOneMenu}" partialSubmit="true">
 				<f:selectItem itemLabel="#{res['question.select.label.mcq']}" itemValue="#{res['question.select.value.mcq']}" />
 			</ice:selectOneMenu>
-			<ice:message for="txtaQues" />
+			<ice:message for="slctomType" />
 		</ice:panelGroup>
 
 		<!-- Question Level-->
@@ -65,7 +65,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<f:selectItem itemLabel="#{res['question.select.label.medium']}" itemValue="#{res['question.select.value.medium']}" />
 				<f:selectItem itemLabel="#{res['question.select.label.hard']}" itemValue="#{res['question.select.value.hard']}" />
 			</ice:selectOneMenu>
-			<ice:message for="txtaQues" />
+			<ice:message for="slctomLevel" />
 		</ice:panelGroup>
 
 		<!-- Hint -->

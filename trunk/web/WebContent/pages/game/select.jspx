@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
              xmlns:f="http://java.sun.com/jsf/core">
 
 
-    <ui:param name="pageTitle" value="#{res['question.page.title']}" />
+    <ui:param name="pageTitle" value="#{res['game.page.title']}" />
     <ui:param name="contentHeader" value="#{res['game.create.content.header']}"/>
 
     <ui:define name="content">
