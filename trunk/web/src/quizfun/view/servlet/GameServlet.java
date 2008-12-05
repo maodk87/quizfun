@@ -35,7 +35,7 @@ public class GameServlet extends HttpServlet {
 	private static final long serialVersionUID = 3866252845828221062L;
 
 	private final Logger logger = LoggerFactory.getLogger(GameServlet.class);
-	
+
 	private static final int NUMBER_OF_QUESTIONS_PER_LEVEL = 5;
 
 	/**
@@ -70,7 +70,7 @@ public class GameServlet extends HttpServlet {
 
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		
+
 		if (sessionExpired) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("<game>");
@@ -108,7 +108,22 @@ public class GameServlet extends HttpServlet {
 				logger.trace("Requesting questions by game...");
 			}
 		}
-		
+
+		if (gameId == null && moduleCode == null) {
+			StringBuilder builder = new StringBuilder();
+			builder.append("<game>");
+			builder.append("<error-msg>");
+			builder.append("Invalid Request");
+			builder.append("</error-msg>");
+			builder.append("</game>");
+			String xmlString = builder.toString();
+			if (logger.isTraceEnabled()) {
+				logger.trace("XML: {}", xmlString);
+			}
+			out.write(xmlString);
+			return;
+		}
+
 		if (moduleCode != null) {
 			Module module = (Module) session.getAttribute("Module");
 			if (module == null || !moduleCode.equals(module.getCode())) {
@@ -135,18 +150,31 @@ public class GameServlet extends HttpServlet {
 			}
 		}
 		
-//		Map<String, String> parameterMap = request.getParameterMap();
-//		Set<String> keys = parameterMap.keySet();
-//		for (String key: keys) {
-//			if (key.startsWith("qa")) {
-//				String value = parameterMap.get(key);
-//				logger.debug(value);
-//			}
-//		}
-		
+		try {
+			Map parameterMap = request.getParameterMap();
+			Set<String> keys = parameterMap.keySet();
+			for (String key : keys) {
+				if (key.startsWith("qa")) {
+					String[] value = (String[]) parameterMap.get(key);
+					String answers = value[0];
+					String[] splitted = answers.split("_");
+					String questionId = splitted[0];
+					String answerId = splitted[1];
+					if (logger.isTraceEnabled()) {
+						logger.trace("Questino ID: {}, Answer ID: {}", questionId, answerId);
+					}
+				}
+			}
+		} catch (Throwable e) {
+			// ignore for now
+			if (logger.isDebugEnabled()) {
+				logger.debug("Error", e);
+			}
+		}
+
 		int levelNumber = Integer.parseInt(level);
 		int totalMarks = Integer.parseInt(marks);
-		
+
 		boolean gameOver = false;
 		if (levelNumber > 3) {
 			// There can be only three levels.
@@ -160,7 +188,7 @@ public class GameServlet extends HttpServlet {
 				gameOver = (totalMarks < 30);
 			}
 		}
-		
+
 		if (gameOver) {
 			if (logger.isTraceEnabled()) {
 				logger.trace("Game over!");
@@ -176,7 +204,7 @@ public class GameServlet extends HttpServlet {
 			out.write(xmlString);
 			return;
 		}
-		
+
 		boolean loadingSuccess = true;
 
 		Map<Integer, List<Question>> questionMapByLevel = (Map<Integer, List<Question>>) session.getAttribute("QuestionMapByLevel");
@@ -191,18 +219,19 @@ public class GameServlet extends HttpServlet {
 
 				for (int i = 1; i <= 3; i++) {
 					// Limit is 5
-					List<Question> questionList = questionService.findRandomQuestionByLevel(moduleCode, i, NUMBER_OF_QUESTIONS_PER_LEVEL);
+					List<Question> questionList = questionService.findRandomQuestionByLevel(moduleCode, i,
+							NUMBER_OF_QUESTIONS_PER_LEVEL);
 					if (questionList == null || questionList.isEmpty()) {
 						loadingSuccess = false;
 					} else if (questionList.size() < NUMBER_OF_QUESTIONS_PER_LEVEL) {
 						// loadingSuccess = false;
 						// ignore this
 					}
-					
+
 					if (!loadingSuccess) {
 						break;
 					}
-					
+
 					questionMapByLevel.put(i, questionList);
 					if (logger.isTraceEnabled()) {
 						for (Question question : questionList) {
@@ -212,8 +241,10 @@ public class GameServlet extends HttpServlet {
 				}
 			}
 		}
-		
-		if (!loadingSuccess) {
+
+		List<Question> questionList = questionMapByLevel.get(levelNumber);
+
+		if (!loadingSuccess || questionList == null || questionList.isEmpty()) {
 			StringBuilder builder = new StringBuilder();
 			builder.append("<game>");
 			builder.append("<error-msg>");
@@ -227,13 +258,11 @@ public class GameServlet extends HttpServlet {
 			out.write(xmlString);
 			return;
 		}
-		
-		List<Question> questionList = questionMapByLevel.get(levelNumber);
-		
+
 		StringBuilder builder = new StringBuilder();
-		//builder.append("<?xml version='1.0' encoding='UTF-8'?>");
+		// builder.append("<?xml version='1.0' encoding='UTF-8'?>");
 		builder.append("<game>");
-		
+
 		for (Question question : questionList) {
 			builder.append("<question>");
 			builder.append("<id>").append(question.getId()).append("</id>");
@@ -251,7 +280,7 @@ public class GameServlet extends HttpServlet {
 			builder.append("</question>");
 		}
 		builder.append("</game>");
-		
+
 		String xmlString = builder.toString();
 		if (logger.isTraceEnabled()) {
 			logger.trace("XML: {}", xmlString);
