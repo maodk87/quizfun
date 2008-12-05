@@ -48,6 +48,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			</f:facet>
 
 			<ui:decorate template="/WEB-INF/include/question/inc-question.jspx">
+				<ui:param name="required" value="#{true}" />
+				<ui:param name="editMode" value="#{false}" />			
 				<ui:param name="managedBean" value="#{createQuestion}" />
 			</ui:decorate>
 		</ice:panelCollapsible>

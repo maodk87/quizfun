@@ -244,6 +244,16 @@ div.clearer {
 	text-align: left;
 }
 
+.pnlGrdPnlGrpOne {
+	width: 50%;
+	text-align: left;
+}
+
+.pnlGrdPnlGrpTwo {
+	width: 50%;
+	text-align: right;
+}
+
 /* Panel Grid Styles - End */
 
 /* Row Selection Styles - Start */
@@ -365,7 +375,8 @@ div.clearer {
 
 /* Panel Series - Start  */
 .panelSeriesContainer .questionBox{
-    width:200px;
+    /*width:200px;*/
+    width:100%;
     border: 1px solid #DADADA;
     /*padding: 10px;*/
     margin: 5px;
@@ -378,5 +389,14 @@ div.clearer {
 .questionHeader {
     padding:10px;
     background:url('./css-images/table_col_header.gif');
+    width: 97%;
+}
+.answerCorrect {
+    font-weight:bolder;
+	color: red;
+}
+.answerWrong {
+    font-weight:bold;
+    color: black;
 }
 /* Panel Series - End  */
