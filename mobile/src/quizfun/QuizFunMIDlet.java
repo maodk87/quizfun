@@ -145,9 +145,21 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      */
     private Form moduleForm;
     /**
+     * Select Game <code>Form</code>
+     */
+    private Form gameForm;
+    /**
+     * Single player mode. Used in server post data.
+     */
+    private boolean singlePlayerMode;
+    /**
      * Module Code input <code>TextField</code>
      */
     private TextField moduleTextField;
+    /**
+     * Game ID input <code>TextField</code>
+     */
+    private TextField gameTextField;
     /**
      * Question list. Assuming 5 questions per level
      */
@@ -268,9 +280,12 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             int selectedIndex = menu.getSelectedIndex();
             switch (selectedIndex) {
                 case 0:
+                    singlePlayerMode = true;
                     switchDisplayable(null, getModuleForm());
                     break;
                 case 1:
+                    singlePlayerMode = false;
+                    switchDisplayable(null, getGameForm());
                     break;
                 case 2:
                     switchDisplayable(getAlertAbout(), getMenu());
@@ -289,6 +304,23 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     screen.setTask(getGameTask());
                     successDisplayable = getQuestionForm();
                     failureDisplayable = moduleForm;
+                    level = 1;
+                    switchDisplayable(null, screen);
+                }
+            }
+        } else if (displayable == gameForm) {
+            if (command == backCommand) {
+                switchDisplayable(null, getMenu());
+            } else if (command == doneCommand) {
+                String gameId = gameTextField.getString();
+                if (gameId == null || gameId.trim().length() == 0) {
+                    getAlertFailure().setString("Please enter a game id.");
+                    switchDisplayable(getAlertFailure(), gameForm);
+                } else {
+                    WaitScreen screen = getWaitScreen();
+                    screen.setTask(getGameTask());
+                    successDisplayable = getQuestionForm();
+                    failureDisplayable = gameForm;
                     level = 1;
                     switchDisplayable(null, screen);
                 }
@@ -349,7 +381,12 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     }
                     marks = marks + questionMarks;
 
-                    alert.setString(message + "\n\nMarks: " + questionMarks + "\n" + getMarksString());
+                    if (helpUsed) {
+                        message = message + "\n\nYou got it correct with help. Only 50% given.";
+                    }
+                    message = message + "\n\nMarks: " + questionMarks + "\n" + getMarksString();
+
+                    alert.setString(message);
                 //Ticker ticker = getMarksTicker();
                 //ticker.setString(getMarksString());
                 } else {
@@ -791,6 +828,18 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return wrongMessages;
     }
 
+    public Form getGameForm() {
+        if (gameForm == null) {
+            gameForm = new Form("Game");
+            gameTextField = new TextField("Enter Game ID:", "", 255, TextField.NUMERIC);
+            gameForm.append(gameTextField);
+            gameForm.addCommand(getBackCommand());
+            gameForm.addCommand(getDoneCommand());
+            gameForm.setCommandListener(this);
+        }
+        return gameForm;
+    }
+
     public Form getModuleForm() {
         if (moduleForm == null) {
             String moduleCode = null;
@@ -1079,15 +1128,26 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         }
 
         protected String getPostData() {
-            String str = "module=" + EncodeURL.encode(moduleTextField.getString()) + "&level=" + String.valueOf(level) +
+            String str = "level=" + String.valueOf(level) +
                     "&marks=" + String.valueOf(marks);
+            if (singlePlayerMode) {
+                if (moduleTextField != null) {
+                    str += "&module=" + EncodeURL.encode(moduleTextField.getString());
+                }
+            } else {
+                if (gameTextField != null) {
+                    str += "&game=" + gameTextField.getString();
+                }
+            }
+
+            // check singlePlayerMode
             if (!questionVector.isEmpty()) {
                 String answers = "";
                 Enumeration enumeration = questionVector.elements();
                 while (enumeration.hasMoreElements()) {
                     Question q = (Question) enumeration.nextElement();
                     Answer selectedAnswer = q.getSelectedAnswer();
-                    answers += "&qa_" + q.getId() + "_" + selectedAnswer.getId();
+                    answers += "&qa=" + q.getId() + "_" + selectedAnswer.getId();
                 }
                 str += answers;
             }
