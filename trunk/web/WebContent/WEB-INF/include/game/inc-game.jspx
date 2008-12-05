@@ -1,0 +1,92 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Hiranya Mudunkotuwa -->
+<ice:panelGrid xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets" id="pnlConf1" width="100%"
+	columns="1">
+
+	<ice:panelGroup>
+		<ice:outputLabel id="lblQuesEasy" styleClass="lblTextHeader"
+			value="#{res['game.viewques.easyques.label']}" for="easy">
+		</ice:outputLabel>
+
+		<!-- Positioned Panel, can be manipulated by the user -->
+		<ice:panelGroup style="float:left;margin-top:10px;">
+			<ice:panelPositioned id="easy" var="eques"
+				value="#{managedBean.easyQues}" styleClass="positionPanelContainer"
+				listener="#{managedBean.changedEasy}" constraint="vertical">
+				<ice:panelGroup style="cursor:move;" styleClass="container">
+					<ice:panelGroup styleClass="moveLabel" style="border: 4px red">
+						<ice:outputText id="name" value="#{eques.question}" />
+					</ice:panelGroup>
+				</ice:panelGroup>
+			</ice:panelPositioned>
+		</ice:panelGroup>
+	</ice:panelGroup>
+	
+	<f:verbatim></f:verbatim>
+	<ice:panelGroup>
+		<ice:outputLabel id="lblQuesMedium" styleClass="lblTextHeader"
+			value="#{res['game.viewques.midques.label']}" for="mid">
+		</ice:outputLabel>
+
+		<!-- Positioned Panel, can be manipulated by the user -->
+		<ice:panelGroup style="float:left;margin-top:10px;">
+			<ice:panelPositioned id="mid" var="mques"
+				value="#{managedBean.mediumQues}"
+				styleClass="positionPanelContainer"
+				listener="#{managedBean.changedMedium}" constraint="vertical">
+				<ice:panelGroup style="cursor:move;" styleClass="container">
+					<ice:panelGroup styleClass="moveLabel" style="border: 4px red">
+						<ice:outputText id="namemid" value="#{mques.question}" />
+					</ice:panelGroup>
+				</ice:panelGroup>
+			</ice:panelPositioned>
+		</ice:panelGroup>
+	</ice:panelGroup>
+	
+	<f:verbatim></f:verbatim>
+	<ice:panelGroup>
+		<ice:outputLabel id="lblQuesHard" styleClass="lblTextHeader"
+			value="#{res['game.viewques.hardques.label']}" for="hard">
+		</ice:outputLabel>
+
+		<!-- Positioned Panel, can be manipulated by the user -->
+		<ice:panelGroup>
+			<ice:panelPositioned id="hard" var="hques"
+				value="#{managedBean.hardQues}" styleClass="positionPanelContainer"
+				listener="#{managedBean.changedHard}" constraint="vertical">
+				<ice:panelGroup style="cursor:move;" styleClass="container">
+					<ice:panelGroup styleClass="moveLabel" style="border: 4px red">
+						<ice:outputText id="namehard" value="#{hques.question}" />
+					</ice:panelGroup>
+				</ice:panelGroup>
+			</ice:panelPositioned>
+		</ice:panelGroup>
+	</ice:panelGroup>
+	<ice:panelGrid id="pnlConf4" width="100%" columns="1"
+		columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+		<ice:panelGroup style="float: right">
+			<ui:insert name="commandsPanel" />
+		</ice:panelGroup>
+	</ice:panelGrid>
+
+</ice:panelGrid>

@@ -48,6 +48,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<property-name>userService</property-name>
 			<value>#{userService}</value>
 		</managed-property>
+		<managed-property>
+			<property-name>gameService</property-name>
+			<value>#{gameService}</value>
+		</managed-property>		
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>renderMgr</managed-bean-name>
@@ -194,5 +198,43 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<value>#{serviceLocator}</value>
 		</managed-property>
 	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create game</description>
+		<managed-bean-name>createGame</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateGameManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	 </managed-bean>
+	 <managed-bean>
+		<description>Managed bean for search game</description>
+		<managed-bean-name>searchGame</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchGameManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	 </managed-bean>
+	<managed-bean>
+		<description>Managed bean for play game</description>
+		<managed-bean-name>playGame</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.PlayGameManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	 </managed-bean>	 
+	   <!--  <managed-bean>
+        <description>Backing bean for Stacking Panel example.</description>
+        <managed-bean-name>stackingPanel</managed-bean-name>
+        <managed-bean-class>quizfun.view.bean.PanalStackBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>-->
+	
+	
 	<!-- Manage Beans - End -->
 </faces-config>

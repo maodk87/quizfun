@@ -20,7 +20,8 @@ package quizfun.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -32,7 +33,8 @@ public class Game implements Serializable, Auditable {
 
 	private Long id;
 	private Module module;
-	private List<Question> questions;
+	//private List<Question> questions;
+	private Set<Question> questions = new HashSet<Question>();
 	private String status;
 
 	private Long version;
@@ -65,14 +67,14 @@ public class Game implements Serializable, Auditable {
 	public void setModule(Module module) {
 		this.module = module;
 	}
-
+/*
 	public List<Question> getQuestions() {
 		return questions;
 	}
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
-	}
+	}*/
 
 	public String getStatus() {
 		return status;
@@ -160,6 +162,14 @@ public class Game implements Serializable, Auditable {
 		builder.append(separator).append("modifiedDate = ").append(getModifiedDate());
 		builder.append("}");
 		return builder.toString();
+	}
+
+	public void setQuestions(Set<Question> questions) {
+		this.questions = questions;
+	}
+
+	public Set<Question> getQuestions() {
+		return questions;
 	}
 
 }

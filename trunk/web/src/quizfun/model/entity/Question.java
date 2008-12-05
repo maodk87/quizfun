@@ -44,7 +44,7 @@ public class Question implements Serializable, Auditable {
 	private Date createdDate;
 	private String modifiedBy;
 	private Date modifiedDate;
-
+	private Boolean selected;
 	public Long getId() {
 		return id;
 	}
@@ -201,5 +201,13 @@ public class Question implements Serializable, Auditable {
 		builder.append(separator).append("module = ").append(getModule());
 		builder.append("}");
 		return builder.toString();
+	}
+
+	public Boolean getSelected() {
+		return selected;
+	}
+
+	public void setSelected(Boolean selected) {
+		this.selected = selected;
 	}
 }

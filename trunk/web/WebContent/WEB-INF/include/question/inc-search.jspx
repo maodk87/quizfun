@@ -21,8 +21,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	xmlns:h="http://java.sun.com/jsf/html" xmlns:ice="http://www.icesoft.com/icefaces/component"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<ice:form id="frmCourse">
-		<ice:panelCollapsible id="pncCourse" expanded="true">
+	<ice:form id="frmQuestion">
+		<ice:panelCollapsible id="pncQuestion" expanded="true">
 			<f:facet name="header">
 				<ice:panelGroup>
 					<ice:outputText value="#{res['course.search.panel.title']}" />

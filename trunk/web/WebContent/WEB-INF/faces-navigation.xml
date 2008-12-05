@@ -81,6 +81,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<to-view-id>/pages/question/search.iface</to-view-id>
 			<redirect />
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>createGame</from-outcome>
+			<to-view-id>/pages/game/select.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchGame</from-outcome>
+			<to-view-id>/pages/game/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>	
+		<navigation-case>
+			<from-outcome>playGame</from-outcome>
+			<to-view-id>/pages/game/playGame.iface</to-view-id>
+			<redirect />
+		</navigation-case>	
 	</navigation-rule>
 	<!-- Global - Navigation Rules - End -->
 	
@@ -134,6 +149,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		</navigation-case>
 	</navigation-rule>
 	<!-- Question - Navigation Rules - End -->
+	
+	<!-- Question - Navigation Rules - Start  -->
+	<navigation-rule>
+		<from-view-id>/pages/game/search.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>playGame</from-outcome>
+			<to-view-id>/pages/game/play.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<!--<navigation-rule>
+		<from-view-id>/pages/question/modify.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/pages/question/search.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>  -->
+	<!-- Question - Navigation Rules - End -->	
 	
 	<!-- User - Navigation Rules - Start -->
 	<navigation-rule>

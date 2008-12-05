@@ -1,0 +1,99 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Hirnaya Mudunkotuwa -->
+
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ice:form id="frmPlayGame">
+		<ice:panelCollapsible id="pncPlayGame" expanded="true"
+			toggleOnClick="false">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['game.play.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ice:panelGrid id="pnlPlayGame" width="100%" columns="2"
+				columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+				<ice:panelGroup style="float: left">
+					<ice:outputText id="lblId1"
+						value="#{res['game.playgame.selectedgame']}"
+						styleClass="#{lblTextHeader}">
+					</ice:outputText>
+					<ice:outputText id="lblId" value="#{playGame.game.id}"
+						styleClass="#{lblTextHeader}" binding="#{playGame.idOutputText}">
+					</ice:outputText>
+				</ice:panelGroup>
+				<ice:panelGroup style="float: right">
+					<ice:commandButton value="#{res['game.label.playgame']}" />
+				</ice:panelGroup>
+			</ice:panelGrid>
+			<f:verbatim></f:verbatim>
+			<ice:panelGrid id="pnlQues" width="100%" columns="1">
+				<ice:panelGroup>
+
+					<!-- uses panelSerices to iterate over the question collection -->
+					<ice:panelSeries value="#{playGame.quesList}" var="ques"
+						style="float:left">
+						<!-- question box is repeated for each question record -->
+						<ice:panelGroup styleClass="questionBox">
+							<ice:panelGroup styleClass="questionHeader">
+								<ice:outputText value="#{ques.question}"
+									style="font-weight:bold;" />
+							</ice:panelGroup>
+							<ice:panelGrid id="pnlGameAns" width="100%" columns="2">
+								<ice:panelGroup style="padding:10px;">
+									 <ice:outputText value="answer :  " style="font-weight:bold;" />
+									<ice:outputText value="answer :  1" />
+									<br />
+									<ice:outputText value="answer :  " style="font-weight:bold;" />
+									<ice:outputText value="answer :  2" /> 
+									<!-- <ice:dataTable id="tblAns" width="100%" rows="4" var="ans"
+										value="#{ques.answers}" rendered="#{!empty(ques.answers)}">
+
+										<ice:column id="id" style="width: 20%">
+											<ice:outputText value="#{ans.answer}" style="font-weight:bold;"></ice:outputText>
+										</ice:column>
+
+									</ice:dataTable> -->
+								</ice:panelGroup>
+								<ice:panelGroup style="padding:10px;">
+									<!-- 	<ice:outputText value="answer :  " style="font-weight:bold;" />
+									<ice:outputText value="answer :  1" />
+									<br />
+									<ice:outputText value="answer :  " style="font-weight:bold;" />
+									<ice:outputText value="answer :  2" />--> 
+									<ice:outputChart id="radialOuputChart" rendered="true"
+										type="pie3D" chartTitle="Answer Chart"
+										legendPlacement="bottom" data="#{playGame.chartData}"
+										colors="#{playGame.colors}" width="450" height="300" />
+								</ice:panelGroup>
+							</ice:panelGrid>
+						</ice:panelGroup>
+
+					</ice:panelSeries>
+				</ice:panelGroup>
+			</ice:panelGrid> 
+		</ice:panelCollapsible>
+	</ice:form>
+</jsp:root>

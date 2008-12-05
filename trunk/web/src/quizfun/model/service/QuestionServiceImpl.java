@@ -80,7 +80,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public List<Question> findQuestion(QuestionSCDO questionSCDO) {
-		questionDao.findQuestion(questionSCDO);
+		//questionDao.findQuestion(questionSCDO);
 		return questionDao.findQuestion(questionSCDO);
 	}
 	

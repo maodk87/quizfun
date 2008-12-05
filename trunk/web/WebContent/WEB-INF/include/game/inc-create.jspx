@@ -1,0 +1,163 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Nevindaree Premarathne -->
+
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jc="http://jsfcustom.com/tag">
+
+	<ice:form id="frmModule" rendered="#{createGame.showModule}">
+		<ice:panelCollapsible id="pncModule" expanded="true">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['game.module.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ui:decorate template="/WEB-INF/include/module/inc-selectmodule.jspx">
+				<ui:param name="managedBean" value="#{createGame}" />
+			</ui:decorate>
+		</ice:panelCollapsible>
+	</ice:form>
+	<ice:form id="frmQuesType" rendered="#{createGame.showQuesType}">
+		<ice:panelCollapsible id="pncQuesType" expanded="true"
+			toggleOnClick="false">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['game.create.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ice:panelGroup binding="#{createGame.ranPanelGroup}">
+				<ice:outputLabel for="questions"
+					value="#{res['selectquestion.game.confirmmessage']}" />
+
+				<ice:selectOneRadio id="questions" binding="#{createGame.quesHtmlSelectOneRadio}" immediate="true"
+					value="#{createGame.selectedGroup}" partialSubmit="true" valueChangeListener="#{createGame.randomValueChangeEvent}">
+					<f:selectItem itemLabel="Yes" itemValue="random" />
+					<f:selectItem itemLabel="No" itemValue="other" />
+				</ice:selectOneRadio>
+			
+			</ice:panelGroup>
+			<ice:panelStack selectedPanel="#{createGame.selectedGroup}">
+				<ice:panelGroup id="random">
+					<ice:outputText value="Go to Random Questions" />
+				</ice:panelGroup>
+				<ice:panelGroup id="other">
+					<ice:outputText value="Go to the other page" />
+				</ice:panelGroup>
+			</ice:panelStack>
+			<ice:panelGrid id="pnlConf4" width="100%" columns="1"
+				columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+				<ice:panelGroup style="float: right">
+					<ice:commandButton value="#{res['common.label.next']}"
+						actionListener="#{createGame.nextToQuesTypeActionListener}"
+						immediate="true" partialSubmit="true" />
+				</ice:panelGroup>
+			</ice:panelGrid>
+		</ice:panelCollapsible>
+
+	</ice:form>
+	<ice:form id="frmSelectQuestions" rendered="#{(!empty(createGame.questions)) &amp;&amp; (createGame.showSelectQues)}">
+		<ice:panelCollapsible id="pncSelectQuestions" expanded="true">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['game.selectques.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+		<!-- Question 
+		<ice:outputLabel id="lblQues"
+			value="#{res['question.question.label']}" for="txtaQues"
+			styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:inputTextarea id="txtaQues"
+				value="#{managedBean.question.question}" required="#{!required}"
+				binding="#{managedBean.quesInputTextArea}"
+				maxlength="#{res['question.question.maxlength']}"
+				partialSubmit="true">
+			</ice:inputTextarea>
+			<ice:message for="txtaQues" />
+		</ice:panelGroup>-->
+
+		<!-- Question Type
+		<ice:outputLabel id="lblType" value="#{res['question.type.label']}"
+			for="txtaQues" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:selectOneMenu id="slctomType"
+				value="#{managedBean.question.type}" required="#{!required}"
+				binding="#{managedBean.typeSelectOneMenu}" partialSubmit="true">
+				<f:selectItem itemLabel="#{res['question.select.label.mcq']}" itemValue="#{res['question.select.value.mcq']}" />
+			</ice:selectOneMenu>
+			<ice:message for="txtaQues" />
+		</ice:panelGroup>-->
+
+		<!-- Question Level
+		<ice:outputLabel id="lblLevel" value="#{res['question.level.label']}"
+			for="txtaQues" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:selectOneMenu id="slctomLevel"
+				value="#{managedBean.question.level}" required="#{!required}"
+				binding="#{managedBean.levelSelectOneMenu}" partialSubmit="true">
+				<f:selectItem itemLabel="#{res['question.select.label.easy']}" itemValue="#{res['question.select.value.easy']}" />
+				<f:selectItem itemLabel="#{res['question.select.label.medium']}" itemValue="#{res['question.select.value.medium']}" />
+				<f:selectItem itemLabel="#{res['question.select.label.hard']}" itemValue="#{res['question.select.value.hard']}" />
+			</ice:selectOneMenu>
+			<ice:message for="txtaQues" />
+		</ice:panelGroup> -->
+
+
+			<ui:decorate template="/WEB-INF/include/game/inc-selectquestions.jspx">
+				<ui:param name="managedBean" value="#{createGame}" />
+				<ui:define name="commandsPanel">
+					<ice:panelGroup>
+						<ice:commandButton value="#{res['common.label.back']}" actionListener="#{createGame.backActionListener}" immediate="true" partialSubmit="true"/>
+						<ice:commandButton value="#{res['common.label.next']}"  actionListener="#{createGame.nextActionListener}" immediate="true" partialSubmit="true"/>
+					</ice:panelGroup>
+				</ui:define>
+			</ui:decorate>
+		</ice:panelCollapsible>	
+
+	</ice:form>
+ 	<ice:form id="frmGame" rendered="#{createGame.showViewQues}">
+		<ice:panelCollapsible id="pncViewQuestions" expanded="true">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['game.viewques.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ui:decorate template="/WEB-INF/include/game/inc-game.jspx">
+				<ui:param name="managedBean" value="#{createGame}" />
+				<ui:define name="commandsPanel">
+					<ice:panelGroup>
+						<ice:commandButton value="#{res['common.label.back']}" actionListener="#{createGame.backFromViewActionListener}" immediate="true" partialSubmit="true"/>
+						<ice:commandButton value="#{res['common.label.finish']}" actionListener="#{createGame.saveActionListener}"/>
+					</ice:panelGroup>
+				</ui:define>
+			</ui:decorate>
+		</ice:panelCollapsible>
+	</ice:form> 
+</jsp:root>
