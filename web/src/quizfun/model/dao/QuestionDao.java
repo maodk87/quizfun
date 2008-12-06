@@ -16,7 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package quizfun.model.dao;
 
 import java.util.List;
@@ -26,9 +25,7 @@ import quizfun.model.entity.Answer;
 import quizfun.model.entity.Question;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public interface QuestionDao {
 
@@ -45,6 +42,5 @@ public interface QuestionDao {
 	void deleteAnswer(Answer answer);
 
 	List<Question> findRandomQuestionByLevel(String moduleCode, int level, int limit);
-
 
 }

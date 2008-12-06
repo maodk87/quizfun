@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import quizfun.model.entity.Question;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class GameDTO {
 

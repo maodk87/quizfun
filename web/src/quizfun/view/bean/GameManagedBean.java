@@ -40,9 +40,7 @@ import com.icesoft.faces.component.ext.HtmlSelectBooleanCheckbox;
 import com.icesoft.faces.component.ext.HtmlSelectOneRadio;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public abstract class GameManagedBean extends ModuleSelectManagedBean {
 	final Logger logger = LoggerFactory.getLogger(QuestionManagedBean.class);

@@ -24,9 +24,7 @@ import quizfun.model.dto.GameSCDO;
 import quizfun.model.entity.Game;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public interface GameDao {
 	Long saveGame(Game game);

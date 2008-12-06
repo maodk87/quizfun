@@ -35,9 +35,7 @@ import quizfun.model.exception.DuplicateQuestionException;
 import quizfun.model.exception.QuestionNotFoundException;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 @Transactional(readOnly = true)
 public class QuestionServiceImpl implements QuestionService {
@@ -80,7 +78,6 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public List<Question> findQuestion(QuestionSCDO questionSCDO) {
-		//questionDao.findQuestion(questionSCDO);
 		return questionDao.findQuestion(questionSCDO);
 	}
 	
@@ -105,10 +102,6 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = { DuplicateQuestionException.class })
 	public Question updateQuestion(Question question) {
-
-	//	Set<Answer> answers = question.getAnswers();
-	//	question.setAnswers(null);
-	//	Long id = questionDao.saveQuestion(question);
 		Question ques = questionDao.findQuestionById(question.getId());
 		Set<Answer> answerList = new HashSet<Answer>();
 

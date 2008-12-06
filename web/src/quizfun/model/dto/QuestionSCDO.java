@@ -16,15 +16,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package quizfun.model.dto;
 
 import java.io.Serializable;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class QuestionSCDO implements Serializable {
 

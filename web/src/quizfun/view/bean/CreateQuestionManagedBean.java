@@ -35,9 +35,7 @@ import quizfun.model.exception.DuplicateQuestionException;
 import quizfun.view.util.JSFUtils;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class CreateQuestionManagedBean extends QuestionManagedBean{
 

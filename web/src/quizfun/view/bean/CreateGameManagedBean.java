@@ -45,9 +45,7 @@ import com.icesoft.faces.component.panelpositioned.PanelPositionedEvent;
 
 
 /**
- * 
  * @author Nevindaree Premarathne & Hiranya Mudunkotuwa
- *
  */
 public class CreateGameManagedBean extends GameManagedBean{
 
@@ -92,46 +90,15 @@ public class CreateGameManagedBean extends GameManagedBean{
 
 		};
 	}
-	
 
-/*	@SuppressWarnings("null")
 	public void randomValueChangeEvent(ValueChangeEvent event) {
-		//Answer correctAns = (Answer) tblAnswers.getRowData();
-		HtmlSelectOneRadio htmlSelectOneRadio = (HtmlSelectOneRadio) event.getComponent();
-		String ran = null;
-		if (htmlSelectOneRadio.getValue() != null) {
-			ran = (String) htmlSelectOneRadio.getValue();	
-			showQuesType = false;
-		}
-		
-		if (ran != null || !ran.equals("")) {
-			if(ran.equals("random")) {
-				random = true;
-				generateRandomQuestions();
-				showViewQues = true;
-				showModule = false;
-			}		
-			else if (ran.equals("other")){	
-				searchQuestions();
-				random = false;
-				showModule = false;
-			}			
-		} else {
-			showQuesType = true;
-		}
-
-	}*/
-	
-	@SuppressWarnings("null")
-	public void randomValueChangeEvent(ValueChangeEvent event) {
-		//Answer correctAns = (Answer) tblAnswers.getRowData();
 		HtmlSelectOneRadio htmlSelectOneRadio = (HtmlSelectOneRadio) event.getComponent();
 		String ran = null;
 		if (htmlSelectOneRadio.getValue() != null) {
 			ran = (String) htmlSelectOneRadio.getValue();				
 		}
 		
-		if (ran != null || !ran.equals("")) {
+		if (ran != null && !ran.equals("")) {
 			if(ran.equals("random")) {
 				random = true;
 			}		
@@ -220,7 +187,6 @@ public class CreateGameManagedBean extends GameManagedBean{
 	}	
 	
 	public void backActionListener(ActionEvent event) {
-		//super.clearModuleActionListener(event);                                                                                       
 		showQuesType = true;
 		showModule = true;
 		showSelectQues = false;

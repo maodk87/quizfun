@@ -34,11 +34,8 @@ import quizfun.model.exception.QuestionNotFoundException;
 import quizfun.view.util.JSFUtils;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
-
 public class ModifyQuestionManagedBean extends QuestionManagedBean {
 	
 	final Logger logger = LoggerFactory.getLogger(ModifyQuestionManagedBean.class);

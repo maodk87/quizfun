@@ -16,7 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package quizfun.model.dao;
 
 import java.util.List;
@@ -38,9 +37,7 @@ import quizfun.model.entity.Answer;
 import quizfun.model.entity.Question;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class HibernateQuestionDao extends HibernateDaoSupport implements QuestionDao {
 

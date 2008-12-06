@@ -20,9 +20,7 @@
 package quizfun.model.exception;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class ModuleNotFoundException  extends Exception {
 
