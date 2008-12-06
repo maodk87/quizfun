@@ -134,18 +134,24 @@ public class LoginServlet extends HttpServlet {
 		if (logger.isTraceEnabled()) {
 			logger.trace(message);
 		}
-
-		out.write("<login>");
-		out.write("<login-failed>");
-		out.write(String.valueOf(loginFailed));
-		out.write("</login-failed>");
-		out.write("<message>");
-		out.write(message);
-		out.write("</message>");
-		out.write("<session-id>");
-		out.write(sessionId);
-		out.write("</session-id>");
-		out.write("</login>");
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append("<login>");
+		builder.append("<login-failed>");
+		builder.append(String.valueOf(loginFailed));
+		builder.append("</login-failed>");
+		builder.append("<message>");
+		builder.append(message);
+		builder.append("</message>");
+		builder.append("<session-id>");
+		builder.append(sessionId);
+		builder.append("</session-id>");
+		builder.append("</login>");
+		String xmlString = builder.toString();
+		if (logger.isTraceEnabled()) {
+			logger.trace("XML: {}", xmlString);
+		}
+		out.write(xmlString);
 		out.close();
 	}
 
