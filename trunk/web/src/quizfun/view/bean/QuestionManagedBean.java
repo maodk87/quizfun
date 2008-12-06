@@ -35,9 +35,7 @@ import com.icesoft.faces.component.ext.HtmlPanelGroup;
 import com.icesoft.faces.component.ext.HtmlSelectBooleanCheckbox;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public abstract class QuestionManagedBean extends ModuleSelectManagedBean{
 	final Logger logger = LoggerFactory.getLogger(QuestionManagedBean.class);
@@ -81,11 +79,6 @@ public abstract class QuestionManagedBean extends ModuleSelectManagedBean{
 		 quesInputTextArea.requestFocus();
 	}
 
-	
-/*	public void setServiceLocator(ServiceLocator serviceLocator) {
-		this.serviceLocator = serviceLocator;
-	}
-*/
 	public Question getQuestion() {
 		return question;
 	}
@@ -183,16 +176,6 @@ public abstract class QuestionManagedBean extends ModuleSelectManagedBean{
 	public void setAnswerList(List<Answer> answerList) {
 		this.answerList = answerList;
 	}	
-	
-
-/*	public Set<Answer> getAns() {
-		return ans;
-	}
-
-	public void setAns(Set<Answer> ans) {
-		this.ans = ans;
-	}*/
-	
 	
 	public Answer getAnswer() {
 		return answer;

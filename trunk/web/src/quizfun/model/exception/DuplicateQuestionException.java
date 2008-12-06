@@ -19,9 +19,7 @@
 package quizfun.model.exception;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class DuplicateQuestionException extends Exception {
 

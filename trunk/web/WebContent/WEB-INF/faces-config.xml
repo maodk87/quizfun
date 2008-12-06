@@ -227,14 +227,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<property-name>serviceLocator</property-name>
 			<value>#{serviceLocator}</value>
 		</managed-property>
-	 </managed-bean>	 
-	   <!--  <managed-bean>
-        <description>Backing bean for Stacking Panel example.</description>
-        <managed-bean-name>stackingPanel</managed-bean-name>
-        <managed-bean-class>quizfun.view.bean.PanalStackBean</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-    </managed-bean>-->
-	
-	
+	 </managed-bean>
 	<!-- Manage Beans - End -->
 </faces-config>

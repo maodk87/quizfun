@@ -19,9 +19,7 @@
 package quizfun.model.dto;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class QuesAnswDTO {
 

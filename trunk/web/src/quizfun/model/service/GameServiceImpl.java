@@ -1,3 +1,21 @@
+/*
+ * QuizFun - A quiz game
+ * Copyright (C) 2008
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package quizfun.model.service;
 
 import java.util.List;
@@ -17,41 +35,36 @@ public class GameServiceImpl implements GameService {
 
 	private GameDao gameDao;
 	private ModuleService moduleService;
+
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW, rollbackFor = { DuplicateQuestionException.class })
-	public void saveGame(Game game){
-		Long id = gameDao.saveGame(game);
+	public void saveGame(Game game) {
+		gameDao.saveGame(game);
 		return;
-
 	}
-	
+
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
 	public List<Game> findGame(GameSCDO gameSCDO) {
-		//gameDao.findGame(gameSCDO);
 		return gameDao.findGame(gameSCDO);
 	}
 
 	@Override
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
-	public Game findGameById(Long id){
+	public Game findGameById(Long id) {
 		Game game = gameDao.findGameById(id);
-/*		if(question == null || question.equals("")) {
-			throw new QuestionNotFoundException();
-		*/
 		return game;
-		
 	}
-	
+
 	public ModuleService getModuleService() {
 		return moduleService;
 	}
+
 	public void setModuleService(ModuleService moduleService) {
 		this.moduleService = moduleService;
 	}
+
 	public void setGameDao(GameDao gameDao) {
 		this.gameDao = gameDao;
 	}
-
-
 }

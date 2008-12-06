@@ -33,7 +33,6 @@ public class Game implements Serializable, Auditable {
 
 	private Long id;
 	private Module module;
-	//private List<Question> questions;
 	private Set<Question> questions = new HashSet<Question>();
 	private String status;
 
@@ -67,14 +66,6 @@ public class Game implements Serializable, Auditable {
 	public void setModule(Module module) {
 		this.module = module;
 	}
-/*
-	public List<Question> getQuestions() {
-		return questions;
-	}
-
-	public void setQuestions(List<Question> questions) {
-		this.questions = questions;
-	}*/
 
 	public String getStatus() {
 		return status;

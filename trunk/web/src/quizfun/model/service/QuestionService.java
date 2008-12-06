@@ -16,7 +16,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package quizfun.model.service;
 
 import java.util.List;
@@ -28,9 +27,7 @@ import quizfun.model.exception.ModuleNotFoundException;
 import quizfun.model.exception.QuestionNotFoundException;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public interface QuestionService {
 

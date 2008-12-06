@@ -39,9 +39,7 @@ import com.icesoft.faces.component.ext.HtmlDataTable;
 import com.icesoft.faces.component.ext.HtmlInputText;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class SearchGameManagedBean extends GameManagedBean{ 
 

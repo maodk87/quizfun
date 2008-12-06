@@ -39,9 +39,7 @@ import quizfun.view.util.JSFUtils;
 import com.icesoft.faces.component.ext.HtmlOutputText;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class PlayGameManagedBean {
 	
@@ -56,9 +54,6 @@ public class PlayGameManagedBean {
 	private List<UserGameDTO> userGameDTOs;
 
 	HtmlOutputText idOutputText;
-
-	//@SuppressWarnings("unchecked")
-	//private ArrayList chartData;
 
 	@SuppressWarnings("unchecked")
 	private ArrayList colors;
@@ -76,12 +71,6 @@ public class PlayGameManagedBean {
 			logger.debug("Object retrieved from session: {}", selectedGame);
 		}
 		resetValues();
-/*        chartData = new ArrayList(Arrays.asList(
-                new Double[]{new Double(50.0),
-                             new Double(60.0),
-                             new Double(80.0),
-                             new Double(40.0)}));*/
-
 
         // build colors
         colors = new ArrayList(Arrays.asList(
@@ -102,8 +91,6 @@ public class PlayGameManagedBean {
 
 		game.setQuestions(sgame.getQuestions());
 		quesList = new ArrayList<Question>(game.getQuestions());
-		
-		
 
 		//Should get UserGameDTOs
 		for(Question qq :quesList) {
@@ -133,8 +120,6 @@ public class PlayGameManagedBean {
 	
 	public GameDTO generatingChart(Question ques, GameDTO gameDTO) {
 		//Setting Answers
-		
-		
 		gameDTO.setLabels(new ArrayList<String>());
 		Double ans1 = new Double(0);
 		Double ans2 = new Double(0);
@@ -220,12 +205,6 @@ public class PlayGameManagedBean {
 	public void setQuesList(List<Question> quesList) {
 		this.quesList = quesList;
 	}
-/*	public ArrayList getChartData() {
-		return chartData;
-	}
-	public void setChartData(ArrayList chartData) {
-		this.chartData = chartData;
-	}*/
 	public ArrayList getColors() {
 		return colors;
 	}

@@ -21,9 +21,7 @@ package quizfun.model.dto;
 import java.io.Serializable;
 
 /**
- * 
  * @author Hiranya Mudunkotuwa
- *
  */
 public class GameSCDO implements Serializable {
 

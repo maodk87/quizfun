@@ -43,17 +43,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
         </ui:decorate>
 
     </ui:define>
-    
- <!--   <ui:param name="breadcrumbenabled" value="true" />
-    <ui:param name="currentpagename" value="#{res['breadcrumb.modify.label']}" />
-    <ui:define name="breadcrumb">
-    	<ice:commandLink action="#{searchModule.modifyBackAction}" value="#{res['breadcrumb.module.search.label']}" styleClass="bcLink">
-    	</ice:commandLink>
-    </ui:define>
-
-    <ui:define name="script">	
-		<script type="text/javascript">
-			setInitialFocus("frmCourse:stxtCourse");
-		</script>
-    </ui:define> -->
 </ui:composition>

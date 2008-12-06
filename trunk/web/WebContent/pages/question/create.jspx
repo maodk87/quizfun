@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<!-- Author: Hiranya Mdunkotuwa -->
+<!-- Author: Hiranya Mudunkotuwa -->
 <ui:composition template="/WEB-INF/include/template/page-template.jspx"
              xmlns="http://www.w3.org/1999/xhtml"
              xmlns:ui="http://java.sun.com/jsf/facelets"
