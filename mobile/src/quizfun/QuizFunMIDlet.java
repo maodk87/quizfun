@@ -215,11 +215,6 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
      */
     private boolean gameOver;
 
-    /**
-     * Marks Ticker.
-    // Ticker didn't work correctly
-    private Ticker marksTicker;
-     */
     private void initialize() {
     }
 
@@ -247,6 +242,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         }
     }
 
+    /**
+     * Login task
+     */
     public SimpleCancellableTask getLoginTask() {
         if (loginTask == null) {
             loginTask = new SimpleCancellableTask();
@@ -255,6 +253,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return loginTask;
     }
 
+    /**
+     * Game task
+     */
     public SimpleCancellableTask getGameTask() {
         if (gameTask == null) {
             gameTask = new SimpleCancellableTask();
@@ -280,19 +281,23 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             int selectedIndex = menu.getSelectedIndex();
             switch (selectedIndex) {
                 case 0:
+                    // New Game
                     singlePlayerMode = true;
                     switchDisplayable(null, getModuleForm());
                     break;
                 case 1:
+                    // Join Game
                     singlePlayerMode = false;
                     switchDisplayable(null, getGameForm());
                     break;
                 case 2:
+                    // About
                     switchDisplayable(getAlertAbout(), getMenu());
                     break;
             }
         } else if (displayable == moduleForm) {
             if (command == backCommand) {
+                // Go back to menu
                 switchDisplayable(null, getMenu());
             } else if (command == doneCommand) {
                 String code = moduleTextField.getString();
@@ -300,16 +305,19 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     getAlertFailure().setString("Please enter a module code.");
                     switchDisplayable(getAlertFailure(), moduleForm);
                 } else {
+                    // Execute the game task while displaying the wait screen
                     WaitScreen screen = getWaitScreen();
                     screen.setTask(getGameTask());
                     successDisplayable = getQuestionForm();
                     failureDisplayable = moduleForm;
+                    // Start with level 1.
                     level = 1;
                     switchDisplayable(null, screen);
                 }
             }
         } else if (displayable == gameForm) {
             if (command == backCommand) {
+                // Go back to menu
                 switchDisplayable(null, getMenu());
             } else if (command == doneCommand) {
                 String gameId = gameTextField.getString();
@@ -317,10 +325,12 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     getAlertFailure().setString("Please enter a game id.");
                     switchDisplayable(getAlertFailure(), gameForm);
                 } else {
+                    // Execute the game task while displaying the wait screen
                     WaitScreen screen = getWaitScreen();
                     screen.setTask(getGameTask());
                     successDisplayable = getQuestionForm();
                     failureDisplayable = gameForm;
+                    // Start with level 1.
                     level = 1;
                     switchDisplayable(null, screen);
                 }
@@ -335,6 +345,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 while (enumeration.hasMoreElements()) {
                     Answer answer = (Answer) enumeration.nextElement();
                     if (answer.getAnswer().equals(selectedAnswer)) {
+                        // Check whether the selected answer is correct.
                         if (answer.isCorrect()) {
                             correct = true;
                         }
@@ -387,8 +398,6 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     message = message + "\n\nMarks: " + questionMarks + "\n" + getMarksString();
 
                     alert.setString(message);
-                //Ticker ticker = getMarksTicker();
-                //ticker.setString(getMarksString());
                 } else {
                     alerts = getSadAlerts();
                     messages = getWrongMessages();
@@ -401,7 +410,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     setQuestionDisplay();
                     switchDisplayable(alert, questionForm);
                 } else {
+                    // Increment the level
                     level++;
+                    // Next level should be retreived from the server.
                     WaitScreen screen = getWaitScreen();
                     screen.setTask(getGameTask());
                     successDisplayable = getQuestionForm();
@@ -409,6 +420,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     switchDisplayable(alert, screen);
                 }
             } else if (command == hintCommand || command == referenceCommand) {
+                // Help used for current question.
                 helpUsed = true;
                 String message = null;
                 Alert alert = getAlertInfo();
@@ -434,6 +446,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             }
         } else if (displayable == loginForm) {
             if (command == loginCommand) {
+                // Execute the login task while displaying the wait screen
                 WaitScreen screen = getWaitScreen();
                 screen.setTask(getLoginTask());
                 successDisplayable = getMenu();
@@ -442,17 +455,23 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             }
         } else if (displayable == splashScreen) {
             if (command == SplashScreen.DISMISS_COMMAND) {
+                // Go to login form after the splash screen
                 switchDisplayable(null, getLoginForm());
             }
         } else if (displayable == waitScreen) {
             if (command == WaitScreen.FAILURE_COMMAND) {
+                // Switch the display to failureDisplayable set before executing the task
                 switchDisplayable(getAlertFailure(), failureDisplayable);
             } else if (command == WaitScreen.SUCCESS_COMMAND) {
+                // Switch the display to successDisplayable set before executing the task
                 switchDisplayable(getAlertSuccess(), successDisplayable);
             }
         }
     }
 
+    /**
+     * Get the main menu.
+     */
     public List getMenu() {
         if (menu == null) {
             Image image = null;
@@ -472,7 +491,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of waitScreen component.
+     * Returns an initialized instance of waitScreen component.
      * @return the initialized component instance
      */
     public WaitScreen getWaitScreen() {
@@ -492,7 +511,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of splashScreen component.
+     * Returns an initialized instance of splashScreen component.
      * @return the initialized component instance
      */
     public SplashScreen getSplashScreen() {
@@ -513,7 +532,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of exitCommand component.
+     * Returns an initialized instance of exitCommand component.
      * @return the initialized component instance
      */
     public Command getExitCommand() {
@@ -524,7 +543,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of backCommand component.
+     * Returns an initialized instance of backCommand component.
      * @return the initialized component instance
      */
     public Command getBackCommand() {
@@ -535,7 +554,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of doneCommand component.
+     * Returns an initialized instance of doneCommand component.
      * @return the initialized component instance
      */
     public Command getDoneCommand() {
@@ -546,7 +565,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of cancelCommand component.
+     * Returns an initialized instance of cancelCommand component.
      * @return the initialized component instance
      */
     public Command getCancelCommand() {
@@ -557,7 +576,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of loginCommand component.
+     * Returns an initialized instance of loginCommand component.
      * @return the initialized component instance
      */
     public Command getLoginCommand() {
@@ -568,7 +587,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of hintCommand component.
+     * Returns an initialized instance of hintCommand component.
      * @return the initialized component instance
      */
     public Command getHintCommand() {
@@ -579,7 +598,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of referenceCommand component.
+     * Returns an initialized instance of referenceCommand component.
      * @return the initialized component instance
      */
     public Command getReferenceCommand() {
@@ -589,10 +608,15 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return referenceCommand;
     }
 
+    /**
+     * Get the login form
+     */
     public Form getLoginForm() {
         if (loginForm == null) {
             String username = null;
             try {
+                // Try to load the username from record store.
+                // User will not have to type the username again
                 RecordStore settings = RecordStore.openRecordStore("QuizFun", true);
                 username = new String(settings.getRecord(1));
                 settings.closeRecordStore();
@@ -613,7 +637,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of alertFailure component.
+     * Returns an initialized instance of alertFailure component.
      * @return the initialized component instance
      */
     public Alert getAlertFailure() {
@@ -636,7 +660,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of alertSuccess component.
+     * Returns an initialized instance of alertSuccess component.
      * @return the initialized component instance
      */
     public Alert getAlertSuccess() {
@@ -657,6 +681,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         getAlertSuccess().setString("");
     }
 
+    /**
+     * About Alert for QuizFun
+     */
     public Alert getAlertAbout() {
         if (alertAbout == null) {
             Image image = null;
@@ -674,7 +701,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     }
 
     /**
-     * Returns an initiliazed instance of alertInfo component.
+     * Returns an initialized instance of alertInfo component.
      * @return the initialized component instance
      */
     public Alert getAlertInfo() {
@@ -691,6 +718,10 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return alertInfo;
     }
 
+    /**
+     * Returns an array of alerts for displaying when an answer is correct
+     * @return An array of <code>Alert</code>
+     */
     public Alert[] getHappyAlerts() {
         if (happyAlerts == null) {
             happyAlerts = new Alert[3];
@@ -730,6 +761,10 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return happyAlerts;
     }
 
+    /**
+     * Returns an array of alerts for displaying when an answer is wrong
+     * @return An array of <code>Alert</code>
+     */
     public Alert[] getSadAlerts() {
         if (sadAlerts == null) {
             sadAlerts = new Alert[6];
@@ -799,6 +834,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return sadAlerts;
     }
 
+    /**
+     * Get the list of messages displayed when the answer is correct.
+     */
     public String[] getCorrectMessages() {
         if (correctMessages == null) {
             correctMessages = new String[7];
@@ -813,6 +851,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return correctMessages;
     }
 
+    /**
+     * Get the list of messages displayed when the answer is wrong.
+     */
     public String[] getWrongMessages() {
         if (wrongMessages == null) {
             wrongMessages = new String[8];
@@ -828,6 +869,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return wrongMessages;
     }
 
+    /**
+     * Get the game form
+     */
     public Form getGameForm() {
         if (gameForm == null) {
             gameForm = new Form("Game");
@@ -840,10 +884,14 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return gameForm;
     }
 
+    /**
+     * Get the module form
+     */
     public Form getModuleForm() {
         if (moduleForm == null) {
             String moduleCode = null;
             try {
+                // Try to load the module code from record store.
                 RecordStore settings = RecordStore.openRecordStore("QuizFun", true);
                 moduleCode = new String(settings.getRecord(2));
                 settings.closeRecordStore();
@@ -861,13 +909,15 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return moduleForm;
     }
 
+    /**
+     * Get the question form
+     */
     public Form getQuestionForm() {
         if (questionForm == null) {
             questionForm = new Form("");
             // Create an exclusive (radio) choice group
             answerCg = new ChoiceGroup("", Choice.EXCLUSIVE);
             questionForm.append(answerCg);
-            //questionForm.setTicker(getMarksTicker());
             questionForm.addCommand(getExitCommand());
             questionForm.addCommand(getDoneCommand());
             questionForm.addCommand(getHintCommand());
@@ -877,6 +927,9 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         return questionForm;
     }
 
+    /**
+     * Display the current question.
+     */
     private void setQuestionDisplay() {
         // Assuming that questionEnumeration, questionItem and answerCg is initialized.
         currentQuestion = (Question) questionEnumeration.nextElement();
@@ -891,12 +944,6 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         helpUsed = false;
     }
 
-    /*public Ticker getMarksTicker() {
-    if (marksTicker == null) {
-    marksTicker = new Ticker(getMarksString());
-    }
-    return marksTicker;
-    }*/
     /**
      * Get Total Marks String for Display
      */
@@ -965,7 +1012,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 }
 
                 try {
-
+                    // Save the values in record store.
                     RecordStore settings = RecordStore.openRecordStore("QuizFun", true);
 
                     try {
@@ -990,6 +1037,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     logException(ex);
                 }
 
+                // Notify destroyed
                 notifyDestroyed();
             } // synchronized
         }
@@ -1001,13 +1049,23 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
     abstract class AbstractExecutable implements Executable {
 
         //private final String baseUrl = "http://localhost:8080/QuizFun/m/";
+
+        // Get the base server url for app property.
         private final String baseUrl = getAppProperty("QuizFun-Server-URL");
+        /**
+         * User agent type
+         */
         private final String agent = "Profile/MIDP-2.0 Configuration/CLDC-1.1";
+        /**
+         * Content type must be "application/x-www-form-urlencoded" to post data to the server.
+         */
         private final String type = "application/x-www-form-urlencoded";
 
         public void execute() throws Exception {
             try {
+                // Call init
                 init();
+                // Construct the URL to connect
                 String url = baseUrl + getURL();
                 System.out.println("Connecting to " + url);
                 HttpConnection hc = (HttpConnection) Connector.open(url);
@@ -1015,10 +1073,12 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                 hc.setRequestProperty("User-Agent", agent);
                 hc.setRequestProperty("Content-Type", type);
                 if (sessionId != null) {
+                    // Set the session id.
+                    // This is important for session management.
                     hc.setRequestProperty("Cookie", "JSESSIONID=" + sessionId);
                 }
 
-
+                // Get the post data
                 String postData = getPostData();
                 if (postData != null) {
                     //System.out.println("postData: " + postData);
@@ -1031,8 +1091,10 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
                     os.close();
                 }
 
+                // Process the HttpConnection
                 process(hc);
 
+                // Close the HttpConnection
                 hc.close();
             } catch (ApplicationException ex) {
                 getAlertFailure().setString(ex.getMessage());
@@ -1045,15 +1107,30 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             }
         }
 
+        /**
+         * Callback method to perform initialization.
+         */
         protected abstract void init();
 
+        /**
+         * Get the URL suffix for connecting with QuizFun server.
+         */
         protected abstract String getURL();
 
+        /**
+         * Get any data for posting.
+         */
         protected abstract String getPostData();
 
+        /**
+         * Process the HttpConnection
+         */
         protected abstract void process(HttpConnection hc) throws Exception;
     }
 
+    /**
+     * Executable for login
+     */
     class LoginExecutable extends AbstractExecutable {
 
         protected void init() {
@@ -1066,6 +1143,7 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
         }
 
         protected String getPostData() {
+            // Send user name and password
             String str = "username=" + EncodeURL.encode(usernameTextField.getString()) + "&password=" + EncodeURL.encode(passwordTextField.getString());
             return str;
         }
@@ -1109,13 +1187,15 @@ public class QuizFunMIDlet extends MIDlet implements CommandListener {
             if (login) {
                 Alert alert = getAlertSuccess();
                 alert.setString(message);
-            //alert.setTimeout(2000);
             } else {
                 throw new ApplicationException(message);
             }
         }
     }
 
+    /**
+     * Executable for game play
+     */
     class GameExecutable extends AbstractExecutable {
 
         protected void init() {
