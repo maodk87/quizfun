@@ -1,0 +1,79 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<ui:composition template="/WEB-INF/include/template/page-template.jspx"
+             xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:ui="http://java.sun.com/jsf/facelets"
+             xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <ui:param name="pageTitle" value="#{res['login.page.title']}" />
+    <ui:param name="contentHeader" value="#{res['home.content.header']}"/>
+
+    <ui:define name="content">
+
+        <ui:decorate template="/WEB-INF/include/template/content-template.jspx" >
+
+            <!-- header content here  -->
+            <ui:define name="pageName">
+                #{contentHeader}
+            </ui:define>
+
+            <!-- insert content here -->
+            <ui:define name="pageContent">
+	            <ui:include src="/WEB-INF/include/inc-login.jspx" /> 
+            </ui:define>
+
+
+        </ui:decorate>
+
+    </ui:define>
+    
+    <ui:define name="script">
+		<!-- BEGIN ID SELECTOR -->
+		<script type="text/javascript" id="__openidselector" src="https://www.idselector.com/selector/b2cf7b3ed2f20c903fc5158571647ea11c4d49ef" charset="utf-8"></script>
+		<script type="text/javascript">
+			idselector_input_id = "j_username";
+		</script>
+		<!-- END ID SELECTOR -->
+		
+		<script type="text/javascript">
+			function submitLogin() {
+				var component = document.getElementById('frmH:connStatus:connection-working');
+				if (component) {
+					component.style.visibility="visible";
+				}
+				var waitMsg = document.getElementById('wait');
+				if (waitMsg) {
+					waitMsg.style.display = "inline";
+				}
+				var submitBtn = document.getElementById('submitBtn');
+				if (submitBtn) {
+					submitBtn.disabled = true;
+					submitBtn.className = "iceCmdBtn-dis";
+				}
+				var errorMsg = document.getElementById('errorMsg');
+				if (errorMsg) {
+					errorMsg.style.display = "none";
+				}
+				return true;
+			}
+		</script>
+    </ui:define>
+    
+</ui:composition>

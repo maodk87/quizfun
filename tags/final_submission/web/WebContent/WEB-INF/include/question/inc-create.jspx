@@ -1,0 +1,113 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Hiranya Mudunkotuwa -->
+
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:jc="http://jsfcustom.com/tag">
+
+	<ice:form id="frmModule">
+		<ice:panelCollapsible id="pncModule" expanded="true">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['question.module.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ui:decorate template="/WEB-INF/include/module/inc-selectmodule.jspx">
+				<ui:param name="managedBean" value="#{createQuestion}" />
+			</ui:decorate>
+		</ice:panelCollapsible>
+	</ice:form>
+	<ice:form id="frmQuestion">
+		<ice:panelCollapsible id="pncQuestion" expanded="true"
+			toggleOnClick="false">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['question.create.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ui:decorate template="/WEB-INF/include/question/inc-question.jspx">
+				<ui:param name="required" value="#{true}" />
+				<ui:param name="editMode" value="#{false}" />			
+				<ui:param name="managedBean" value="#{createQuestion}" />
+			</ui:decorate>
+		</ice:panelCollapsible>
+	</ice:form>
+	<ice:form id="frmAnswer">
+		<ice:panelCollapsible id="pncAnswer" expanded="true"
+			toggleOnClick="false">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['question.answer.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ui:decorate template="/WEB-INF/include/question/inc-answer.jspx">
+
+				<ui:param name="required" value="#{true}" />
+				<ui:param name="editMode" value="#{false}" />
+				<ui:param name="managedBean" value="#{createQuestion}" />
+				<ui:define name="commandsPanel">
+					<ice:panelGroup>
+						<ice:commandButton value="#{res['common.label.save']}"
+							actionListener="#{createQuestion.saveActionListener}" />
+						<ice:commandButton value="#{res['common.label.clear']}"
+							actionListener="#{createQuestion.clearActionListener}"
+							immediate="true" />
+					</ice:panelGroup>
+				</ui:define>
+
+			</ui:decorate>
+		</ice:panelCollapsible>
+	</ice:form>
+
+	<ice:form>
+		<ice:panelPopup draggable="false" autoCentre="true" modal="true"
+			visible="#{createQuestion.removeAnswerConfirmVisible}"
+			rendered="true" styleClass="pnlPopup"
+			style="width: 350px; height: auto; overflow: visible;">
+			<f:facet name="header">
+				<ice:outputText value="#{res['common.remove.panel.title']}"
+					styleClass="popupHeaderText" />
+			</f:facet>
+			<f:facet name="body">
+				<ice:panelGroup styleClass="popupBody">
+					<ice:outputFormat value="#{res['answer.remove.confirm.text']}"
+						style="display: block; padding: 5px 10px 15px 10px;">
+					</ice:outputFormat>
+					<ice:panelGroup style="text-align: center;">
+						<ice:commandButton id="btnYes"
+							actionListener="#{createQuestion.removeAnswerActionListener}"
+							value="#{res['common.label.yes']}"
+							style="padding: 2px 5px 2px 5px;" />
+						<ice:commandButton id="btnNo" immediate="true"
+							actionListener="#{createQuestion.closeRemoveAnswerActionListener}"
+							value="#{res['common.label.no']}"
+							style="padding: 2px 5px 2px 5px;" />
+					</ice:panelGroup>
+				</ice:panelGroup>
+			</f:facet>
+		</ice:panelPopup>
+	</ice:form>
+</jsp:root>

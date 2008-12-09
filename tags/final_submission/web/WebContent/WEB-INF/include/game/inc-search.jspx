@@ -1,0 +1,203 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Hiranya Mudunkotuwa -->
+<jsp:root version="1.2" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ice:form id="frmGame">
+		<ice:panelCollapsible id="pncGame" expanded="true">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['game.search.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+			<ice:panelGrid id="pngModule" width="100%" columns="2"
+				columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+				<ice:outputLabel id="lblMCode"
+					value="#{res['question.module.code.label']}" for="txtMCode"
+					styleClass="lblCommon">
+				</ice:outputLabel>
+				<ice:panelGroup>
+					<ice:inputText id="txtMCode" value="#{searchGame.module.code}"
+						binding="#{searchGame.moduleCodeInputText}"
+						maxlength="#{res['module.code.maxlength']}" partialSubmit="true"
+						autocomplete="off">
+					</ice:inputText>
+					<ice:message for="txtMCode" />
+				</ice:panelGroup>
+				<ice:outputLabel id="lblMName"
+					value="#{res['question.module.name.label']}" for="txtMName"
+					styleClass="lblCommon">
+				</ice:outputLabel>
+				<ice:panelGroup>
+					<ice:inputText id="txtMName" value="#{searchGame.module.name}"
+						binding="#{searchGame.moduleNameInputText}"
+						maxlength="#{res['module.name.maxlength']}" partialSubmit="true"
+						autocomplete="off">
+					</ice:inputText>
+					<ice:message for="txtMName" />
+				</ice:panelGroup>
+				<f:verbatim></f:verbatim>
+				<ice:panelGroup>
+					<ice:commandButton value="#{res['common.label.search']}"
+						actionListener="#{searchGame.searchActionListener}" />
+					<ice:commandButton value="#{res['common.label.clear']}"
+						actionListener="#{searchGame.clearActionListener}"
+						immediate="true" />
+				</ice:panelGroup>
+
+			</ice:panelGrid>
+		</ice:panelCollapsible>
+	</ice:form>
+
+	<ice:form>
+		<ice:panelCollapsible id="pncGames" expanded="true"
+			rendered="#{!empty(searchGame.games)}">
+			<f:facet name="header">
+				<ice:panelGroup>
+					<ice:outputText value="#{res['common.search.results.panel.title']}" />
+				</ice:panelGroup>
+			</f:facet>
+
+			<ice:panelGrid id="pngFilter" width="100%" columns="2"
+				columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+				<ice:outputLabel id="lblFilter"
+					value="#{res['common.search.results.filter.label']}"
+					for="txtFilter" styleClass="lblCommon">
+				</ice:outputLabel>
+				<ice:panelGroup>
+					<ice:inputText id="txtFilter" value="#{searchGame.filterText}"
+						binding="#{searchGame.filterInputText}"
+						maxlength="#{res['question.name.maxlength']}" partialSubmit="true"
+						autocomplete="off">
+					</ice:inputText>
+					<ice:message for="txtFilter" />
+				</ice:panelGroup>
+				<f:verbatim></f:verbatim>
+				<ice:panelGroup>
+					<ice:commandButton value="#{res['common.label.filter']}"
+						actionListener="#{searchGame.filterActionListener}" />
+					<ice:commandButton value="#{res['common.label.clear']}"
+						actionListener="#{searchGame.filterClearActionListener}"
+						immediate="true" />
+				</ice:panelGroup>
+			</ice:panelGrid>
+
+			<ice:panelGroup styleClass="dataPaginator" style="margin-top: 15px;"
+				rendered="#{!empty(searchGame.gameFilterList)}">
+				<ice:dataPaginator id="pgn1" for="tblGame" rowsCountVar="rowsCount"
+					displayedRowsCountVar="displayedRowsCountVar"
+					firstRowIndexVar="firstRowIndex" lastRowIndexVar="lastRowIndex"
+					pageCountVar="pageCount" pageIndexVar="pageIndex"
+					paginatorMaxPages="5" paginator="true" fastStep="3">
+
+					<ice:outputFormat
+						value="#{res['game.dataScrolling.outputFormat.text']}"
+						styleClass="dataPaginatorMsg">
+						<f:param value="#{rowsCount}" />
+						<f:param value="#{displayedRowsCountVar}" />
+						<f:param value="#{firstRowIndex}" />
+						<f:param value="#{lastRowIndex}" />
+						<f:param value="#{pageIndex}" />
+						<f:param value="#{pageCount}" />
+					</ice:outputFormat>
+
+				</ice:dataPaginator>
+			</ice:panelGroup>
+
+			<ice:dataTable id="tblGame" width="100%" rows="10" var="game"
+				value="#{searchGame.gameFilterList}"
+				binding="#{searchGame.dataTable}"
+				rendered="#{!empty(searchGame.gameFilterList)}">
+
+				<ice:column id="id" style="width: 20%">
+					<f:facet name="header">
+						<ice:outputText value="#{res['game.table.column.id.header']}"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{game.id}"></ice:outputText>
+				</ice:column>
+
+				<ice:column id="module" style="width: 10%">
+					<f:facet name="header">
+						<ice:outputText
+							value="#{res['question.table.column.module.header']}"></ice:outputText>
+					</f:facet>
+					<ice:outputText value="#{game.module.code}"></ice:outputText>
+				</ice:column>
+
+				<ice:column id="action" style="width: 20%">
+					<ice:panelGroup style="text-align: center;">
+						<ice:commandLink value="#{res['common.label.select']}"
+							action="#{searchGame.selectAction}"></ice:commandLink>
+					</ice:panelGroup>
+				</ice:column>
+
+			</ice:dataTable>
+
+			<ice:panelGroup styleClass="dataPaginator"
+				rendered="#{!empty(searchGame.gameFilterList)}">
+				<ice:dataPaginator id="pgn2" for="tblGame" fastStep="3"
+					pageCountVar="pageCount" pageIndexVar="pageIndex" paginator="true"
+					paginatorMaxPages="5">
+
+					<f:facet name="first">
+						<ice:graphicImage id="imgpgn2_1"
+							url="#{res['common.style.image.folder']}arrow-first.gif"
+							style="border:none;"
+							title="#{res['common.dataScrolling.firstpage']}" />
+					</f:facet>
+
+					<f:facet name="last">
+						<ice:graphicImage id="imgpgn2_2"
+							url="#{res['common.style.image.folder']}arrow-last.gif"
+							style="border:none;"
+							title="#{res['common.dataScrolling.lastpage']}" />
+					</f:facet>
+					<f:facet name="previous">
+						<ice:graphicImage id="imgpgn2_3"
+							url="#{res['common.style.image.folder']}arrow-previous.gif"
+							style="border:none;"
+							title="#{res['common.dataScrolling.previouspage']}" />
+					</f:facet>
+					<f:facet name="next">
+						<ice:graphicImage id="imgpgn2_4"
+							url="#{res['common.style.image.folder']}arrow-next.gif"
+							style="border:none;"
+							title="#{res['common.dataScrolling.nextpage']}" />
+					</f:facet>
+					<f:facet name="fastforward">
+						<ice:graphicImage id="imgpgn2_5"
+							url="#{res['common.style.image.folder']}arrow-ff.gif"
+							style="border:none;"
+							title="#{res['common.dataScrolling.fastforward']}" />
+					</f:facet>
+					<f:facet name="fastrewind">
+						<ice:graphicImage id="imgpgn2_6"
+							url="#{res['common.style.image.folder']}arrow-fr.gif"
+							style="border:none;"
+							title="#{res['common.dataScrolling.fastbackward']}" />
+					</f:facet>
+				</ice:dataPaginator>
+			</ice:panelGroup>
+		</ice:panelCollapsible>
+	</ice:form>
+</jsp:root>

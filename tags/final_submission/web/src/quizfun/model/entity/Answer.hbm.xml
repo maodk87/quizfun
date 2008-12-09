@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="quizfun.model.entity.Answer" table="ANSWER">
+		<id name="id" type="long">
+			<column name="ID" />
+			<generator class="native"></generator>
+		</id>
+		<version column="VERSION" name="version" type="long" />
+		<property name="answer" type="string" not-null="true">
+			<column name="ANSWER" length="255" />
+		</property>
+		<property name="correct" type="boolean" not-null="true">
+			<column name="CORRECT" />
+		</property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="255" not-null="true" />
+        </property>
+        <property name="createdDate" type="timestamp">
+            <column name="CREATED_DATE" not-null="true" />
+        </property>
+        <property name="modifiedBy" type="string">
+            <column name="MODIFIED_BY" length="255" />
+        </property>
+        <property name="modifiedDate" type="timestamp">
+            <column name="MODIFIED_DATE" />
+        </property>
+		<many-to-one name="question" column="QUESTION" not-null="true" fetch="join" lazy="false"></many-to-one>
+	</class>
+</hibernate-mapping>

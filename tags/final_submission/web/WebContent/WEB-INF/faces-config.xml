@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE faces-config PUBLIC
+    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config>
+	<application>
+		<view-handler>com.icesoft.faces.facelets.D2DFaceletViewHandler</view-handler>
+		<variable-resolver>org.springframework.web.jsf.DelegatingVariableResolver</variable-resolver>
+		<message-bundle>quizfun.view.resources.messages</message-bundle>
+	</application>
+	<!-- Manage Beans - Start -->
+	<managed-bean>
+		<managed-bean-name>serviceLocator</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ServiceLocatorManagedBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+		<managed-property>
+			<property-name>courseService</property-name>
+			<value>#{courseService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>moduleService</property-name>
+			<value>#{moduleService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>questionService</property-name>
+			<value>#{questionService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>userService</property-name>
+			<value>#{userService}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>gameService</property-name>
+			<value>#{gameService}</value>
+		</managed-property>		
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>renderMgr</managed-bean-name>
+		<managed-bean-class>com.icesoft.faces.async.render.RenderManager</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for common purposes</description>
+		<managed-bean-name>common</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CommonManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create course</description>
+		<managed-bean-name>createCourse</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateCourseManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search course</description>
+		<managed-bean-name>searchCourse</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchCourseManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for modify course</description>
+		<managed-bean-name>modifyCourse</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ModifyCourseManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create question</description>
+		<managed-bean-name>createQuestion</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateQuestionManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search question</description>
+		<managed-bean-name>searchQuestion</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchQuestionManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>	
+	<managed-bean>
+		<description>Managed bean for modify question</description>
+		<managed-bean-name>modifyQuestion</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ModifyQuestionManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create module</description>
+		<managed-bean-name>createModule</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateModuleManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search module</description>
+		<managed-bean-name>searchModule</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchModuleManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for modify module</description>
+		<managed-bean-name>modifyModule</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ModifyModuleManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for register user</description>
+		<managed-bean-name>registerUser</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.RegisterUserManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create user</description>
+		<managed-bean-name>createUser</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateUserManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for search user</description>
+		<managed-bean-name>searchUser</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchUserManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for modify user</description>
+		<managed-bean-name>modifyUser</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.ModifyUserManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	</managed-bean>
+	<managed-bean>
+		<description>Managed bean for create game</description>
+		<managed-bean-name>createGame</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.CreateGameManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	 </managed-bean>
+	 <managed-bean>
+		<description>Managed bean for search game</description>
+		<managed-bean-name>searchGame</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.SearchGameManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	 </managed-bean>
+	<managed-bean>
+		<description>Managed bean for play game</description>
+		<managed-bean-name>playGame</managed-bean-name>
+		<managed-bean-class>quizfun.view.bean.PlayGameManagedBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceLocator</property-name>
+			<value>#{serviceLocator}</value>
+		</managed-property>
+	 </managed-bean>
+	<!-- Manage Beans - End -->
+</faces-config>

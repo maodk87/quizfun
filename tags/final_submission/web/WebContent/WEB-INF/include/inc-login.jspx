@@ -1,0 +1,58 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: M. Isuru Tharanga Chrishantha Perera -->
+<div xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:c="http://java.sun.com/jstl/core">
+
+	<p>
+		<div class="contentbox floatright">
+			<h3 class="contentheader">Login with OpenID<a id="openid_help" href="http://openid.net/what" target="_blank" title="OpenID allows you to use a single identity multiple places." style="margin-left: 1em; cursor: help; font-size:85%;">What's this?</a></h3>
+			<form action="j_spring_openid_security_check" method="POST" onsubmit="submitLogin();">
+				<table style="width: auto;">
+					<tr>
+						<td>
+							<input type="text" id="j_username" name="j_username" class="iceInpTxt openIDUserName" />
+						</td>
+						<td style="vertical-align: top;"><input id="submitBtn" name="submit" type="submit" class="iceCmdBtn" value="#{res['common.label.login']}"/></td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<table id="wait" style="display: none;">
+								<tbody>
+									<tr style="height: 20px;">
+										<td><ice:graphicImage url="#{res['common.local.image.folder']}ajax-loader.gif" title="Loading" alt="" style="vertical-align: middle; width: 16px; height: 16px;" /></td>
+										<td style="vertical-align: middle; white-space: nowrap; font-weight: bold; color: #192666;">Please Wait...</td>
+									</tr>
+								</tbody>
+							</table>
+							<div id="errorMsg">
+								<ice:outputFormat value="#{res['login.error.message']}" rendered="#{not empty param.login_error}" styleClass="iceMsgError" style="display: block; width: 225px;">
+									<f:param value="#{(empty SPRING_SECURITY_LAST_EXCEPTION) ? '' : SPRING_SECURITY_LAST_EXCEPTION.message}"></f:param>
+								</ice:outputFormat>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	
+		Want to play a game? Please login with your OpenID
+	</p>	
+	
+</div>

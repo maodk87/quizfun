@@ -1,0 +1,101 @@
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- Author: Hiranya Mdunkotuwa -->
+<ice:panelGroup xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ice="http://www.icesoft.com/icefaces/component"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ice:panelGrid id="pnlConf1" width="100%" columns="2"
+		columnClasses="pnlGrdTwoColumnFormLabel,pnlGrdTwoColumnFormField">
+
+		<!-- Question -->
+		<ice:outputLabel id="lblQues"
+			value="#{res['question.question.label']}" for="txtaQues"
+			styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:inputTextarea id="txtaQues"
+				value="#{managedBean.question.question}" required="#{required}"
+				binding="#{managedBean.quesInputTextArea}"
+				maxlength="#{res['question.question.maxlength']}"
+				partialSubmit="true">
+			</ice:inputTextarea>
+			<ice:message for="txtaQues" />
+		</ice:panelGroup>
+
+		<!-- Question Type-->
+		<ice:outputLabel id="lblType" value="#{res['question.type.label']}"
+			for="txtaQues" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:selectOneMenu id="slctomType"
+				value="#{managedBean.question.type}" required="#{required}"
+				binding="#{managedBean.typeSelectOneMenu}" partialSubmit="true">
+				<f:selectItem itemLabel="#{res['question.select.label.mcq']}" itemValue="#{res['question.select.value.mcq']}" />
+			</ice:selectOneMenu>
+			<ice:message for="slctomType" />
+		</ice:panelGroup>
+
+		<!-- Question Level-->
+		<ice:outputLabel id="lblLevel" value="#{res['question.level.label']}"
+			for="txtaQues" styleClass="#{required ? 'lblRequired' : 'lblCommon'}">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:selectOneMenu id="slctomLevel"
+				value="#{managedBean.question.level}" required="#{required}"
+				binding="#{managedBean.levelSelectOneMenu}" partialSubmit="true">
+				<f:selectItem itemLabel="#{res['question.select.label.easy']}" itemValue="#{res['question.select.value.easy']}" />
+				<f:selectItem itemLabel="#{res['question.select.label.medium']}" itemValue="#{res['question.select.value.medium']}" />
+				<f:selectItem itemLabel="#{res['question.select.label.hard']}" itemValue="#{res['question.select.value.hard']}" />
+			</ice:selectOneMenu>
+			<ice:message for="slctomLevel" />
+		</ice:panelGroup>
+
+		<!-- Hint -->
+		<ice:outputLabel id="lblHint" value="#{res['question.hint.label']}"
+			for="txtaHint" styleClass="lblCommon">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:inputTextarea id="txtaHint" value="#{managedBean.question.hint}"
+				binding="#{managedBean.hintInputTextArea}"
+				maxlength="#{res['question.hint.maxlength']}" partialSubmit="true">
+			</ice:inputTextarea>
+			<ice:message for="txtaHint" />
+		</ice:panelGroup>
+
+		<!-- References -->
+		<ice:outputLabel id="lblRef"
+			value="#{res['question.reference.label']}" for="txtaRef"
+			styleClass="lblCommon">
+		</ice:outputLabel>
+		<ice:panelGroup>
+			<ice:inputTextarea id="txtaRef"
+				value="#{managedBean.question.reference}" 
+				binding="#{managedBean.refInputTextArea}"
+				maxlength="#{res['question.reference.maxlength']}"
+				partialSubmit="true">
+			</ice:inputTextarea>
+			<ice:message for="txtaRef" />
+		</ice:panelGroup>
+				<ui:insert name="module" />
+			<f:verbatim></f:verbatim>
+		<ui:insert name="commandsPanel" />				
+	</ice:panelGrid>
+</ice:panelGroup>

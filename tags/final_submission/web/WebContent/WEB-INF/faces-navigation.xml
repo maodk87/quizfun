@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE faces-config PUBLIC
+    "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN"
+    "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+<faces-config>
+	<!-- Navigation Rules - Start -->
+	
+	<!-- Global - Navigation Rules - Start -->
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/index.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>registerUser</from-outcome>
+			<to-view-id>/pages/user/register.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>settings</from-outcome>
+			<to-view-id>/pages/user/settings.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createCourse</from-outcome>
+			<to-view-id>/pages/course/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchCourse</from-outcome>
+			<to-view-id>/pages/course/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createModule</from-outcome>
+			<to-view-id>/pages/module/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchModule</from-outcome>
+			<to-view-id>/pages/module/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createUser</from-outcome>
+			<to-view-id>/pages/user/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchUser</from-outcome>
+			<to-view-id>/pages/user/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createQuestion</from-outcome>
+			<to-view-id>/pages/question/create.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchQuestion</from-outcome>
+			<to-view-id>/pages/question/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createGame</from-outcome>
+			<to-view-id>/pages/game/select.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchGame</from-outcome>
+			<to-view-id>/pages/game/search.iface</to-view-id>
+			<redirect />
+		</navigation-case>	
+		<navigation-case>
+			<from-outcome>playGame</from-outcome>
+			<to-view-id>/pages/game/playGame.iface</to-view-id>
+			<redirect />
+		</navigation-case>	
+	</navigation-rule>
+	<!-- Global - Navigation Rules - End -->
+	
+	<!-- Course - Navigation Rules - Start -->
+	<navigation-rule>
+		<from-view-id>/pages/course/search.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>modifyCourse</from-outcome>
+			<to-view-id>/pages/course/modify.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/course/modify.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/pages/course/search.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<!-- Course - Navigation Rules - End -->
+	
+	<!-- Module - Navigation Rules - Start -->
+	<navigation-rule>
+		<from-view-id>/pages/module/search.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>modifyModule</from-outcome>
+			<to-view-id>/pages/module/modify.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/module/modify.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/pages/module/search.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<!-- Module - Navigation Rules - End -->
+	
+	<!-- Question - Navigation Rules - Start -->
+	<navigation-rule>
+		<from-view-id>/pages/question/search.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>modifyQuestion</from-outcome>
+			<to-view-id>/pages/question/modify.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/question/modify.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/pages/question/search.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<!-- Question - Navigation Rules - End -->
+	
+	<!-- Game - Navigation Rules - Start  -->
+	<navigation-rule>
+		<from-view-id>/pages/game/search.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>playGame</from-outcome>
+			<to-view-id>/pages/game/play.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<!-- Game - Navigation Rules - End -->	
+	
+	<!-- User - Navigation Rules - Start -->
+	<navigation-rule>
+		<from-view-id>/pages/user/search.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>modifyUser</from-outcome>
+			<to-view-id>/pages/user/modify.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/user/modify.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/pages/user/search.iface</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<from-view-id>/pages/user/register.jspx</from-view-id>
+		<navigation-case>
+			<from-outcome>back</from-outcome>
+			<to-view-id>/index.iface</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
+	<!-- User - Navigation Rules - End -->
+	
+	<!-- Navigation Rules - End -->
+</faces-config>

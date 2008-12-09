@@ -1,0 +1,32 @@
+/*
+ * QuizFun - A quiz game
+ * Copyright (C) 2008
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+
+/* Style sheet for Internet Explorer < 7 */
+/* Error Styles - Start */
+.fatalMessage, .errorMessage {
+	background: url( './css-images/error2.gif' ) no-repeat center left;
+}
+.warnMessage {
+	background: url( './css-images/warning2.gif' ) no-repeat center left;
+}
+.infoMessage {
+	background: url( './css-images/info2.gif' ) no-repeat center left;
+}
+/* Error Styles - End */

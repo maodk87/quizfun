@@ -1,0 +1,402 @@
+/*
+ * QuizFun - A quiz game
+ * Copyright (C) 2008
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or (at
+ * your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+
+html {
+	overflow-y: scroll; /*Eliminate “Jumps” in Horizontal Centering By Forcing a Scroll Bar*/
+}
+
+div.clearer {
+	clear: both;
+	height: 0;
+	line-height: 0.01em;
+	margin: 0;
+	padding: 0;
+	visibility: hidden;
+}
+
+.contentbox {
+	border: 1px solid #D3DFF8;
+	margin: 0;
+	padding: 0;
+}
+
+.contentheader {
+	background-color: #D3DFF8;
+	color: #192666;
+	padding: 8px;
+	margin: 0;
+}
+
+.floatright {
+	float: right;
+	margin: 0 0 10px 10px;
+}
+
+/*Overridden Style Class Properties for Rime*/
+.iceCmdBtn, .iceCmdBtn-dis {
+	background-image: url('./css-images/button_bg.png');
+	border: 1px solid #C0C0C0;
+	background-repeat: repeat-x;
+	font-family: Arial,Verdana,sans-serif;
+	font-size: 11px;
+	padding: 2px 4px 2px 4px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.iceCmdBtn {
+	background-color:#9FBDEB;
+	color: #000000;
+	cursor: pointer;
+}
+
+.iceCmdBtn:hover {
+	border-style: solid;
+	border-color: #FFA326;
+}
+
+.iceCmdBtn-dis {
+	background-color:#9FBDEB;
+	color: #6A92CF;
+	cursor: default;
+}
+
+.iceCmdLnk, .iceOutLnk {
+	text-decoration: underline;
+	font-weight: normal;
+	color: blue;
+}
+
+.iceInpTxt, .iceInpSecrt, .iceInpTxtArea, .iceSelInpTxtTxt {
+    margin: 2px;
+    padding: 3px;
+    font: 11px tahoma;
+    background: #FFF;
+    border: 1px solid #d9d9d9;
+    width: 150px;
+}
+
+.iceSelInpTxtTxt {
+	background: #FFFFFF url('./css-images/arrow_118.gif') no-repeat scroll center right;
+}
+
+.iceOutConStat {
+	margin: 2px;
+}
+
+/* Error Styles - Start */
+#msgsGlobal {
+	background-color: #E6F3FB; /*#FFFFCE*/
+	border: 1px solid #BBBBBB; /*#F0C000*/
+	margin: 5px 0px;
+	padding: 5px 10px;
+	width: 100%;
+}
+.iceMsgsError, .iceMsgsFatal, .iceMsgsInfo, .iceMsgsWarn, .iceMsgError, .iceMsgFatal, .iceMsgInfo, .iceMsgWarn {
+	padding-left: 22px;
+	padding-top: 1px;
+}
+.iceMsgError, .iceMsgFatal, .iceMsgInfo, .iceMsgWarn {
+	display: inline;
+}
+.iceMsgsError, .iceMsgsFatal, .iceMsgError, .iceMsgFatal { 
+	color: #CC0000;
+	background: url( './css-images/error.gif' ) no-repeat center left;
+}
+.iceMsgsWarn, .iceMsgWarn { 
+	color: #000066;
+	background: url( './css-images/warning.gif' ) no-repeat center left;
+}
+.iceMsgsInfo, .iceMsgInfo { 
+	color: #000066;
+	background: url( './css-images/info.gif' ) no-repeat center left;
+}
+.popupMessages {
+	padding: 0;
+	overflow: auto;
+	max-height: 120px;
+}
+.globalMsgsFatal, .globalMsgsError, .globalMsgsWarn, .globalMsgsInfo  {
+	padding-left: 0;
+	background-image: none; 
+}
+.globalMsgsFatal, .globalMsgsError  {
+	color: #CC0000;
+}
+.globalMsgsWarn, .globalMsgsInfo  {
+	color: #000066;
+}
+.fatalMessage, .errorMessage, .warnMessage, .infoMessage {
+	padding: 10px 0 10px 30px;
+	overflow: auto;
+	max-height: 120px;
+}
+.fatalMessage, .errorMessage {
+	background: url( './css-images/critical.png' ) no-repeat center left;
+}
+.warnMessage {
+	background: url( './css-images/warning.png' ) no-repeat center left;
+}
+.infoMessage {
+	background: url( './css-images/info.png' ) no-repeat center left;
+}
+/* Error Styles - End */
+
+/*Popup Common - Start*/
+
+.pnlPopup {
+    position: absolute;
+    z-index: 1001;
+    top: 60%;
+    left: 40%;
+	/* overflow: auto; This is not required for default popups. Isuru 07-06-2008 */
+	width: auto;
+	height: auto;
+}
+
+.popupBody {
+    margin-top: 5px 0 5px;
+    width: 100%;
+}
+
+.popupHeaderWrapper {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.popupHeaderText {
+    float: left;
+}
+
+.popupHeaderImage {
+    float: right;
+    margin-top: 2px;
+    margin-right: 2px;
+    border: none;
+    background-image: none;
+    background-color: transparent;
+    padding: 0px;
+}
+
+.popupHeaderImage:hover {
+	border-style: none;
+	border-color: transparent;
+}
+
+/*Popup Common - End*/
+
+/* Panel Grid Styles - Start */
+.pnlGrdTwoColumnFormLabel{
+	text-align: right;
+	width: 40%;
+}
+
+.pnlGrdTwoColumnFormField {
+	text-align: left;
+	margin-left: 10px;
+	width: 60%;
+}
+
+.pnlGrdTwoColumnFormTextarea {
+	text-align: left;
+	width: 30%;
+}
+
+.pnlGrdTwoColumnFormButton {
+	text-align: left;
+	width: 70%;
+}
+
+.pnlGrdFourColumnFormLabel{
+	text-align: right;
+	width: 20%;
+}
+
+.pnlGrdFourColumnFormField {
+	text-align: left;
+	margin-left: 10px;
+	width: 30%;
+}
+
+.pnlGrdSelectInputCode {
+	width: 25%;
+	text-align: left;
+}
+
+.pnlGrdSelectInputName {
+	width: 75%;
+	text-align: left;
+}
+
+.pnlGrdPnlGrpOne {
+	width: 50%;
+	text-align: left;
+}
+
+.pnlGrdPnlGrpTwo {
+	width: 50%;
+	text-align: right;
+}
+
+/* Panel Grid Styles - End */
+
+/* Row Selection Styles - Start */
+.selectColumn {
+	cursor: pointer;
+}
+/* Row Selection Styles - End */
+
+/*Styles for labels - Start */
+.lblRequired{
+    background-image: url( './css-images/arrow_20.gif' );
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding-left: 10px;
+	font-weight: bold;
+	color: black;
+}
+
+.lblAutocomplete {
+    background-image: url( './css-images/arrow_70.gif' );
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding-left: 16px;
+	font-weight: bold;
+	color: black;
+}
+
+.lblCommon{
+	font-weight: normal;
+}
+/*Styles for labels - End */
+
+
+
+/* Data Paginator Styles - Start */
+.dataPaginatorMsg {
+	background-image: url( './css-images/tables.gif' );
+	background-repeat: no-repeat;
+	background-position: center left;
+	font-size: 0.9em;
+	padding: 5px 0px 5px 25px;
+}
+
+.dataPaginator {
+   text-align: left;
+}
+/* Data Paginator Styles - End */
+
+/* Command Link Action Styles - Start */
+.removeRecord, .editRecord {
+	background-repeat: no-repeat;
+	background-position: center left;
+	margin-right: 5px;
+	padding: 2px 2px 2px 20px;
+}
+
+.removeRecord {
+    background-image: url( './css-images/action_delete.gif' );
+}
+.editRecord {
+    background-image: url( './css-images/page_edit.gif' );
+}
+/* Command Link Action Styles - End */
+
+/* Login Styles - Start */
+.openIDUserName {
+	background: #FFFFFF url('./css-images/openid-icon-small.gif') no-repeat scroll left center;
+	padding-left: 18px;
+	width: 180px;
+}
+.userInfo {
+	position: absolute; 
+	right: 25px;
+	top: 5px;
+}
+/* Login Styles - End */
+
+/* Breadcrumb Navigation - Start */
+.bcLink {
+    background-image: url( './css-images/arrow_138.gif' );
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding-left: 16px;
+    margin-left: 5px;
+    color: #6182D1;
+}
+/* Breadcrumb Navigation - End */
+
+/*Panel Position - Start*/
+
+.positionPanelContainer{
+    /*border: 1px solid #d9d9d9;    */
+}
+
+.positionPanelContainer div.container{
+    background: #FFF url( './css-images/PnlHdr_bgslice.gif' ) repeat-x top left;
+    color: #484848;
+    padding-left: 5px;
+    font-weight: normal;
+    width: 500px;
+    border: 1px solid #d9d9d9;
+}
+
+.positionPanelContainer div.moveLabel{
+    background: url( './css-images/move_arrows.gif' ) no-repeat center left;
+    padding: 6px 0 0 25px;
+    height: 20px;
+}
+
+.lblTextHeader{    
+    background-repeat: no-repeat;
+    background-position: center left;
+    padding-left: 10px;
+	font-weight: bolder;
+	color: black;
+	font-size: smaller;
+}
+/*Panel Position - End*/
+
+/* Panel Series - Start  */
+.panelSeriesContainer .questionBox{
+    /*width:200px;*/
+    width:100%;
+    border: 1px solid #DADADA;
+    /*padding: 10px;*/
+    margin: 5px;
+    float: left;
+}
+.questionBox.panelSeriesContainer {
+    width: 424px;
+}
+
+.questionHeader {
+    padding:10px;
+    background:url('./css-images/table_col_header.gif');
+    width: 97%;
+}
+.answerCorrect {
+    font-weight:bolder;
+	color: red;
+}
+.answerWrong {
+    font-weight:bold;
+    color: black;
+}
+/* Panel Series - End  */

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+QuizFun - A quiz game
+Copyright (C) 2008
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<!-- Author: M. Isuru Tharanga Chrishantha Perera -->
+<beans:beans xmlns="http://www.springframework.org/schema/security" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+              http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
+
+	<http>
+		<!-- 
+		<intercept-url pattern="/course/**" access="ROLE_LECTURER" requires-channel="https" />	
+		<intercept-url pattern="/module/**" access="ROLE_LECTURER" requires-channel="https" />
+		<intercept-url pattern="/question/**" access="ROLE_LECTURER" requires-channel="https" />
+		<intercept-url pattern="/user/**" access="ROLE_ADMIN" requires-channel="https" />
+		<intercept-url pattern="/user/register.iface" access="ROLE_USER" requires-channel="https" />
+		<intercept-url pattern="/user/settings.iface" access="ROLE_USER" requires-channel="https" />
+		 -->
+		<intercept-url pattern="/css/**" filters="none" requires-channel="https" />
+		<intercept-url pattern="/xmlhttp/**" access="ROLE_ANONYMOUS,ROLE_USER" requires-channel="https" />
+		<intercept-url pattern="/block/**" access="ROLE_ANONYMOUS,ROLE_USER" requires-channel="https" />
+		<intercept-url pattern="/m/**" access="ROLE_ANONYMOUS" requires-channel="http" />
+		<intercept-url pattern="/login.iface*" access="ROLE_ANONYMOUS" requires-channel="https" />
+		<intercept-url pattern="/**" access="ROLE_USER" requires-channel="https" />
+		<anonymous username="guest" />
+		<logout/>
+		<openid-login login-page="/login.iface" authentication-failure-url="/login.iface?login_error=true" />
+	</http>
+
+	<authentication-provider user-service-ref="userDetailsService" />
+
+	<beans:bean id="userDetailsService" class="quizfun.model.service.UserDetailsServiceImpl">
+		<beans:property name="userService" ref="userService" />
+	</beans:bean>
+</beans:beans>
+
